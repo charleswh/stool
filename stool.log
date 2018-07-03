@@ -1,0 +1,17 @@
+2018-07-03 17:45:16,708 INFO     : Run time of Get info data...: 14.096 seconds.
+2018-07-03 17:45:21,211 INFO     : Run time of Prepare multiprocess pool: 4.491 seconds.
+2018-07-03 17:46:35,505 INFO     : Run time of Get info data...: 6.696 seconds.
+2018-07-03 17:46:39,644 INFO     : Run time of Prepare multiprocess pool: 4.131 seconds.
+2018-07-03 17:48:22,162 INFO     : Run time of Get info data...: 7.708 seconds.
+2018-07-03 17:48:55,115 INFO     : Run time of Prepare multiprocess pool: 32.867 seconds.
+2018-07-03 18:10:26,380 INFO     : Run time of Get info data...: 32.980 seconds.
+2018-07-03 18:11:14,089 INFO     : Run time of Get info data...: 31.706 seconds.
+2018-07-03 18:12:16,990 INFO     : Run time of Get info data...: 13.644 seconds.
+2018-07-03 18:12:21,578 INFO     : Run time of Prepare multiprocess pool: 4.581 seconds.
+2018-07-03 18:14:11,259 INFO     : Run time of Get info data...: 8.858 seconds.
+2018-07-03 18:14:15,930 INFO     : Run time of Prepare multiprocess pool: 4.662 seconds.
+2018-07-03 19:42:05,528 INFO     : Run time of Get info data...: 15.844 seconds.
+2018-07-03 19:42:13,365 INFO     : Run time of Prepare multiprocess pool: 7.829 seconds.
+2018-07-03 19:43:02,924 INFO     : Run time of Get info data...: 5.103 seconds.
+2018-07-03 19:43:09,655 INFO     : Run time of Prepare multiprocess pool: 6.723 seconds.
+2018-07-03 19:46:49,387 INFO     : [update_local_data] run time is 231.5658 seconds.
