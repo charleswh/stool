@@ -126,10 +126,18 @@ def get_more_infos(info):
     tqdm.pandas(desc='Get ZT', ascii=True)
     zt = info['code'].progress_apply(cal.ZT, args=[lastest_trade_date]).rename('zt')
     tqdm.pandas(desc='Get ZB', ascii=True)
+<<<<<<< HEAD
     zb = info['code'].progress_apply(cal.ZB).rename('zb')
     # bb = pd.concat([info, zt, zb], axis=1)
     # bb.to_csv('aa.csv', encoding='utf-8-sig')
     # a=0
+=======
+    zb = info['code'].progress_apply(ZB).rename('zb')
+    bb = pd.concat([info, zt, zb], axis=1)
+    bb.to_csv('aa.csv', encoding='utf-8-sig')
+    b=0
+    a=0
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
 
 
 @print_run_time

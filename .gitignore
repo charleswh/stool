@@ -1,2 +1,10 @@
 
 *.csv
+<<<<<<< HEAD
+=======
+*.pyc
+*.xml
+*.xml
+*.xml
+*.xml
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3

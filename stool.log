@@ -10,6 +10,7 @@
 2018-07-03 18:12:21,578 INFO     : Run time of Prepare multiprocess pool: 4.581 seconds.
 2018-07-03 18:14:11,259 INFO     : Run time of Get info data...: 8.858 seconds.
 2018-07-03 18:14:15,930 INFO     : Run time of Prepare multiprocess pool: 4.662 seconds.
+<<<<<<< HEAD
 2018-07-03 19:42:05,528 INFO     : Run time of Get info data...: 15.844 seconds.
 2018-07-03 19:42:13,365 INFO     : Run time of Prepare multiprocess pool: 7.829 seconds.
 2018-07-03 19:43:02,924 INFO     : Run time of Get info data...: 5.103 seconds.
@@ -33,3 +34,13 @@
 2018-07-04 23:41:06,345 INFO     : Run time of Get info data...: 0.739 seconds.
 2018-07-04 23:41:50,548 INFO     : Run time of zt test: 21.812 seconds.
 2018-07-04 23:41:50,549 INFO     : [update_local_database] run time is 44.9444 seconds.
+=======
+2018-07-03 18:20:59,391 INFO     : [update_local_data] run time is 416.9893 seconds.
+2018-07-03 18:24:41,492 INFO     : Run time of Get info data...: 9.221 seconds.
+2018-07-03 18:24:45,648 INFO     : Run time of Prepare multiprocess pool: 4.150 seconds.
+2018-07-03 18:26:05,280 INFO     : Run time of Get info data...: 22.841 seconds.
+2018-07-03 18:26:38,865 INFO     : Run time of Prepare multiprocess pool: 33.575 seconds.
+2018-07-03 18:28:53,980 INFO     : Run time of Get info data...: 11.094 seconds.
+2018-07-03 18:28:57,944 INFO     : Run time of Prepare multiprocess pool: 3.957 seconds.
+2018-07-03 18:35:48,347 INFO     : [update_local_data] run time is 425.4617 seconds.
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
