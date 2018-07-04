@@ -1,10 +1,8 @@
 # -*- coding:utf-8 -*-
-
-from .calculate import *
+import calculation as cal
 import tushare as ts
 from miscs import *
 import pandas as pd
-from functools import reduce
 import os
 import multiprocessing as mp
 import ctypes
@@ -59,13 +57,6 @@ def down_info_data(update=False):
         else:
             log.error('No info file <{}>!'.format(INFO_FILE))
     return basic_infos
-
-
-def get_start_date(datestamp, code):
-    if not datestamp or code not in datestamp:
-        return ''
-    else:
-        return timer.add_one_day(datestamp[code])
 
 
 def save_local_data(df, code, ktype):
@@ -131,21 +122,19 @@ def down_basic_data(codes):
 def get_more_infos(info):
     from tqdm import tqdm
     info = info.reset_index()
+    lastest_trade_date = get_local_data(info.iloc[0]['code'], 'D', 'date', 1).iloc[0]
     tqdm.pandas(desc='Get ZT', ascii=True)
-    zt = info['code'].progress_apply(ZT).rename('zt')
-    with TimerCount('zt test'):
-        zt = info['code'].apply(ZT).rename('zt')
-    # tqdm.pandas(desc='Get ZB', ascii=True)
-    # zb = info['code'].progress_apply(ZB).rename('zb')
+    zt = info['code'].progress_apply(cal.ZT, args=[lastest_trade_date]).rename('zt')
+    tqdm.pandas(desc='Get ZB', ascii=True)
+    zb = info['code'].progress_apply(cal.ZB).rename('zb')
     # bb = pd.concat([info, zt, zb], axis=1)
     # bb.to_csv('aa.csv', encoding='utf-8-sig')
     # a=0
 
 
 @print_run_time
-def update_local_data(update_infos=True):
+def update_local_database(update_infos=True):
     check_subdirs()
-    zt = ZT('600336')
     info_data = down_info_data(update_infos)
     # down_basic_data(sorted(info_data.index))
     get_more_infos(info_data)
@@ -183,4 +172,4 @@ def get_codes():
 
 if __name__ == '__main__':
     with TimerCount('Test of Download all:'):
-        update_local_data()
+        update_local_database()

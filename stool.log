@@ -22,3 +22,14 @@
 2018-07-04 21:47:17,784 INFO     : Run time of Get info data...: 5.566 seconds.
 2018-07-04 21:49:00,018 INFO     : Run time of Get info data...: 4.912 seconds.
 2018-07-04 21:51:20,292 INFO     : Run time of Get info data...: 4.006 seconds.
+2018-07-04 23:17:15,110 INFO     : Run time of Get info data...: 1.844 seconds.
+2018-07-04 23:17:42,719 INFO     : Run time of Get info data...: 4.968 seconds.
+2018-07-04 23:37:20,404 INFO     : Run time of Get info data...: 0.973 seconds.
+2018-07-04 23:37:44,627 INFO     : Run time of Get info data...: 0.475 seconds.
+2018-07-04 23:39:16,701 INFO     : Run time of zt test: 0.000 seconds.
+2018-07-04 23:39:42,416 INFO     : Run time of Get info data...: 0.241 seconds.
+2018-07-04 23:40:05,580 INFO     : Run time of zt test: 23.134 seconds.
+2018-07-04 23:40:05,580 INFO     : [update_local_database] run time is 23.4066 seconds.
+2018-07-04 23:41:06,345 INFO     : Run time of Get info data...: 0.739 seconds.
+2018-07-04 23:41:50,548 INFO     : Run time of zt test: 21.812 seconds.
+2018-07-04 23:41:50,549 INFO     : [update_local_database] run time is 44.9444 seconds.

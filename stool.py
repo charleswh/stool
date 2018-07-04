@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 import sys
 import argparse
-import datakit
+from datakit.data import update_local_database
 
 
 parser = argparse.ArgumentParser(description='Integrated share tool for NEIL')
@@ -17,4 +17,4 @@ if __name__ == '__main__':
         parser.print_help()
     else:
         if args.is_download:
-            datakit.update_local_data()
+            update_local_database()
