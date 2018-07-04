@@ -137,6 +137,7 @@ def get_more_infos(info):
     zb = info['code'].progress_apply(ZB).rename('zb')
     bb = pd.concat([info, zt, zb], axis=1)
     bb.to_csv('aa.csv', encoding='utf-8-sig')
+    b=0
     a=0
 
 
