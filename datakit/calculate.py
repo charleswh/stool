@@ -1,5 +1,6 @@
-from miscs import *
-from datakit import *
+from .data import get_local_data
+from .data import get_local_info
+from miscs import TimerCount
 import datetime
 
 
@@ -61,6 +62,7 @@ def TingPai(code):
 if __name__ == '__main__':
     # aa = MA('300139', 'D', 10)
     # bb = TOR('300139', 'D')
+    cc = ZT('603336')
     TingPai('000408')
     codes = get_codes()
     codes = codes

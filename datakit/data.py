@@ -1,12 +1,12 @@
 # -*- coding:utf-8 -*-
 
+from .calculate import *
 import tushare as ts
 from miscs import *
 import pandas as pd
 from functools import reduce
 import os
 import multiprocessing as mp
-from calculation import *
 import ctypes
 
 KTYPE = ['D', '60', '30', '15', '5']
@@ -133,19 +133,22 @@ def get_more_infos(info):
     info = info.reset_index()
     tqdm.pandas(desc='Get ZT', ascii=True)
     zt = info['code'].progress_apply(ZT).rename('zt')
-    tqdm.pandas(desc='Get ZB', ascii=True)
-    zb = info['code'].progress_apply(ZB).rename('zb')
-    bb = pd.concat([info, zt, zb], axis=1)
-    bb.to_csv('aa.csv', encoding='utf-8-sig')
-    a=0
+    with TimerCount('zt test'):
+        zt = info['code'].apply(ZT).rename('zt')
+    # tqdm.pandas(desc='Get ZB', ascii=True)
+    # zb = info['code'].progress_apply(ZB).rename('zb')
+    # bb = pd.concat([info, zt, zb], axis=1)
+    # bb.to_csv('aa.csv', encoding='utf-8-sig')
+    # a=0
 
 
 @print_run_time
 def update_local_data(update_infos=True):
     check_subdirs()
+    zt = ZT('600336')
     info_data = down_info_data(update_infos)
-    down_basic_data(sorted(info_data.index))
-    #get_more_infos(info_data)
+    # down_basic_data(sorted(info_data.index))
+    get_more_infos(info_data)
 
 
 def get_local_data(code, ktype, item, count=None, date=None):

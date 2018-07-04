@@ -1,7 +1,6 @@
 # -*- coding:utf-8 -*-
 import sys
 import argparse
-from miscs import *
 import datakit
 
 

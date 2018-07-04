@@ -4,7 +4,17 @@
     <bookmark url="file://C:/ProgramData/Anaconda3/Lib/multiprocessing/pool.py" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="39ddbbf4-a8fc-4c3e-a847-90818967cee6" name="Default" comment="" />
+    <list default="true" id="39ddbbf4-a8fc-4c3e-a847-90818967cee6" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calculation/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/calculation/calculate.py" beforeDir="false" afterPath="$PROJECT_DIR$/datakit/calculate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calculation/stool.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/datakit/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/datakit/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datakit/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/datakit/data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stool.log" beforeDir="false" afterPath="$PROJECT_DIR$/stool.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stool.py" beforeDir="false" afterPath="$PROJECT_DIR$/stool.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,8 +23,8 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/stool$stool.coverage" NAME="stool Coverage Results" MODIFIED="1530461720036" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/stool$calculate.coverage" NAME="calculate Coverage Results" MODIFIED="1530547383048" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/calculation" />
+    <SUITE FILE_PATH="coverage/stool$calculate.coverage" NAME="calculate Coverage Results" MODIFIED="1530712226494" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/calculation" />
+    <SUITE FILE_PATH="coverage/stool$stool.coverage" NAME="stool Coverage Results" MODIFIED="1530713151939" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/stool$basic_data.coverage" NAME="basic_data Coverage Results" MODIFIED="1529058063001" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/datakit" />
     <SUITE FILE_PATH="coverage/stool$mail.coverage" NAME="mail Coverage Results" MODIFIED="1530014413924" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/miscs" />
   </component>
@@ -22,11 +32,11 @@
     <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="stool.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="stool.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/stool.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="357">
-                  <caret line="21" selection-start-line="21" selection-end-line="21" />
+                <state relative-caret-position="272">
+                  <caret line="16" column="27" lean-forward="true" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
                   <folding>
                     <element signature="e#23#33#0" expanded="true" />
                   </folding>
@@ -34,11 +44,14 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="calculate.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/calculation/calculate.py">
+          <file leaf-file-name="calculate.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/datakit/calculate.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="579">
-                  <caret line="58" selection-start-line="58" selection-end-line="58" />
+                <state relative-caret-position="102">
+                  <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+                  <folding>
+                    <element signature="e#0#48#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -46,8 +59,8 @@
           <file leaf-file-name="timer.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/miscs/timer.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="476">
-                  <caret line="30" column="24" selection-start-line="30" selection-start-column="24" selection-end-line="30" selection-end-column="24" />
+                <state relative-caret-position="153">
+                  <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
                   <folding>
                     <element signature="e#23#34#0" expanded="true" />
                   </folding>
@@ -77,32 +90,27 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="stool.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/stool.py">
+          <file leaf-file-name="data.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/datakit/data.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="357">
-                  <caret line="21" selection-start-line="21" selection-end-line="21" />
+                <state relative-caret-position="323">
+                  <caret line="165" column="26" lean-forward="true" selection-start-line="165" selection-start-column="26" selection-end-line="165" selection-end-column="26" />
                   <folding>
-                    <element signature="e#23#33#0" expanded="true" />
+                    <element signature="e#24#48#0" expanded="true" />
+                    <element signature="e#1282#1442#0" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="data.py" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/datakit/data.py">
+          <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/datakit/__init__.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="34">
-                  <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="parsers.py" pinned="false" current-in-tab="false">
-            <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/pandas/io/parsers.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="10914">
-                  <caret line="685" selection-start-line="685" selection-end-line="685" />
+                <state relative-caret-position="68">
+                  <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+                  <folding>
+                    <element signature="e#23#138#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -152,19 +160,23 @@
       <replace>progress_for_job</replace>
     </replaceStrings>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/miscs/MultiP.py" />
         <option value="$PROJECT_DIR$/miscs/log.py" />
-        <option value="$PROJECT_DIR$/datakit/__init__.py" />
         <option value="$PROJECT_DIR$/miscs/__init__.py" />
         <option value="$PROJECT_DIR$/miscs/mail.py" />
         <option value="C:/ProgramData/Anaconda3/Lib/site-packages/tushare/stock/fundamental.py" />
-        <option value="$PROJECT_DIR$/stool.py" />
         <option value="$PROJECT_DIR$/datakit/basic_data.py" />
         <option value="$PROJECT_DIR$/miscs/timer.py" />
         <option value="$PROJECT_DIR$/calculation/calculate.py" />
+        <option value="$PROJECT_DIR$/datakit/__init__.py" />
+        <option value="$PROJECT_DIR$/stool.py" />
+        <option value="$PROJECT_DIR$/datakit/calculate.py" />
         <option value="$PROJECT_DIR$/datakit/data.py" />
       </list>
     </option>
@@ -189,17 +201,13 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="stool" type="b2602c69:ProjectViewProjectNode" />
               <item name="stool" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="stool" type="b2602c69:ProjectViewProjectNode" />
-              <item name="stool" type="462c0819:PsiDirectoryNode" />
-              <item name="calculation" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="stool" type="b2602c69:ProjectViewProjectNode" />
@@ -220,13 +228,17 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\WorkSpace\github\stool\datakit" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -240,7 +252,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.calculate">
+  <component name="RunManager" selected="Python.stool">
     <configuration name="basic_data" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="stool" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -273,7 +285,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/calculation/calculate.py" />
+      <option name="SCRIPT_NAME" value="D:\WorkSpace\github\stool\datakit\calculate.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -312,7 +324,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/stool.py" />
-      <option name="PARAMETERS" value="" />
+      <option name="PARAMETERS" value="-d" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -325,8 +337,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.calculate" />
         <item itemvalue="Python.stool" />
+        <item itemvalue="Python.calculate" />
         <item itemvalue="Python.mail" />
         <item itemvalue="Python.basic_data" />
       </list>
@@ -356,21 +368,22 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.22222222" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" weight="0.32897604" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32982087" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32897604" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.09968017" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.09968017" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="3" weight="0.32995737" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3714597" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.37077427" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -388,6 +401,23 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/datakit/data.py</url>
+          <line>133</line>
+          <option name="timeStamp" value="134" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/datakit/calculate.py</url>
+          <line>37</line>
+          <option name="timeStamp" value="135" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/datakit/data.py</url>
+          <line>147</line>
+          <option name="timeStamp" value="137" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
@@ -395,7 +425,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="134" />
+      <option name="time" value="138" />
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
@@ -512,17 +542,6 @@ code
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/miscs/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="29" selection-start-line="1" selection-start-column="29" selection-end-line="1" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/miscs/log.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/datakit/basic_data.py" />
     <entry file="file://C:/ProgramData/Anaconda3/Lib/codecs.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5236">
@@ -650,13 +669,6 @@ code
     <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/pandas/util/_decorators.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/pandas/core/frame.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="3796" column="56" selection-start-line="3796" selection-start-column="38" selection-end-line="3796" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/ProgramData/Anaconda3/Lib/multiprocessing/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -700,13 +712,6 @@ code
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tushare/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="12" column="40" selection-start-line="12" selection-start-column="35" selection-end-line="12" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/miscs/mail.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -724,13 +729,6 @@ code
           <folding>
             <element signature="e#125#144#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/ProgramData/Anaconda3/Lib/codecs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="146">
-          <caret line="310" selection-start-line="310" selection-end-line="310" />
         </state>
       </provider>
     </entry>
@@ -762,13 +760,6 @@ code
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/datakit/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="24" selection-start-line="1" selection-start-column="24" selection-end-line="1" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tushare/stock/trading.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="10353">
@@ -783,45 +774,100 @@ code
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/miscs/timer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="30" column="24" selection-start-line="30" selection-start-column="24" selection-end-line="30" selection-end-column="24" />
-          <folding>
-            <element signature="e#23#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/datakit/basic_data.py" />
-    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/pandas/io/parsers.py">
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/colorama/ansitowin32.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10914">
-          <caret line="685" selection-start-line="685" selection-end-line="685" />
+        <state relative-caret-position="175">
+          <caret line="36" selection-start-line="36" selection-end-line="36" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/calculation/calculate.py">
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/codecs.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="579">
-          <caret line="58" selection-start-line="58" selection-end-line="58" />
+        <state relative-caret-position="401">
+          <caret line="311" lean-forward="true" selection-start-line="311" selection-end-line="311" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/stool.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" selection-start-line="21" selection-end-line="21" />
+        <state relative-caret-position="272">
+          <caret line="16" column="27" lean-forward="true" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
           <folding>
             <element signature="e#23#33#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tushare/stock/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tushare/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-705">
+          <caret line="8" column="16" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/pandas/core/common.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="406" selection-start-line="406" selection-end-line="406" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/pandas/io/parsers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="685" selection-start-line="685" selection-end-line="685" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/pandas/core/frame.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="2667" selection-start-line="2667" selection-end-line="2667" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datakit/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+          <folding>
+            <element signature="e#23#138#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/miscs/timer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+          <folding>
+            <element signature="e#23#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datakit/calculate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+          <folding>
+            <element signature="e#0#48#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/datakit/data.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        <state relative-caret-position="323">
+          <caret line="165" column="26" lean-forward="true" selection-start-line="165" selection-start-column="26" selection-end-line="165" selection-end-column="26" />
+          <folding>
+            <element signature="e#24#48#0" expanded="true" />
+            <element signature="e#1282#1442#0" />
+          </folding>
         </state>
       </provider>
     </entry>
