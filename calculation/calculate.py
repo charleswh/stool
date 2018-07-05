@@ -14,12 +14,10 @@ def MA(code, ktype, period):
     return moving_average.iloc[-1]
 
 
-def TOR(code, ktype='D'):
-    """
-    CalculateTurnOverRatio of given ktype.
-    """
-    current_vol = get_local_data(code, ktype, 'volume', 1)
-    total_vol = get_local_info(code, 'outstanding')
+def TOR(para, ktype='D'):
+    c = para['code']
+    total_vol = para['outstanding']
+    current_vol = dk.get_local_data(c, ktype, 'volume', 1).iloc[0]
     toa = current_vol / (total_vol * 10000)
     return float(toa)
 
@@ -32,23 +30,32 @@ def PCP(code, ktype='D'):
     return percision(((close - pre_close)/pre_close), 4) * 100
 
 
+def _zt_status(para):
+    pre_c, c = para
+    zt_price = percision(pre_c * 1.1, 2)
+    return c >= zt_price
+
+
 def ZT(code, latest_trade_date):
-    # TODO: add lianban cal
-    close, pre_close = dk.get_local_data(code, 'D', 'close', 2)
-    check_window = dk.get_local_data(code, 'D', item='close', count=30)
-    check_pct = check_window.sort_index(ascending=False).pct_change().sort_index(ascending=True)
-    check_pct = check_pct.apply(percision, **{'p': 4})
-    zt_price = percision(pre_close * 1.1, 2)
-    # a1_v = ts.get_realtime_quotes(code).loc[0:, 'a1_v'][0]
-    # and a1_v == ''
-    return close >= zt_price and False in (check_pct.fillna(1) > 0.0995) and not TingPai(code, latest_trade_date)
+    check_window = dk.get_local_data(code, 'D', item='close', count=30).sort_index(ascending=False)
+    last_zt_status = check_window.rolling(window=2).apply(_zt_status, raw=False).sort_index(ascending=True)
+    continue_zt_num = 0
+    for i in last_zt_status:
+        if i == 1:
+            continue_zt_num += 1
+        else:
+            break
+    if 0 in last_zt_status and not TingPai(code, latest_trade_date):
+        return continue_zt_num
+    else:
+        return 0
 
 
-def ZB(code):
+def ZB(code, latest_trade_date):
     close, pre_close = dk.get_local_data(code, 'D', 'close', 2)
     high = dk.get_local_data(code, 'D', 'high', 1).iloc[0]
     zt_price = percision(pre_close * 1.1, 2)
-    return close != high and high >= zt_price and not TingPai(code)
+    return close != high and high >= zt_price and not TingPai(code, latest_trade_date)
 
 
 def TingPai(code, latest_trade_date):
@@ -61,8 +68,7 @@ def TingPai(code, latest_trade_date):
 if __name__ == '__main__':
     # aa = MA('300139', 'D', 10)
     # bb = TOR('300139', 'D')
-    cc = ZT('603336')
-    TingPai('000408')
+    cc = ZT('300312', '2018-07-03')
     codes = dk.get_codes()
     codes = codes
     with TimerCount('test'):

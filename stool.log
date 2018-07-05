@@ -44,3 +44,31 @@
 2018-07-03 18:28:57,944 INFO     : Run time of Prepare multiprocess pool: 3.957 seconds.
 2018-07-03 18:35:48,347 INFO     : [update_local_data] run time is 425.4617 seconds.
 >>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
+2018-07-05 16:04:06,914 INFO     : Run time of Get info data...: 5.120 seconds.
+2018-07-05 16:04:37,811 INFO     : Run time of Get info data...: 5.806 seconds.
+2018-07-05 16:10:49,330 INFO     : Run time of Get info data...: 4.268 seconds.
+2018-07-05 16:11:45,213 INFO     : Run time of Get info data...: 4.197 seconds.
+2018-07-05 16:12:35,593 INFO     : Run time of Get info data...: 1.210 seconds.
+2018-07-05 16:13:07,331 INFO     : [update_local_database] run time is 32.9482 seconds.
+2018-07-05 16:20:29,258 INFO     : Run time of Get info data...: 8.041 seconds.
+2018-07-05 16:20:55,493 INFO     : Run time of Get info data...: 6.899 seconds.
+2018-07-05 16:24:28,878 INFO     : Run time of Get info data...: 7.119 seconds.
+2018-07-05 16:26:38,591 INFO     : Run time of Get info data...: 0.485 seconds.
+2018-07-05 16:27:21,533 INFO     : Run time of Get info data...: 1.082 seconds.
+2018-07-05 16:30:35,001 INFO     : Run time of Get info data...: 1.872 seconds.
+2018-07-05 16:33:47,918 INFO     : Run time of Get info data...: 2.092 seconds.
+2018-07-05 16:36:15,264 INFO     : Run time of Get info data...: 3.492 seconds.
+2018-07-05 16:36:33,833 INFO     : Run time of Get info data...: 1.354 seconds.
+2018-07-05 16:57:51,151 INFO     : Run time of Get info data...: 3.935 seconds.
+2018-07-05 17:03:19,506 INFO     : Run time of Get info data...: 7.023 seconds.
+2018-07-05 17:06:49,334 INFO     : Run time of Get info data...: 4.231 seconds.
+2018-07-05 17:07:12,749 INFO     : Run time of Get info data...: 2.201 seconds.
+2018-07-05 17:07:37,039 INFO     : Run time of Get info data...: 2.004 seconds.
+2018-07-05 17:08:15,203 INFO     : Run time of Get info data...: 3.017 seconds.
+2018-07-05 17:08:52,715 INFO     : Run time of Get info data...: 4.580 seconds.
+2018-07-05 17:10:08,127 INFO     : Run time of Get info data...: 5.714 seconds.
+2018-07-05 17:12:11,059 INFO     : Run time of Get info data...: 11.432 seconds.
+2018-07-05 17:12:15,624 INFO     : Run time of Prepare multiprocess pool: 4.558 seconds.
+2018-07-05 17:13:30,602 INFO     : Run time of Get info data...: 4.170 seconds.
+2018-07-05 17:13:34,901 INFO     : Run time of Prepare multiprocess pool: 4.293 seconds.
+2018-07-05 17:25:06,958 INFO     : [update_local_database] run time is 700.5255 seconds.

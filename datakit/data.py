@@ -3,6 +3,7 @@ import calculation as cal
 import tushare as ts
 from miscs import *
 import pandas as pd
+import numpy as np
 import os
 import multiprocessing as mp
 import ctypes
@@ -16,6 +17,38 @@ INFO_TOTAL_COL = ['name', 'industry', 'area', 'pe', 'outstanding', 'totals',
                   'totalAssets', 'liquidAssets', 'fixedAssets', 'reserved',
                   'reservedPerShare', 'esp', 'bvps', 'pb', 'timeToMarket', 'undp',
                   'perundp', 'rev', 'profit', 'gpr', 'npr', 'holders']
+
+
+def get_local_data(code, ktype, item, count=None, date=None):
+    root = os.path.dirname(os.path.realpath(__file__))
+    sub = os.path.join(root, KSUB[ktype])
+    file = os.path.join(sub, '{}.csv'.format(code))
+    if not os.path.exists(file):
+        log.error('No local data file: {}!'.format(file))
+        assert 0
+    if date is None:
+        df = pd.read_csv(file, nrows=count)
+    else:
+        df = pd.read_csv(file)
+        df = df[df['date'] <= date].iloc[:count, :]
+    if df.shape[0] < count:
+        df = pd.concat([df, pd.DataFrame(np.zeros((1, 6)), columns=df.columns)])
+    return df.loc[:, item]
+
+
+def get_local_info(code, item):
+    info_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), INFO_FILE)
+    if not os.path.exists(info_file):
+        log.error('No local info file: {}!'.format(info_file))
+    infos = pd.read_csv(info_file, dtype={'code': str}).set_index('code')
+    return infos.loc[code, item]
+
+
+def get_codes():
+    info_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), INFO_FILE)
+    if not os.path.exists(info_file):
+        log.error('No local info file: {}!'.format(info_file))
+    return pd.read_csv(info_file, dtype={'code': str}).loc[:, 'code']
 
 
 @print_run_time
@@ -87,6 +120,7 @@ def update_bar(counter, finish_flag, multi_count, bar_max):
 def download(para):
     codes, counter, finish, lock = para
     ret = {}
+    datas = None
     for code in codes:
         try:
             datas = list(map(ts.get_k_data, [code] * 5, [''] * 5, [''] * 5, KTYPE))
@@ -108,7 +142,7 @@ def down_basic_data(codes):
     codes_cut = [codes[i:i + unitsize] for i in range(0, len(codes), unitsize)]
     with TimerCount('Prepare multiprocess pool'):
         pool = mp.Pool(progress_total)
-        m = mp.Manager()
+        m = mp.Manager()0
         lock = m.Lock()
         counter = m.Value(ctypes.c_uint32, 0)
         finish_flag = m.dict()
@@ -123,55 +157,25 @@ def get_more_infos(info):
     from tqdm import tqdm
     info = info.reset_index()
     lastest_trade_date = get_local_data(info.iloc[0]['code'], 'D', 'date', 1).iloc[0]
-    tqdm.pandas(desc='Get ZT', ascii=True)
-    zt = info['code'].progress_apply(cal.ZT, args=[lastest_trade_date]).rename('zt')
-    tqdm.pandas(desc='Get ZB', ascii=True)
-    zb = info['code'].progress_apply(cal.ZB).rename('zb')
-    # bb = pd.concat([info, zt, zb], axis=1)
+    # tqdm.pandas(desc='Get ZhangTing', ascii=True)
+    # zt = info['code'].progress_apply(cal.ZT, args=[lastest_trade_date]).rename('zt')
+    # tqdm.pandas(desc='Get ZhaBan', ascii=True)
+    # zb = info['code'].progress_apply(cal.ZB, args=[lastest_trade_date]).rename('zb')
+    tqdm.pandas(desc='Get TurnOverRatio', ascii=True)
+    tor = info.progress_apply(cal.TOR, axis=1).rename('tor')
+    # tqdm.pandas(desc='Get PriceChangePercentage', ascii=True)
+    # pcp = info['code'].progress_apply(cal.PCP).rename('pcp')
+    # bb = pd.concat([info, zt, zb, tor], axis=1)
     # bb.to_csv('aa.csv', encoding='utf-8-sig')
     # a=0
-    zb = info['code'].progress_apply(ZB).rename('zb')
-    bb = pd.concat([info, zt, zb], axis=1)
-    bb.to_csv('aa.csv', encoding='utf-8-sig')
-    a=0
 
 
 @print_run_time
 def update_local_database(update_infos=True):
     check_subdirs()
     info_data = down_info_data(update_infos)
-    # down_basic_data(sorted(info_data.index))
-    get_more_infos(info_data)
-
-
-def get_local_data(code, ktype, item, count=None, date=None):
-    root = os.path.dirname(os.path.realpath(__file__))
-    sub = os.path.join(root, KSUB[ktype])
-    file = os.path.join(sub, '{}.csv'.format(code))
-    if not os.path.exists(file):
-        log.error('No local data file: {}!'.format(file))
-        assert 0
-    if date is None:
-        df = pd.read_csv(file, nrows=count)
-    else:
-        df = pd.read_csv(file)
-        df = df[df['date'] <= date].iloc[:count, :]
-    return df.loc[:, item]
-
-
-def get_local_info(code, item):
-    info_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), INFO_FILE)
-    if not os.path.exists(info_file):
-        log.error('No local info file: {}!'.format(info_file))
-    infos = pd.read_csv(info_file, dtype={'code': str}).set_index('code')
-    return infos.loc[code, item]
-
-
-def get_codes():
-    info_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), INFO_FILE)
-    if not os.path.exists(info_file):
-        log.error('No local info file: {}!'.format(info_file))
-    return pd.read_csv(info_file, dtype={'code': str}).loc[:, 'code']
+    down_basic_data(sorted(info_data.index))
+    # get_more_infos(info_data)
 
 
 if __name__ == '__main__':
