@@ -1,1 +1,2 @@
-from .calculate import (MA, TOR, PCP, ZT, ZB)
+# -*- coding:utf-8 -*-
+from .calculate import (MA, ZT, ZB, PCP, TOR, TingPai)

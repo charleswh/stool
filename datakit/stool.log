@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+2018-07-04 23:09:21,016 INFO     : Run time of Get info data...: 6.388 seconds.
+2018-07-04 23:15:07,442 INFO     : Run time of Get info data...: 4.874 seconds.
+2018-07-04 23:15:17,687 INFO     : Run time of Test of Download all:: 15.120 seconds.
+2018-07-04 23:15:40,410 INFO     : Run time of Get info data...: 5.038 seconds.
+2018-07-04 23:15:41,754 INFO     : Run time of Test of Download all:: 6.383 seconds.
+2018-07-04 23:16:16,661 INFO     : Run time of Get info data...: 2.220 seconds.
+2018-07-04 23:23:05,729 INFO     : Run time of Get info data...: 0.634 seconds.
+=======
 2018-07-02 16:31:06,509 INFO     : Run time of Get info data...: 0.518 seconds.
 2018-07-02 16:31:31,551 INFO     : Run time of Get info data...: 0.991 seconds.
 2018-07-02 16:32:10,215 INFO     : Run time of Get info data...: 0.501 seconds.
@@ -51,3 +60,4 @@
 2018-07-03 17:44:01,015 INFO     : Run time of Get info data...: 5.266 seconds.
 2018-07-03 17:44:01,041 ERROR    : No local data file: D:\WorkSpace\python_ws\stool\datakit\day\603693.csv!
 2018-07-03 17:44:01,041 INFO     : Run time of Test of Download all:: 5.293 seconds.
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3

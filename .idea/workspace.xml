@@ -2,11 +2,31 @@
 <project version="4">
   <component name="BookmarkManager">
     <bookmark url="file://C:/ProgramData/Anaconda3/Lib/multiprocessing/pool.py" />
+    <bookmark url="file://$PROJECT_DIR$/datakit/data.py" line="140" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="39ddbbf4-a8fc-4c3e-a847-90818967cee6" name="Default" comment="">
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datakit/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/datakit/data.py" afterDir="false" />
+=======
+<<<<<<< HEAD
+      <change afterPath="$PROJECT_DIR$/calculation/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datakit/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/datakit/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datakit/calculate.py" beforeDir="false" afterPath="$PROJECT_DIR$/calculation/calculate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datakit/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/datakit/data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stool.log" beforeDir="false" afterPath="$PROJECT_DIR$/stool.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stool.py" beforeDir="false" afterPath="$PROJECT_DIR$/stool.py" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/stool.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/stool.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stool.log" beforeDir="false" afterPath="$PROJECT_DIR$/stool.log" afterDir="false" />
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
+>>>>>>> 92ad212ed8c835e5ae481d2bd93be7c3fbd29465
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -16,8 +36,20 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
+<<<<<<< HEAD
     <SUITE FILE_PATH="coverage/stool$regression_check.coverage" NAME="regression_check Coverage Results" MODIFIED="1530686266239" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../../regression_list/Elite3000" />
+=======
+<<<<<<< HEAD
+    <SUITE FILE_PATH="coverage/stool$calculate.coverage" NAME="calculate Coverage Results" MODIFIED="1530712226494" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/calculation" />
+    <SUITE FILE_PATH="coverage/stool$calculate__2_.coverage" NAME="calculate (2) Coverage Results" MODIFIED="1530716931272" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/calculation" />
+    <SUITE FILE_PATH="coverage/stool$stool.coverage" NAME="stool Coverage Results" MODIFIED="1530718635894" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/stool$data.coverage" NAME="data Coverage Results" MODIFIED="1530717781571" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/datakit" />
+    <SUITE FILE_PATH="coverage/stool$calculate__1_.coverage" NAME="calculate (1) Coverage Results" MODIFIED="1530713946647" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/datakit" />
+    <SUITE FILE_PATH="coverage/stool$basic_data.coverage" NAME="basic_data Coverage Results" MODIFIED="1529058063001" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/datakit" />
+=======
+>>>>>>> 92ad212ed8c835e5ae481d2bd93be7c3fbd29465
     <SUITE FILE_PATH="coverage/stool$calculate.coverage" NAME="calculate Coverage Results" MODIFIED="1530611022919" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/calculation" />
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
     <SUITE FILE_PATH="coverage/stool$mail.coverage" NAME="mail Coverage Results" MODIFIED="1530014413924" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/miscs" />
     <SUITE FILE_PATH="coverage/stool$basic_data.coverage" NAME="basic_data Coverage Results" MODIFIED="1529058063001" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/datakit" />
     <SUITE FILE_PATH="coverage/stool$data.coverage" NAME="data Coverage Results" MODIFIED="1530611033939" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/datakit" />
@@ -34,8 +66,13 @@
           <file leaf-file-name="stool.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/stool.py">
               <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+                <state relative-caret-position="238">
+                  <caret line="14" column="30" lean-forward="true" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
+=======
                 <state relative-caret-position="357">
                   <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
                   <folding>
                     <element signature="e#23#33#0" expanded="true" />
                   </folding>
@@ -43,6 +80,15 @@
               </provider>
             </entry>
           </file>
+<<<<<<< HEAD
+          <file leaf-file-name="calculate.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/calculation/calculate.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="289">
+                  <caret line="35" column="27" selection-start-line="35" selection-start-column="27" selection-end-line="35" selection-end-column="27" />
+                  <folding>
+                    <element signature="e#0#20#0" expanded="true" />
+=======
           <file leaf-file-name="log.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/miscs/log.py">
               <provider selected="true" editor-type-id="text-editor">
@@ -68,12 +114,19 @@
                   <caret line="68" column="8" selection-start-line="68" selection-start-column="8" selection-end-line="68" selection-end-column="8" />
                   <folding>
                     <element signature="e#0#19#0" expanded="true" />
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
+<<<<<<< HEAD
           <file leaf-file-name="data.py" pinned="false" current-in-tab="true">
+=======
+<<<<<<< HEAD
+=======
+          <file leaf-file-name="data.py" pinned="false" current-in-tab="false">
+>>>>>>> 92ad212ed8c835e5ae481d2bd93be7c3fbd29465
             <entry file="file://$PROJECT_DIR$/datakit/data.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="340">
@@ -94,10 +147,18 @@
               </provider>
             </entry>
           </file>
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
         </leaf>
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+<<<<<<< HEAD
+          <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/datakit/__init__.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="17">
+                  <caret line="1" selection-start-line="1" selection-end-line="1" />
+=======
           <file leaf-file-name="timer.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/miscs/timer.py">
               <provider selected="true" editor-type-id="text-editor">
@@ -106,6 +167,7 @@
                   <folding>
                     <element signature="e#23#34#0" expanded="true" />
                   </folding>
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
                 </state>
               </provider>
             </entry>
@@ -113,20 +175,40 @@
           <file leaf-file-name="data.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/datakit/data.py">
               <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
                 <state relative-caret-position="454">
                   <caret line="139" column="7" lean-forward="true" selection-start-line="139" selection-start-column="7" selection-end-line="139" selection-end-column="7" />
+=======
+<<<<<<< HEAD
+                <state relative-caret-position="357">
+                  <caret line="129" column="34" selection-start-line="129" selection-start-column="34" selection-end-line="129" selection-end-column="34" />
+                  <folding>
+                    <element signature="e#23#48#0" expanded="true" />
+=======
+                <state relative-caret-position="420">
+                  <caret line="137" column="24" selection-start-line="137" selection-start-column="24" selection-end-line="137" selection-end-column="24" />
+>>>>>>> 92ad212ed8c835e5ae481d2bd93be7c3fbd29465
                   <folding>
                     <element signature="e#24#44#0" expanded="true" />
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
+<<<<<<< HEAD
+          <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/calculation/__init__.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="34">
+                  <caret line="2" selection-start-line="2" selection-end-line="2" />
+=======
           <file leaf-file-name="trading.py" pinned="false" current-in-tab="false">
             <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tushare/stock/trading.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="17">
                   <caret line="33" column="21" selection-start-line="33" selection-start-column="21" selection-end-line="34" selection-end-column="7" />
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
                 </state>
               </provider>
             </entry>
@@ -162,6 +244,11 @@
       <find>progress_total - 1</find>
       <find>gb2312</find>
       <find>encoding=</find>
+<<<<<<< HEAD
+      <find>update_local_data</find>
+      <find>prupdate_local_database</find>
+      <find>get_start_date</find>
+=======
       <find>__file__</find>
       <find>df</find>
       <find>download_all</find>
@@ -173,7 +260,11 @@
       <find>download_local_data</find>
       <find>info_file</find>
       <find>get_hist_dat</find>
+<<<<<<< HEAD
       <find>chx002</find>
+=======
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
+>>>>>>> 92ad212ed8c835e5ae481d2bd93be7c3fbd29465
     </findStrings>
     <replaceStrings>
       <replace>datestamp</replace>
@@ -186,6 +277,10 @@
       <replace>is_update</replace>
       <replace>progress_total</replace>
       <replace>progress_for_job</replace>
+<<<<<<< HEAD
+      <replace>prupdate_local_database</replace>
+      <replace>update_local_database</replace>
+=======
       <replace>close_price</replace>
       <replace>download_local_data</replace>
       <replace>get_local_info</replace>
@@ -195,6 +290,7 @@
       <replace>update_local_data</replace>
       <replace>INFO_FILE</replace>
       <replace>_info_data</replace>
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -208,6 +304,14 @@
         <option value="$PROJECT_DIR$/miscs/__init__.py" />
         <option value="$PROJECT_DIR$/miscs/mail.py" />
         <option value="C:/ProgramData/Anaconda3/Lib/site-packages/tushare/stock/fundamental.py" />
+<<<<<<< HEAD
+        <option value="$PROJECT_DIR$/datakit/basic_data.py" />
+        <option value="$PROJECT_DIR$/miscs/timer.py" />
+        <option value="$PROJECT_DIR$/stool.py" />
+        <option value="$PROJECT_DIR$/datakit/calculate.py" />
+        <option value="$PROJECT_DIR$/datakit/__init__.py" />
+        <option value="$PROJECT_DIR$/calculation/__init__.py" />
+=======
         <option value="$PROJECT_DIR$/miscs/timer.py" />
         <option value="$PROJECT_DIR$/datakit/basic_data.py" />
         <option value="$PROJECT_DIR$/calculation/__init__.py" />
@@ -215,8 +319,13 @@
         <option value="D:/P4-2666-NeilWang-Win7/hw/abt/Regression/Elite3000/Elite_VPP/run_vpp_regression.py" />
         <option value="$PROJECT_DIR$/calculation/calculate.py" />
         <option value="$PROJECT_DIR$/stool.py" />
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
         <option value="$PROJECT_DIR$/datakit/data.py" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/../../regression_list/Elite3000/regression_check.py" />
+=======
+        <option value="$PROJECT_DIR$/calculation/calculate.py" />
+>>>>>>> 92ad212ed8c835e5ae481d2bd93be7c3fbd29465
       </list>
     </option>
   </component>
@@ -275,6 +384,12 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\WorkSpace\github\stool\calculation" />
+      <recent name="D:\WorkSpace\github\stool\datakit" />
+    </key>
+  </component>
   <component name="RunDashboard">
     <option name="ruleStates">
       <list>
@@ -287,8 +402,16 @@
       </list>
     </option>
   </component>
+<<<<<<< HEAD
   <component name="RunManager" selected="Python.regression_check">
+=======
+  <component name="RunManager" selected="Python.stool">
+<<<<<<< HEAD
+    <configuration name="calculate (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+=======
+>>>>>>> 92ad212ed8c835e5ae481d2bd93be7c3fbd29465
     <configuration name="calculate" type="PythonConfigurationType" factoryName="Python" temporary="true">
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
       <module name="stool" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -301,7 +424,65 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+<<<<<<< HEAD
+      <option name="SCRIPT_NAME" value="D:\WorkSpace\github\stool\calculation\calculate.py" />
+=======
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/calculation/calculate.py" />
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+<<<<<<< HEAD
+    <configuration name="calculate (2)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+=======
+    <configuration name="data" type="PythonConfigurationType" factoryName="Python" temporary="true">
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
+      <module name="stool" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/datakit" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/datakit/data.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+<<<<<<< HEAD
+    <configuration name="regression_check" type="PythonConfigurationType" factoryName="Python" temporary="true">
+=======
+    <configuration name="calculate" type="PythonConfigurationType" factoryName="Python" temporary="true">
+>>>>>>> 92ad212ed8c835e5ae481d2bd93be7c3fbd29465
+      <module name="stool" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+<<<<<<< HEAD
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../regression_list/Elite3000" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../../regression_list/Elite3000/regression_check.py" />
+=======
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/calculation" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="D:\WorkSpace\github\stool\calculation\calculate.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -321,25 +502,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/datakit/data.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-    </configuration>
-    <configuration name="regression_check" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="stool" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../regression_list/Elite3000" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../../regression_list/Elite3000/regression_check.py" />
+>>>>>>> 92ad212ed8c835e5ae481d2bd93be7c3fbd29465
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -385,8 +548,18 @@
     </configuration>
     <list>
       <item itemvalue="Python.stool" />
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+      <item itemvalue="Python.calculate" />
+      <item itemvalue="Python.calculate (1)" />
+      <item itemvalue="Python.calculate (2)" />
+=======
+      <item itemvalue="Python.mail" />
+>>>>>>> 92ad212ed8c835e5ae481d2bd93be7c3fbd29465
       <item itemvalue="Python.run_vpp_regression" />
       <item itemvalue="Python.calculate" />
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
       <item itemvalue="Python.data" />
       <item itemvalue="Python.regression_check" />
     </list>
@@ -395,8 +568,18 @@
         <item itemvalue="Python.regression_check" />
         <item itemvalue="Python.stool" />
         <item itemvalue="Python.data" />
+<<<<<<< HEAD
+        <item itemvalue="Python.calculate (2)" />
+        <item itemvalue="Python.calculate (1)" />
+        <item itemvalue="Python.calculate" />
+=======
         <item itemvalue="Python.calculate" />
         <item itemvalue="Python.run_vpp_regression" />
+<<<<<<< HEAD
+=======
+        <item itemvalue="Python.mail" />
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
+>>>>>>> 92ad212ed8c835e5ae481d2bd93be7c3fbd29465
       </list>
     </recent_temporary>
   </component>
@@ -436,6 +619,25 @@
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.22128557" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+      <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3293348" />
+      <window_info anchor="bottom" id="Python Console" order="7" weight="0.32824427" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32982087" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32897604" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.10074627" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32982087" />
+      <window_info anchor="right" id="SciView" order="3" weight="0.32995737" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.37077427" />
+=======
+      <window_info anchor="right" id="Database" order="3" />
+>>>>>>> 92ad212ed8c835e5ae481d2bd93be7c3fbd29465
       <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
       <window_info active="true" anchor="bottom" id="Version Control" order="8" visible="true" weight="0.24683544" />
       <window_info anchor="bottom" id="Python Console" order="9" weight="0.32876712" />
@@ -447,15 +649,22 @@
       <window_info anchor="right" id="SciView" order="3" weight="0.32995737" />
       <window_info id="Structure" order="1" sideWeight="0.5014006" side_tool="true" weight="0.09381663" />
       <window_info id="Favorites" order="2" sideWeight="0.5014006" side_tool="true" visible="true" weight="0.09381663" />
+<<<<<<< HEAD
       <window_info anchor="bottom" id="Debug" order="3" weight="0.37130803" />
+=======
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
+>>>>>>> 92ad212ed8c835e5ae481d2bd93be7c3fbd29465
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+<<<<<<< HEAD
+=======
       <window_info anchor="bottom" id="Find" order="1" weight="0.32982087" />
       <window_info anchor="right" id="Coverage" order="3" side_tool="true" />
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
     </layout>
     <layout-to-restore>
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
@@ -533,13 +742,22 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/datakit/data.py</url>
+<<<<<<< HEAD
           <line>139</line>
+=======
+<<<<<<< HEAD
+          <line>125</line>
+          <option name="timeStamp" value="142" />
+=======
+          <line>140</line>
+>>>>>>> 92ad212ed8c835e5ae481d2bd93be7c3fbd29465
           <option name="timeStamp" value="143" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/datakit/data.py</url>
           <line>71</line>
           <option name="timeStamp" value="153" />
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/../../regression_list/Elite3000/regression_check.py</url>
@@ -554,7 +772,20 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
+<<<<<<< HEAD
       <option name="time" value="158" />
+=======
+<<<<<<< HEAD
+      <option name="time" value="143" />
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="TingPai(code)" language="Python" />
+        <watch expression="last_date &lt; cur_date" />
+        <watch expression="date &lt; trade_date" />
+=======
+      <option name="time" value="154" />
+>>>>>>> 92ad212ed8c835e5ae481d2bd93be7c3fbd29465
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -562,53 +793,90 @@
         <watch expression="last_date &lt; cur_date" language="Python" />
         <watch expression="du.today()" />
         <watch expression="(start is None or start == '')" />
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
       </configuration>
     </watches-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
       <expression>
+<<<<<<< HEAD
+        <expression-string>get_local_data(info.iloc[0]['code'], 'D', 'date', 1)[0]</expression-string>
+=======
         <expression-string>last_date &lt; cur_date</expression-string>
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
+<<<<<<< HEAD
+        <expression-string>get_local_data(info.iloc[0]['code'], 'D', 'date', 1)</expression-string>
+=======
         <expression-string>datetime.datetime.today().strftime('%Y-%m-%d')</expression-string>
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
+<<<<<<< HEAD
+        <expression-string>TingPai(code)</expression-string>
+=======
         <expression-string>datetime.datetime.today().stfptime('%Y-%m-%d')</expression-string>
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
+<<<<<<< HEAD
+        <expression-string>False in (check_pct.fillna(1)&gt; 0.0995)</expression-string>
+=======
         <expression-string>datetime.datetime.strptime(last_date, '%Y-%m-%d')</expression-string>
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
+<<<<<<< HEAD
+        <expression-string>False in check_pct.fillna(1)&gt; 0.0995</expression-string>
+=======
         <expression-string>aaaaaaaa = datetime.datetime.strptime(last_date, '%Y-%m-%d')</expression-string>
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
+<<<<<<< HEAD
+        <expression-string>check_pct.fillna(1)&gt; 0.0995</expression-string>
+=======
         <expression-string>bb.loc[bb['zb']].to_csv('bbb.csv', encoding='utf-8-sig')</expression-string>
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
+<<<<<<< HEAD
+        <expression-string>check_pct&gt; 0.0995</expression-string>
+=======
         <expression-string>bb.loc[bb['zb']]</expression-string>
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
+<<<<<<< HEAD
+        <expression-string>check_pct.value() &gt; 0.0995</expression-string>
+=======
         <expression-string>zxcv = bb.loc[bb['zb']]</expression-string>
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
+<<<<<<< HEAD
+        <expression-string>aa.sort_index(ascending=False).pct_change().sort_index(ascending=True)</expression-string>
+=======
         <expression-string>aaaaa = bb.loc[bb['zb']]</expression-string>
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -712,6 +980,7 @@ code
     </expressions>
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
     <entry file="file://C:/ProgramData/Anaconda3/Lib/multiprocessing/pool.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4318">
@@ -746,6 +1015,9 @@ code
     <entry file="file://$PROJECT_DIR$/miscs/log.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+=======
+<<<<<<< HEAD
+>>>>>>> 92ad212ed8c835e5ae481d2bd93be7c3fbd29465
     <entry file="file://$PROJECT_DIR$/datakit/basic_data.py" />
     <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tushare/stock/trading.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -778,6 +1050,9 @@ code
     <entry file="file://$PROJECT_DIR$/miscs/MultiP.py" />
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/3/datetime.pyi" />
     <entry file="file://C:/ProgramData/Anaconda3/Lib/socket.py">
+=======
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tushare/stock/cons.py">
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="343">
           <caret line="588" selection-start-line="588" selection-end-line="588" />
@@ -794,13 +1069,6 @@ code
     <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/pandas/util/_decorators.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/pandas/core/frame.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="3796" column="56" selection-start-line="3796" selection-start-column="38" selection-end-line="3796" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/ProgramData/Anaconda3/Lib/multiprocessing/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -811,17 +1079,14 @@ code
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../perl/Elite3000_regression/code/Regression_Elite_VPP.pl" />
-    <entry file="file://$PROJECT_DIR$/miscs/__init__.py">
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tqdm/_tqdm.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="4" selection-start-line="4" selection-end-line="4" />
-          <folding>
-            <element signature="e#23#43#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="170">
+          <caret line="134" column="16" selection-start-line="134" selection-start-column="16" selection-end-line="134" selection-end-column="16" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../../perl/Elite3000_regression/code/Regression_Elite_VPP.pl" />
     <entry file="file://C:/ProgramData/Anaconda3/Lib/subprocess.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="562">
@@ -841,15 +1106,8 @@ code
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="4" selection-start-line="4" selection-end-line="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tushare/stock/fundamental.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="45" column="18" selection-start-line="45" selection-start-column="18" selection-end-line="45" selection-end-column="18" />
           <folding>
-            <element signature="e#125#144#0" expanded="true" />
+            <element signature="e#24#44#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -868,6 +1126,7 @@ code
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/python-skeletons/multiprocessing/managers.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="364">
@@ -875,6 +1134,159 @@ code
         </state>
       </provider>
     </entry>
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/multiprocessing/pool.py">
+=======
+    <entry file="file://$PROJECT_DIR$/miscs/MultiP.py" />
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/3/datetime.pyi" />
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/socket.py">
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="488">
+          <caret line="131" selection-start-line="131" selection-end-line="131" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datakit/basic_data.py" />
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/colorama/ansitowin32.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="36" selection-start-line="36" selection-end-line="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tushare/stock/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/pandas/core/common.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="406" selection-start-line="406" selection-end-line="406" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/pandas/io/parsers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="685" selection-start-line="685" selection-end-line="685" />
+        </state>
+      </provider>
+    </entry>
+<<<<<<< HEAD
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/pandas/core/frame.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="2667" selection-start-line="2667" selection-end-line="2667" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/codecs.py">
+=======
+    <entry file="file://$PROJECT_DIR$/../../perl/Elite3000_regression/code/Regression_Elite_VPP.pl" />
+    <entry file="file://$PROJECT_DIR$/miscs/__init__.py">
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="297" column="45" selection-start-line="297" selection-start-column="45" selection-end-line="297" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tushare/stock/fundamental.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="498" column="4" selection-start-line="498" selection-start-column="4" selection-end-line="498" selection-end-column="4" />
+          <folding>
+            <element signature="e#125#144#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tushare/stock/billboard.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="280" column="4" selection-start-line="280" selection-start-column="4" selection-end-line="280" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+<<<<<<< HEAD
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tushare/stock/cons.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="290">
+          <caret line="28" column="52" lean-forward="true" selection-start-line="28" selection-start-column="52" selection-end-line="28" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tushare/util/dateu.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="82" column="27" selection-start-line="82" selection-start-column="27" selection-end-line="82" selection-end-column="27" />
+=======
+    <entry file="file://$PROJECT_DIR$/miscs/mail.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tushare/stock/trading.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="1207" column="4" selection-start-line="1207" selection-start-column="4" selection-end-line="1207" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+<<<<<<< HEAD
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tushare/internet/indexes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="145">
+          <caret line="22" column="4" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tushare/trader/trader.py">
+=======
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/pandas/core/base.py">
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1343">
+          <caret line="22" column="23" selection-start-line="22" selection-start-column="23" selection-end-line="22" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tushare/stock/minsdata.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-833">
+          <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tushare/util/conns.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="13" column="4" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+<<<<<<< HEAD
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tushare/coins/market.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-824">
+          <caret line="151" column="4" selection-start-line="151" selection-start-column="4" selection-end-line="151" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tushare/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="413">
+          <caret line="127" column="51" lean-forward="true" selection-start-line="127" selection-start-column="51" selection-end-line="127" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tushare/stock/newsevent.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="150" column="4" selection-start-line="150" selection-start-column="4" selection-end-line="150" selection-end-column="4" />
+=======
     <entry file="file://$PROJECT_DIR$/datakit/basic_data.py" />
     <entry file="file://$PROJECT_DIR$/calculation/average.py" />
     <entry file="file://$PROJECT_DIR$/../../python_tool/ArchParser/archutb.py">
@@ -928,6 +1340,7 @@ code
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="607" selection-start-line="607" selection-end-line="607" />
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
         </state>
       </provider>
     </entry>
@@ -954,6 +1367,10 @@ code
     </entry>
     <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tushare/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="425">
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
+=======
         <state relative-caret-position="437">
           <caret line="85" column="21" selection-start-line="85" selection-start-column="21" selection-end-line="85" selection-end-column="21" />
         </state>
@@ -963,12 +1380,50 @@ code
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1122">
           <caret line="68" column="8" selection-start-line="68" selection-start-column="8" selection-end-line="68" selection-end-column="8" />
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/miscs/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-column="22" />
+          <folding>
+            <element signature="e#23#43#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Python/check_point_xls/ArchParser/archutb.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="10" lean-forward="true" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/pandas/core/series.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="3418" selection-start-line="3418" selection-end-line="3418" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datakit/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/calculation/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
+=======
     <entry file="file://C:/ProgramData/Anaconda3/Lib/urllib/request.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -990,6 +1445,7 @@ code
           <folding>
             <element signature="e#23#34#0" expanded="true" />
           </folding>
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
         </state>
       </provider>
     </entry>
@@ -1002,8 +1458,13 @@ code
     </entry>
     <entry file="file://$PROJECT_DIR$/stool.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="238">
+          <caret line="14" column="30" lean-forward="true" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
+=======
         <state relative-caret-position="357">
           <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
           <folding>
             <element signature="e#23#33#0" expanded="true" />
           </folding>
@@ -1029,10 +1490,32 @@ code
     </entry>
     <entry file="file://$PROJECT_DIR$/datakit/data.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="340">
           <caret line="103" column="26" lean-forward="true" selection-start-line="103" selection-start-column="26" selection-end-line="103" selection-end-column="26" />
+=======
+<<<<<<< HEAD
+        <state relative-caret-position="357">
+          <caret line="129" column="34" selection-start-line="129" selection-start-column="34" selection-end-line="129" selection-end-column="34" />
+          <folding>
+            <element signature="e#23#48#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/calculation/calculate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="35" column="27" selection-start-line="35" selection-start-column="27" selection-end-line="35" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+=======
+        <state relative-caret-position="420">
+          <caret line="137" column="24" selection-start-line="137" selection-start-column="24" selection-end-line="137" selection-end-column="24" />
+>>>>>>> 92ad212ed8c835e5ae481d2bd93be7c3fbd29465
           <folding>
             <element signature="e#24#44#0" expanded="true" />
+>>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
           </folding>
         </state>
       </provider>
