@@ -1,63 +1,52 @@
-<<<<<<< HEAD
-2018-07-04 23:09:21,016 INFO     : Run time of Get info data...: 6.388 seconds.
-2018-07-04 23:15:07,442 INFO     : Run time of Get info data...: 4.874 seconds.
-2018-07-04 23:15:17,687 INFO     : Run time of Test of Download all:: 15.120 seconds.
-2018-07-04 23:15:40,410 INFO     : Run time of Get info data...: 5.038 seconds.
-2018-07-04 23:15:41,754 INFO     : Run time of Test of Download all:: 6.383 seconds.
-2018-07-04 23:16:16,661 INFO     : Run time of Get info data...: 2.220 seconds.
-2018-07-04 23:23:05,729 INFO     : Run time of Get info data...: 0.634 seconds.
-=======
-2018-07-02 16:31:06,509 INFO     : Run time of Get info data...: 0.518 seconds.
-2018-07-02 16:31:31,551 INFO     : Run time of Get info data...: 0.991 seconds.
-2018-07-02 16:32:10,215 INFO     : Run time of Get info data...: 0.501 seconds.
-2018-07-03 13:42:22,416 INFO     : Run time of Test of Download all:: 6.327 seconds.
-2018-07-03 13:43:35,504 INFO     : Run time of Test of Download all:: 5.381 seconds.
-2018-07-03 13:47:38,330 INFO     : Run time of Test of Download all:: 8.077 seconds.
-2018-07-03 13:48:53,103 INFO     : Run time of Test of Download all:: 6.425 seconds.
-2018-07-03 13:51:58,461 INFO     : Run time of Test of Download all:: 6.582 seconds.
-2018-07-03 13:52:23,889 INFO     : Run time of Test of Download all:: 7.442 seconds.
-2018-07-03 13:53:30,479 INFO     : Run time of Test of Download all:: 15.545 seconds.
-2018-07-03 14:29:28,013 INFO     : Run time of Get info data...: 4.075 seconds.
-2018-07-03 14:29:37,570 INFO     : Run time of Test of Download all:: 13.635 seconds.
-2018-07-03 14:29:53,012 INFO     : Run time of Get info data...: 2.861 seconds.
-2018-07-03 14:30:20,265 INFO     : Run time of Get info data...: 6.666 seconds.
-2018-07-03 14:30:23,868 INFO     : Run time of Test of Download all:: 10.269 seconds.
-2018-07-03 14:30:50,003 INFO     : Run time of Get info data...: 4.735 seconds.
-2018-07-03 14:31:42,425 INFO     : Run time of Get info data...: 3.024 seconds.
-2018-07-03 14:34:47,172 INFO     : Run time of Get info data...: 3.751 seconds.
-2018-07-03 14:34:55,511 INFO     : Run time of Test of Download all:: 12.092 seconds.
-2018-07-03 14:35:21,412 INFO     : Run time of Get info data...: 5.890 seconds.
-2018-07-03 14:35:51,948 INFO     : Run time of Get info data...: 2.123 seconds.
-2018-07-03 14:43:54,772 INFO     : Run time of Get info data...: 1.820 seconds.
-2018-07-03 14:50:42,624 INFO     : Run time of Get info data...: 3.849 seconds.
-2018-07-03 14:53:10,193 INFO     : Run time of Get info data...: 3.788 seconds.
-2018-07-03 14:53:46,782 INFO     : Run time of Get info data...: 1.680 seconds.
-2018-07-03 14:55:30,936 INFO     : Run time of Get info data...: 1.034 seconds.
-2018-07-03 14:55:56,511 INFO     : Run time of Get info data...: 2.550 seconds.
-2018-07-03 14:59:22,368 INFO     : Run time of Get info data...: 1.355 seconds.
-2018-07-03 15:00:13,301 INFO     : Run time of Get info data...: 4.423 seconds.
-2018-07-03 15:04:20,389 INFO     : Run time of Get info data...: 0.523 seconds.
-2018-07-03 15:05:25,307 INFO     : Run time of Get info data...: 0.553 seconds.
-2018-07-03 15:05:26,440 INFO     : Run time of Test of Download all:: 1.687 seconds.
-2018-07-03 15:05:59,305 INFO     : Run time of Get info data...: 2.797 seconds.
-2018-07-03 15:06:00,581 INFO     : Run time of Test of Download all:: 4.075 seconds.
-2018-07-03 15:06:10,101 INFO     : Run time of Get info data...: 0.578 seconds.
-2018-07-03 15:07:31,350 INFO     : Run time of Get info data...: 2.272 seconds.
-2018-07-03 15:07:32,528 INFO     : Run time of Test of Download all:: 3.451 seconds.
-2018-07-03 15:07:53,582 INFO     : Run time of Get info data...: 0.717 seconds.
-2018-07-03 15:09:40,072 INFO     : Run time of Get info data...: 0.202 seconds.
-2018-07-03 15:39:05,830 INFO     : Run time of Get info data...: 3.190 seconds.
-2018-07-03 15:39:38,829 INFO     : Run time of Test of Download all:: 36.191 seconds.
-2018-07-03 15:40:12,578 INFO     : Run time of Get info data...: 1.905 seconds.
-2018-07-03 15:41:22,106 INFO     : Run time of Get info data...: 3.243 seconds.
-2018-07-03 15:43:48,622 INFO     : Run time of Get info data...: 3.527 seconds.
-2018-07-03 15:44:47,021 INFO     : Run time of Get info data...: 3.317 seconds.
-2018-07-03 15:45:16,641 INFO     : Run time of Test of Download all:: 32.939 seconds.
-2018-07-03 15:45:35,454 INFO     : Run time of Get info data...: 1.516 seconds.
-2018-07-03 17:29:36,036 INFO     : Run time of Get info data...: 5.484 seconds.
-2018-07-03 17:29:36,068 ERROR    : No local data file: D:\WorkSpace\python_ws\stool\datakit\day\603693.csv!
-2018-07-03 17:29:36,069 INFO     : Run time of Test of Download all:: 5.518 seconds.
-2018-07-03 17:44:01,015 INFO     : Run time of Get info data...: 5.266 seconds.
-2018-07-03 17:44:01,041 ERROR    : No local data file: D:\WorkSpace\python_ws\stool\datakit\day\603693.csv!
-2018-07-03 17:44:01,041 INFO     : Run time of Test of Download all:: 5.293 seconds.
->>>>>>> 785b858d1e202d7f5e8dd9fd2f9ba59764d6bab3
+2018-07-07 10:35:05,677 INFO     : Run time of Get info data...: 1.879 seconds.
+2018-07-07 10:35:20,776 INFO     : Run time of Get info data...: 1.722 seconds.
+2018-07-07 15:48:13,379 INFO     : Run time of Get info data...: 0.391 seconds.
+2018-07-07 15:49:04,267 INFO     : Run time of Prepare multiprocess pool: 38.864 seconds.
+2018-07-07 15:49:15,328 INFO     : Run time of Test of Download all:: 62.341 seconds.
+2018-07-07 15:51:36,341 INFO     : Run time of Get info data...: 0.293 seconds.
+2018-07-07 15:52:12,967 INFO     : Run time of Prepare multiprocess pool: 36.614 seconds.
+2018-07-07 15:52:39,999 INFO     : Run time of Test of Download all:: 63.952 seconds.
+2018-07-07 15:53:00,011 INFO     : Run time of Get info data...: 0.297 seconds.
+2018-07-07 15:53:11,666 INFO     : Run time of Prepare multiprocess pool: 11.625 seconds.
+2018-07-07 15:53:32,042 INFO     : Run time of Get info data...: 0.328 seconds.
+2018-07-07 15:53:43,720 INFO     : Run time of Prepare multiprocess pool: 11.667 seconds.
+2018-07-07 15:53:44,018 INFO     : Run time of Test of Download all:: 12.306 seconds.
+2018-07-07 15:54:08,547 INFO     : Run time of Get info data...: 0.288 seconds.
+2018-07-07 15:54:20,122 INFO     : Run time of Prepare multiprocess pool: 11.557 seconds.
+2018-07-07 15:54:20,414 INFO     : Run time of Test of Download all:: 12.156 seconds.
+2018-07-07 15:55:41,239 INFO     : Run time of Get info data...: 0.366 seconds.
+2018-07-07 15:55:52,774 INFO     : Run time of Prepare multiprocess pool: 11.522 seconds.
+2018-07-07 15:56:54,535 INFO     : Run time of Test of Download all:: 73.663 seconds.
+2018-07-07 15:58:48,023 INFO     : Run time of Get info data...: 0.319 seconds.
+2018-07-07 15:58:59,973 INFO     : Run time of Prepare multiprocess pool: 11.938 seconds.
+2018-07-07 16:02:18,000 INFO     : Run time of Get info data...: 0.820 seconds.
+2018-07-07 16:02:29,852 INFO     : Run time of Prepare multiprocess pool: 11.836 seconds.
+2018-07-07 16:02:30,144 INFO     : Run time of Test of Download all:: 12.965 seconds.
+2018-07-07 16:02:46,636 INFO     : Run time of Get info data...: 0.643 seconds.
+2018-07-07 16:02:58,211 INFO     : Run time of Prepare multiprocess pool: 11.563 seconds.
+2018-07-07 16:45:29,734 INFO     : Run time of Get info data...: 0.801 seconds.
+2018-07-07 16:46:06,251 INFO     : Run time of Prepare multiprocess pool: 36.503 seconds.
+2018-07-07 16:49:33,789 INFO     : Run time of Get info data...: 0.809 seconds.
+2018-07-07 16:49:46,077 INFO     : Run time of Prepare multiprocess pool: 12.273 seconds.
+2018-07-07 16:57:19,974 INFO     : Run time of Get info data...: 0.350 seconds.
+2018-07-07 16:57:31,506 INFO     : Run time of Prepare multiprocess pool: 11.519 seconds.
+2018-07-07 16:58:24,544 INFO     : Run time of Test of Download all:: 64.920 seconds.
+2018-07-07 16:58:47,618 INFO     : Run time of Get info data...: 0.336 seconds.
+2018-07-07 16:58:59,259 INFO     : Run time of Prepare multiprocess pool: 11.628 seconds.
+2018-07-07 16:59:26,246 INFO     : Run time of Test of Download all:: 38.964 seconds.
+2018-07-07 16:59:49,304 INFO     : Run time of Get info data...: 0.372 seconds.
+2018-07-07 17:00:00,904 INFO     : Run time of Prepare multiprocess pool: 11.573 seconds.
+2018-07-07 17:00:37,867 INFO     : Run time of Test of Download all:: 48.936 seconds.
+2018-07-07 17:00:59,454 INFO     : Run time of Get info data...: 0.292 seconds.
+2018-07-07 17:01:11,123 INFO     : Run time of Prepare multiprocess pool: 11.652 seconds.
+2018-07-07 17:02:54,929 INFO     : Run time of Get info data...: 0.300 seconds.
+2018-07-07 17:03:07,045 INFO     : Run time of Prepare multiprocess pool: 12.101 seconds.
+2018-07-07 17:04:15,598 INFO     : Run time of Get info data...: 0.284 seconds.
+2018-07-07 17:04:27,103 INFO     : Run time of Prepare multiprocess pool: 11.492 seconds.
+2018-07-07 17:04:36,657 INFO     : Run time of Test of Download all:: 21.344 seconds.
+2018-07-07 17:04:51,340 INFO     : Run time of Get info data...: 0.263 seconds.
+2018-07-07 17:05:02,957 INFO     : Run time of Prepare multiprocess pool: 11.605 seconds.
+2018-07-07 19:24:52,419 INFO     : Run time of Get info data...: 0.262 seconds.
+2018-07-07 19:25:04,420 INFO     : Run time of Prepare multiprocess pool: 11.978 seconds.
+2018-07-07 19:26:13,662 INFO     : [update_local_database] run time is 81.5058 seconds.
+2018-07-07 19:26:13,673 INFO     : Run time of Test of Download all:: 81.517 seconds.

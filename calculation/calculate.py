@@ -1,31 +1,29 @@
 import datakit as dk
-from miscs import TimerCount
 import datetime
+import pandas as pd
+from tqdm import tqdm
 
 
 def percision(x, p):
     return float('{:.0{}f}'.format(float(x), p))
 
 
-def MA(code, ktype, period):
+def ma(code, ktype, period):
     close_price = dk.get_local_data(code, ktype, 'close', period)
     close_price = close_price.sort_index(ascending=True)
     moving_average = close_price.rolling(window=period).mean()
     return moving_average.iloc[-1]
 
 
-def TOR(para, ktype='D'):
+def tor(para, ktype='D'):
     c = para['code']
     total_vol = para['outstanding']
     current_vol = dk.get_local_data(c, ktype, 'volume', 1).iloc[0]
     toa = current_vol / (total_vol * 10000)
-    return float(toa)
+    return percision(toa, 2)
 
 
-def PCP(code, ktype='D'):
-    """
-    Calculate Price Change Percentage
-    """
+def pcp(code, ktype='D'):
     close, pre_close = dk.get_local_data(code, ktype, 'close', 2)
     return percision(((close - pre_close)/pre_close), 4) * 100
 
@@ -36,41 +34,59 @@ def _zt_status(para):
     return c >= zt_price
 
 
-def ZT(code, latest_trade_date):
-    check_window = dk.get_local_data(code, 'D', item='close', count=30).sort_index(ascending=False)
-    last_zt_status = check_window.rolling(window=2).apply(_zt_status, raw=False).sort_index(ascending=True)
+def zt(code, start_pos):
+    check_window = dk.get_local_data(code, 'D', pos=start_pos,
+                                     item='close', count=30).sort_index(ascending=False)
+    check_window = check_window[check_window != 0]
+    last_zt_status = check_window.rolling(window=2).apply(_zt_status, raw=False)
+    last_zt_status.sort_index(ascending=True, inplace=True)
     continue_zt_num = 0
     for i in last_zt_status:
         if i == 1:
             continue_zt_num += 1
         else:
             break
-    if 0 in last_zt_status and not TingPai(code, latest_trade_date):
+    if 0 in list(last_zt_status):
         return continue_zt_num
     else:
         return 0
 
 
-def ZB(code, latest_trade_date):
-    close, pre_close = dk.get_local_data(code, 'D', 'close', 2)
-    high = dk.get_local_data(code, 'D', 'high', 1).iloc[0]
+def zb(code, start_pos):
+    close, pre_close = dk.get_local_data(code, 'D', item='close', pos=start_pos, count=2)
+    high = dk.get_local_data(code, 'D', 'high', pos=start_pos, count=1).iloc[0]
     zt_price = percision(pre_close * 1.1, 2)
-    return close != high and high >= zt_price and not TingPai(code, latest_trade_date)
+    return close != high and high >= zt_price
 
 
-def TingPai(code, latest_trade_date):
+def tp(code, latest_trade_date):
     date = dk.get_local_data(code, 'D', 'date', 1).iloc[0]
     date = datetime.datetime.strptime(date, '%Y-%m-%d')
     trade_date = datetime.datetime.strptime(latest_trade_date, '%Y-%m-%d')
     return date < trade_date
 
 
+def ltsz(para):
+    code = para['code']
+    total_vol = para['outstanding']
+    close = dk.get_local_data(code, 'D', 'close', 1).iloc[0]
+    return percision(close * total_vol, 2)
+
+
+def statistics(mode, date=None):
+    info = pd.read_csv(dk.INFO_FILE, dtype={'code': str})
+    #date = dk.get_local_data(info.iloc[0]['code'], 'D', 'date', 1).iloc[0] if date is None else date
+    s_periord = 5
+    l = [{}] * s_periord
+    for i in range(s_periord):
+        tqdm.pandas(desc='zt of {} days ago'.format(i), ascii=True)
+        l[i]['zt'] = info['code'].progress_apply(zt, args=[i * -1]).rename('zt')
+        a=0
+
+
+
 if __name__ == '__main__':
-    # aa = MA('300139', 'D', 10)
-    # bb = TOR('300139', 'D')
-    cc = ZT('300312', '2018-07-03')
-    codes = dk.get_codes()
-    codes = codes
-    with TimerCount('test'):
-        aa = codes.apply(ZT)
+    # aa = ma('300139', 'D', 10)
+    # bb = tor('300139', 'D')
+    cc = statistics(0)
     pass

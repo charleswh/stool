@@ -7,45 +7,48 @@ import numpy as np
 import os
 import multiprocessing as mp
 import ctypes
+from functools import reduce
+from tqdm import tqdm
 
 KTYPE = ['D', '60', '30', '15', '5']
 KSUB = {'D': 'day', '60': 'M60', '30': 'M30', '15': 'M15', '5': 'M5'}
-DATESTAMP_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data.datestamp')
-INFO_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'info.csv')
-TRADE_DATE_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'trade_date.csv')
+AA = ['day', 'M60', 'M30', 'M15', 'M5']
+# PERIORD_TAG = {'D': 'day', '60': 'min60', '30': 'min30', '15': 'min15', '5': 'min5'}
+FILE_ROOT = os.path.dirname(os.path.realpath(__file__))
+CSV_SUB = os.path.join(FILE_ROOT, 'data_csv')
+PERIORD_TAG = ['day', 'min60', 'min30', 'min15', 'min5']
+DATESTAMP_FILE = os.path.join(FILE_ROOT, 'data.datestamp')
+INFO_FILE = os.path.join(FILE_ROOT, 'info.csv')
+TRADE_DATE_FILE = os.path.join(FILE_ROOT, 'trade_date.csv')
 INFO_TOTAL_COL = ['name', 'industry', 'area', 'pe', 'outstanding', 'totals',
                   'totalAssets', 'liquidAssets', 'fixedAssets', 'reserved',
                   'reservedPerShare', 'esp', 'bvps', 'pb', 'timeToMarket', 'undp',
                   'perundp', 'rev', 'profit', 'gpr', 'npr', 'holders']
+HDF_FILE = os.path.join(FILE_ROOT, 'database.h5')
 
-
-def get_local_data(code, ktype, item, count=None, date=None):
-    root = os.path.dirname(os.path.realpath(__file__))
-    sub = os.path.join(root, KSUB[ktype])
-    file = os.path.join(sub, '{}.csv'.format(code))
+def get_local_data(code, ktype, item, pos=0, count=None):
+    file = os.path.join(CSV_SUB, '{}_{}.csv'.format(KSUB[ktype], code))
     if not os.path.exists(file):
         log.error('No local data file: {}!'.format(file))
         assert 0
-    if date is None:
-        df = pd.read_csv(file, nrows=count)
-    else:
-        df = pd.read_csv(file)
-        df = df[df['date'] <= date].iloc[:count, :]
+    df = pd.read_csv(file, nrows=(count - pos), usecols=[item])
+    if pos != 0:
+        df.drop([abs(pos) - 1], inplace=True)
     if df.shape[0] < count:
-        df = pd.concat([df, pd.DataFrame(np.zeros((1, 6)), columns=df.columns)])
-    return df.loc[:, item]
+        df = pd.concat([df, pd.DataFrame(np.zeros((count - df.shape[0], df.shape[1])),
+                                         columns=df.columns)])
+    return df
 
 
 def get_local_info(code, item):
-    info_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), INFO_FILE)
-    if not os.path.exists(info_file):
-        log.error('No local info file: {}!'.format(info_file))
-    infos = pd.read_csv(info_file, dtype={'code': str}).set_index('code')
+    if not os.path.exists(INFO_FILE):
+        log.error('No local info file: {}!'.format(INFO_FILE))
+    infos = pd.read_csv(INFO_FILE, usecols=[item], columns={'code': str}).set_index('code')
     return infos.loc[code, item]
 
 
 def get_codes():
-    info_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), INFO_FILE)
+    info_file = os.path.join(FILE_ROOT, INFO_FILE)
     if not os.path.exists(info_file):
         log.error('No local info file: {}!'.format(info_file))
     return pd.read_csv(info_file, dtype={'code': str}).loc[:, 'code']
@@ -65,13 +68,11 @@ def get_trade_date(start_year=None):
 
 
 def check_subdirs():
-    for i in KSUB.values():
-        sub = os.path.join(os.path.dirname(os.path.realpath(__file__)), i)
-        if not os.path.exists(sub):
-            os.mkdir(sub)
+    if not os.path.exists(CSV_SUB):
+        os.mkdir(CSV_SUB)
 
 
-def down_info_data(update=False):
+def down_info_data(update=True):
     basic_infos = None
     if update is True:
         keep_cols = ['name', 'outstanding', 'timeToMarket']
@@ -84,6 +85,7 @@ def down_info_data(update=False):
         basic_infos = basic_infos[basic_infos['name'].str.find('*') == -1]
         # remove unlisted new shares
         basic_infos = basic_infos[basic_infos['timeToMarket'] != 0]
+
     else:
         if os.path.exists(INFO_FILE):
             basic_infos = pd.read_csv(INFO_FILE)
@@ -92,29 +94,28 @@ def down_info_data(update=False):
     return basic_infos
 
 
-def save_local_data(df, code, ktype):
-    if not isinstance(df, pd.DataFrame):
-        return False
-    elif df.empty:
-        return False
-    root = os.path.dirname(os.path.realpath(__file__))
-    sub = os.path.join(root, KSUB[ktype])
-    file = os.path.join(sub, '{}.csv'.format(code))
-    cols = ['date', 'open', 'close', 'high', 'low', 'volume']
-    df = df.sort_index(ascending=False)
-    df.to_csv(file, columns=cols, index=False)
+def save_local_data(data):
+    print('Saving basic data to local database...')
+    # # write with csv format
+    # hdf = pd.HDFStore(HDF_FILE)
+    # from tqdm import tqdm
+    # for code in tqdm(data, ascii=True):
+    #     for i in range(5):
+    #         table_name = '{}_{}'.format(PERIORD_TAG[i], code)
+    #         hdf[table_name] = data[code][i].sort_index(ascending=False)
+    # hdf.close()
 
-
-def update_bar(counter, finish_flag, multi_count, bar_max):
-    import tqdm
-    print('Start downloading basic data...')
-    with tqdm.tqdm(total=bar_max, ascii=True) as tbar:
-        while counter.value <= bar_max:
-            tbar.update(counter.value - tbar.n)
-            if finish_flag and len(finish_flag) == multi_count:
-                tbar.update(bar_max - tbar.n)
-                break
-    print('Done')
+    # write with csv format
+    for code in tqdm(data, ascii=True):
+        for i in range(5):
+            file_name = '{}\\{}_{}.csv'.format(CSV_SUB, PERIORD_TAG[i], code)
+            data[code][i].sort_index(ascending=False).to_csv(file_name, index=False)
+    # write with pickle format
+    # from tqdm import tqdm
+    # for code in tqdm(data, ascii=True):
+    #     for i in range(5):
+    #         table_name = './aa/{}_{}.csv'.format(PERIORD_TAG[i], code)
+    #         data[code][i].sort_index(ascending=False).to_pickle(table_name
 
 
 def download(para):
@@ -127,12 +128,23 @@ def download(para):
         except Exception as err:
             log.err('Download {} fail.'.format(code))
             log.error(err)
-        list(map(save_local_data, datas, [code] * 5, KTYPE))
-
+        # list(map(save_local_data, datas, [code] * 5, KTYPE, [lock] * 5))
+        ret[code] = datas
         with lock:
             counter.value += 1
     finish[os.getpid()] = True
     return ret
+
+
+def update_bar(counter, finish_flag, multi_count, bar_max):
+    print('Start downloading basic data...')
+    with tqdm(total=bar_max, ascii=True) as tbar:
+        while counter.value <= bar_max:
+            tbar.update(counter.value - tbar.n)
+            if finish_flag and len(finish_flag) == multi_count:
+                tbar.update(bar_max - tbar.n)
+                break
+    print('Done')
 
 
 def down_basic_data(codes):
@@ -142,42 +154,48 @@ def down_basic_data(codes):
     codes_cut = [codes[i:i + unitsize] for i in range(0, len(codes), unitsize)]
     with TimerCount('Prepare multiprocess pool'):
         pool = mp.Pool(progress_total)
-        m = mp.Manager()0
+        m = mp.Manager()
         lock = m.Lock()
         counter = m.Value(ctypes.c_uint32, 0)
         finish_flag = m.dict()
         args = [(x, counter, finish_flag, lock) for x in codes_cut]
     pool.apply_async(update_bar, args=(counter, finish_flag, progress_for_job, len(codes)))
-    pool.map(download, args)
+    results = pool.map(download, args)
     pool.close()
     pool.join()
+    results = reduce(lambda x, y: {**x, **y}, results)
+    save_local_data(results)
+    a = 0
 
 
 def get_more_infos(info):
     from tqdm import tqdm
     info = info.reset_index()
     lastest_trade_date = get_local_data(info.iloc[0]['code'], 'D', 'date', 1).iloc[0]
-    # tqdm.pandas(desc='Get ZhangTing', ascii=True)
-    # zt = info['code'].progress_apply(cal.ZT, args=[lastest_trade_date]).rename('zt')
-    # tqdm.pandas(desc='Get ZhaBan', ascii=True)
-    # zb = info['code'].progress_apply(cal.ZB, args=[lastest_trade_date]).rename('zb')
-    tqdm.pandas(desc='Get TurnOverRatio', ascii=True)
-    tor = info.progress_apply(cal.TOR, axis=1).rename('tor')
-    # tqdm.pandas(desc='Get PriceChangePercentage', ascii=True)
-    # pcp = info['code'].progress_apply(cal.PCP).rename('pcp')
-    # bb = pd.concat([info, zt, zb, tor], axis=1)
-    # bb.to_csv('aa.csv', encoding='utf-8-sig')
-    # a=0
+    tqdm.pandas(desc='Cal ZhangTing', ascii=True)
+    zt = info['code'].progress_apply(cal.zt, args=[lastest_trade_date]).rename('zt')
+    tqdm.pandas(desc='Cal ZhaBan', ascii=True)
+    zb = info['code'].progress_apply(cal.zb, args=[lastest_trade_date]).rename('zb')
+    tqdm.pandas(desc='Cal TurnOverRatio', ascii=True)
+    tor = info.progress_apply(cal.tor, axis=1).rename('tor')
+    tqdm.pandas(desc='Cal PriceChangePercentage', ascii=True)
+    pcp = info['code'].progress_apply(cal.pcp).rename('pcp')
+    tqdm.pandas(desc='Cal CirculationMarketValue', ascii=True)
+    ltsz = info.progress_apply(cal.ltsz, axis=1).rename('ltsz')
+    updated_info = pd.concat([info, zt, zb, tor, pcp, ltsz], axis=1)
+    updated_info.to_csv(INFO_FILE, encoding='utf-8-sig')
 
 
 @print_run_time
-def update_local_database(update_infos=True):
+def update_local_database(mode):
     check_subdirs()
-    info_data = down_info_data(update_infos)
-    down_basic_data(sorted(info_data.index))
-    # get_more_infos(info_data)
+    info_data = down_info_data()
+    if mode != 2:
+        down_basic_data(sorted(info_data.index))
+    if mode != 1:
+        get_more_infos(info_data)
 
 
 if __name__ == '__main__':
     with TimerCount('Test of Download all:'):
-        update_local_database()
+        update_local_database(1)
