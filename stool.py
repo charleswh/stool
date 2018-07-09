@@ -31,7 +31,7 @@ if __name__ == '__main__':
     if len(sys.argv) < 2:
         parser.print_help()
     else:
-        if args.down_mode:
+        if args.down_mode is not None:
             update_local_database(args.down_mode)
         elif args.statistics_after_close:
             print('1')

@@ -26,12 +26,13 @@ INFO_TOTAL_COL = ['name', 'industry', 'area', 'pe', 'outstanding', 'totals',
                   'perundp', 'rev', 'profit', 'gpr', 'npr', 'holders']
 HDF_FILE = os.path.join(FILE_ROOT, 'database.h5')
 
+
 def get_local_data(code, ktype, item, pos=0, count=None):
     file = os.path.join(CSV_SUB, '{}_{}.csv'.format(KSUB[ktype], code))
     if not os.path.exists(file):
         log.error('No local data file: {}!'.format(file))
         assert 0
-    df = pd.read_csv(file, nrows=(count - pos), usecols=[item])
+    df = pd.read_csv(file, nrows=(count - pos) if count is not None else count, usecols=[item])
     if pos != 0:
         df.drop([abs(pos) - 1], inplace=True)
     if df.shape[0] < count:
@@ -65,6 +66,17 @@ def get_trade_date(start_year=None):
     if start_year is not None:
         df = df[df['calenderDate'].str.find(start_year) == 0]
     return df
+
+
+@print_run_time
+def down_trade_data(start_year=None):
+    if not os.path.exists(TRADE_DATE_FILE):
+        df = ts.trade_cal()
+        df = df[df['isOpen'] == 1]
+        df = df[df['calenderDate'].str.find(start_year) == 0]
+        df.to_csv(TRADE_DATE_FILE, encoding='utf-8-sig')
+    else:
+        pass
 
 
 def check_subdirs():
@@ -165,7 +177,7 @@ def down_basic_data(codes):
     pool.join()
     results = reduce(lambda x, y: {**x, **y}, results)
     save_local_data(results)
-    a = 0
+    down_trade_data('2018')
 
 
 def get_more_infos(info):
@@ -198,4 +210,4 @@ def update_local_database(mode):
 
 if __name__ == '__main__':
     with TimerCount('Test of Download all:'):
-        update_local_database(1)
+        update_local_database(2)

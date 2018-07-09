@@ -36,3 +36,6 @@
 2018-07-08 14:47:57,684 INFO     : [update_local_database] run time is 269.8916 seconds.
 2018-07-08 23:56:01,907 INFO     : Run time of Get info data...: 0.280 seconds.
 2018-07-08 23:56:51,993 INFO     : Run time of Get info data...: 0.272 seconds.
+2018-07-09 10:35:42,316 INFO     : Run time of Get info data...: 10.230 seconds.
+2018-07-09 10:36:37,288 INFO     : Run time of Get info data...: 10.018 seconds.
+2018-07-09 10:37:06,794 INFO     : Run time of Get info data...: 9.572 seconds.

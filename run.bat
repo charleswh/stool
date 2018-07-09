@@ -1,2 +1,2 @@
-python stool.py -d 2
+python stool.py -d 0
 pause
