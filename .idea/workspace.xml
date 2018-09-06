@@ -1,29 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cd47718d-a71c-4ab2-8b8c-22f5b0d7f2e6" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/utility/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utility/mail.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utility/misc.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utility/task.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calculation/calculate.py" beforeDir="false" afterPath="$PROJECT_DIR$/calculation/calculate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calculation/stool.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/crawler/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/crawler/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datakit/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/datakit/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datakit/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/datakit/data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datakit/stool.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/miscs/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/miscs/log.py" beforeDir="false" afterPath="$PROJECT_DIR$/utility/log.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/miscs/mail.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/miscs/timer.py" beforeDir="false" afterPath="$PROJECT_DIR$/utility/timer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spy/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spy/spy.py" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/monitor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stool.log" beforeDir="false" afterPath="$PROJECT_DIR$/stool.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stool.py" beforeDir="false" afterPath="$PROJECT_DIR$/stool.py" afterDir="false" />
+    <list default="true" id="cd47718d-a71c-4ab2-8b8c-22f5b0d7f2e6" name="Default" comment="update.">
+      <change beforePath="$PROJECT_DIR$/utility/task.py" beforeDir="false" afterPath="$PROJECT_DIR$/utility/task.py" afterDir="false" />
     </list>
+    <ignored mask="*.html" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -108,8 +89,8 @@
           <file leaf-file-name="task.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/utility/task.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="209">
-                  <caret line="11" column="23" lean-forward="true" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
+                <state relative-caret-position="494">
+                  <caret line="26" column="12" selection-start-line="26" selection-start-column="12" selection-end-line="26" selection-end-column="12" />
                   <folding>
                     <element signature="e#0#21#0" expanded="true" />
                   </folding>
@@ -231,9 +212,9 @@
         <option value="$PROJECT_DIR$/miscs/mail.py" />
         <option value="$PROJECT_DIR$/monitor/monitor.py" />
         <option value="$PROJECT_DIR$/miscs/misc.py" />
-        <option value="$PROJECT_DIR$/utility/task.py" />
         <option value="$PROJECT_DIR$/utility/__init__.py" />
         <option value="$PROJECT_DIR$/utility/misc.py" />
+        <option value="$PROJECT_DIR$/utility/task.py" />
       </list>
     </option>
   </component>
@@ -437,6 +418,14 @@
       <option name="presentableId" value="Default" />
       <updated>1530768652637</updated>
     </task>
+    <task id="LOCAL-00001" summary="update.">
+      <created>1536218119641</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1536218119641</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -447,22 +436,32 @@
       <configuration name="py.test in timer.py" configurationId="tests" />
     </history-entry>
   </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32911393" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" x="0" y="0" width="434" height="856" id="Documentation" order="6" side_tool="true" weight="0.32995737" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info active="true" anchor="bottom" id="Version Control" order="7" visible="true" weight="0.32911393" />
-      <window_info anchor="bottom" id="Python Console" order="7" />
+      <window_info anchor="bottom" id="Python Console" order="7" weight="0.32911393" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.114605546" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49842766" visible="true" weight="0.114605546" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32911393" />
       <window_info anchor="right" id="SciView" order="4" weight="0.32995737" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Structure" order="1" sideWeight="0.5015723" side_tool="true" weight="0.114605546" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -488,8 +487,38 @@
       </list>
     </option>
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="update." />
+    <option name="LAST_COMMIT_MESSAGE" value="update." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1023,22 +1052,22 @@ Name: code, Length: 3464, dtype: object</expression-string>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utility/task.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="11" column="23" lean-forward="true" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/utility/misc.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="114">
           <caret line="6" column="13" lean-forward="true" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
           <folding>
             <element signature="e#0#17#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utility/task.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="26" column="12" selection-start-line="26" selection-start-column="12" selection-end-line="26" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
           </folding>
         </state>
       </provider>
