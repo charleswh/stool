@@ -39,3 +39,142 @@
 2018-07-09 10:35:42,316 INFO     : Run time of Get info data...: 10.230 seconds.
 2018-07-09 10:36:37,288 INFO     : Run time of Get info data...: 10.018 seconds.
 2018-07-09 10:37:06,794 INFO     : Run time of Get info data...: 9.572 seconds.
+2018-07-10 10:12:14,052 INFO     : Run time of Get info data...: 0.195 seconds.
+2018-07-10 10:12:18,304 INFO     : Run time of Prepare multiprocess pool: 4.241 seconds.
+2018-07-25 17:07:32,202 INFO     : Run time of Get info data...: 7.704 seconds.
+2018-07-25 17:07:36,832 INFO     : Run time of Prepare multiprocess pool: 4.619 seconds.
+2018-07-25 17:26:05,562 INFO     : Run time of Get info data...: 3.080 seconds.
+2018-07-25 17:26:09,826 INFO     : Run time of Prepare multiprocess pool: 4.258 seconds.
+2018-07-25 17:32:11,538 INFO     : [down_trade_data] run time is 0.4229 seconds.
+2018-07-26 16:16:49,540 INFO     : Run time of Get info data...: 0.854 seconds.
+2018-07-26 17:15:33,742 INFO     : Run time of Get info data...: 14.031 seconds.
+2018-07-26 17:15:38,596 INFO     : Run time of Prepare multiprocess pool: 4.842 seconds.
+2018-07-26 17:19:40,276 INFO     : Run time of Get info data...: 7.734 seconds.
+2018-07-26 17:20:22,682 INFO     : Run time of Prepare multiprocess pool: 42.392 seconds.
+2018-08-02 17:35:50,486 INFO     : Run time of Get info data...: 0.643 seconds.
+2018-08-02 17:35:55,389 INFO     : Run time of Prepare multiprocess pool: 4.894 seconds.
+2018-08-02 17:42:48,988 INFO     : [down_trade_data] run time is 0.0010 seconds.
+2018-08-02 17:44:55,639 INFO     : Run time of Get info data...: 0.837 seconds.
+2018-08-02 17:45:00,320 INFO     : Run time of Prepare multiprocess pool: 4.674 seconds.
+2018-08-02 17:45:18,797 INFO     : Run time of Get info data...: 0.397 seconds.
+2018-08-02 17:45:58,962 INFO     : Run time of Get info data...: 0.664 seconds.
+2018-08-02 17:46:51,861 INFO     : Run time of Get info data...: 0.695 seconds.
+2018-08-02 17:47:03,879 INFO     : Run time of Get info data...: 0.448 seconds.
+2018-08-02 17:47:46,844 INFO     : Run time of Get info data...: 0.493 seconds.
+2018-08-02 17:48:03,323 INFO     : Run time of Get info data...: 1.401 seconds.
+2018-08-02 17:48:16,109 INFO     : Run time of Get info data...: 0.374 seconds.
+2018-08-02 17:50:50,387 INFO     : Run time of Get info data...: 1.647 seconds.
+2018-08-02 17:51:44,122 INFO     : Run time of Get info data...: 0.503 seconds.
+2018-08-02 17:51:54,905 INFO     : Run time of Get info data...: 0.401 seconds.
+2018-08-02 17:52:01,907 INFO     : Run time of Get info data...: 0.336 seconds.
+2018-08-02 17:52:31,708 INFO     : Run time of Get info data...: 0.889 seconds.
+2018-08-02 18:16:23,723 INFO     : Run time of Get info data...: 0.376 seconds.
+2018-08-02 18:17:20,258 INFO     : Run time of Get info data...: 0.493 seconds.
+2018-08-02 18:18:36,959 INFO     : Run time of Get info data...: 0.654 seconds.
+2018-08-02 18:19:28,598 INFO     : Run time of Get info data...: 3.153 seconds.
+2018-08-02 18:19:48,285 INFO     : Run time of Get info data...: 2.918 seconds.
+2018-08-02 18:20:47,260 INFO     : Run time of Get info data...: 0.709 seconds.
+2018-08-02 18:20:59,684 INFO     : Run time of Get info data...: 2.505 seconds.
+2018-08-02 18:24:03,679 INFO     : Run time of Get info data...: 0.660 seconds.
+2018-08-02 18:24:26,957 INFO     : Run time of Get info data...: 0.369 seconds.
+2018-08-02 18:25:47,475 INFO     : Run time of Get info data...: 0.381 seconds.
+2018-08-02 18:27:05,200 INFO     : Run time of Get info data...: 1.121 seconds.
+2018-08-02 18:27:27,255 INFO     : Run time of Get info data...: 0.404 seconds.
+2018-08-02 18:27:58,448 INFO     : Run time of Get info data...: 0.343 seconds.
+2018-08-02 18:28:53,012 INFO     : [update_local_database] run time is 54.9067 seconds.
+2018-08-02 18:30:01,312 INFO     : Run time of Get info data...: 0.577 seconds.
+2018-08-02 18:31:04,709 INFO     : Run time of Get info data...: 0.535 seconds.
+2018-08-02 18:32:03,094 INFO     : Run time of Get info data...: 0.405 seconds.
+2018-08-02 18:32:52,325 INFO     : Run time of Get info data...: 0.229 seconds.
+2018-08-02 18:34:00,251 INFO     : Run time of Get info data...: 0.214 seconds.
+2018-08-02 18:34:22,017 INFO     : Run time of Get info data...: 0.813 seconds.
+2018-08-02 18:35:15,402 INFO     : [update_local_database] run time is 54.1981 seconds.
+2018-08-02 22:38:31,800 INFO     : Run time of Get info data...: 0.382 seconds.
+2018-08-02 22:44:13,013 INFO     : Run time of Get info data...: 0.816 seconds.
+2018-08-02 22:50:22,557 INFO     : [down_trade_data] run time is 0.0000 seconds.
+2018-08-02 22:50:23,029 INFO     : [update_local_database] run time is 370.8327 seconds.
+2018-08-02 22:55:19,857 INFO     : Run time of Get info data...: 0.349 seconds.
+2018-08-02 22:55:23,608 INFO     : Run time of test: 3.537 seconds.
+2018-08-02 22:56:26,135 INFO     : Run time of Get info data...: 0.183 seconds.
+2018-08-02 22:56:33,879 INFO     : Run time of test: 6.398 seconds.
+2018-08-02 22:57:33,903 INFO     : Run time of Get info data...: 0.265 seconds.
+2018-08-02 23:01:19,093 INFO     : Run time of test: 224.210 seconds.
+2018-08-02 23:01:49,067 INFO     : Run time of Get info data...: 0.202 seconds.
+2018-08-02 23:05:43,489 INFO     : Run time of test: 233.934 seconds.
+2018-08-02 23:06:20,306 INFO     : Run time of Get info data...: 0.329 seconds.
+2018-08-03 16:22:49,423 INFO     : Backup TDX customer data...
+2018-08-03 17:26:58,944 INFO     : Backup TDX customer data...
+2018-08-03 17:27:18,542 INFO     : Backup TDX customer data...
+2018-08-03 17:39:36,266 INFO     : Backup TDX customer data...
+2018-08-06 16:07:39,651 INFO     : Run time of Get info data...: 3.526 seconds.
+2018-08-06 16:07:44,659 INFO     : Run time of test: 0.139 seconds.
+2018-08-06 16:09:59,236 INFO     : Run time of Get info data...: 0.647 seconds.
+2018-08-06 16:11:18,014 INFO     : Run time of Get info data...: 0.943 seconds.
+2018-08-06 16:12:41,366 INFO     : Run time of Get info data...: 1.050 seconds.
+2018-08-06 16:13:15,019 INFO     : Run time of Get info data...: 0.555 seconds.
+2018-08-06 16:14:01,733 INFO     : Run time of Get info data...: 1.848 seconds.
+2018-08-06 16:17:38,132 INFO     : Run time of Get info data...: 6.198 seconds.
+2018-08-06 16:17:38,141 ERROR    : No local data file: d:\WorkSpace\python_ws\stool\datakit\data_csv\day_601606.csv!
+2018-08-06 16:17:57,275 INFO     : Run time of Get info data...: 4.466 seconds.
+2018-08-06 16:28:52,012 INFO     : Run time of Get info data...: 0.599 seconds.
+2018-08-06 16:33:37,413 INFO     : Run time of test: 280.774 seconds.
+2018-08-06 16:35:00,486 INFO     : [down_trade_data] run time is 0.0090 seconds.
+2018-08-06 16:36:35,824 INFO     : Run time of Get info data...: 1.692 seconds.
+2018-08-06 16:39:45,681 INFO     : Run time of Get info data...: 2.123 seconds.
+2018-08-06 16:42:08,045 INFO     : Run time of Get info data...: 1.884 seconds.
+2018-08-06 16:43:42,429 INFO     : Run time of Get info data...: 3.441 seconds.
+2018-08-06 16:44:30,974 INFO     : [update_local_database] run time is 51.9870 seconds.
+2018-08-10 10:37:41,067 INFO     : Run time of Get info data...: 4.195 seconds.
+2018-08-10 10:47:59,008 INFO     : Run time of aa: 4.227 seconds.
+2018-08-10 10:50:28,256 INFO     : Run time of aa: 1.181 seconds.
+2018-08-13 16:49:41,709 INFO     : No local info file: D:\WorkSpace\python_ws\stool\datakit\info.csv, get all codes online.
+2018-08-13 16:50:01,953 INFO     : Run time of aa: 20.721 seconds.
+2018-08-13 16:50:25,551 INFO     : No local info file: D:\WorkSpace\python_ws\stool\datakit\info.csv, get all codes online.
+2018-08-13 16:51:40,816 INFO     : No local info file: D:\WorkSpace\python_ws\stool\datakit\info.csv, get all codes online.
+2018-08-13 16:55:29,012 INFO     : Run time of test: 180.449 seconds.
+2018-08-13 16:55:29,014 INFO     : Run time of aa: 228.198 seconds.
+2018-08-13 16:58:38,068 INFO     : No local info file: D:\WorkSpace\python_ws\stool\datakit\info.csv, get all codes online.
+2018-08-13 17:00:00,633 INFO     : Run time of test: 63.764 seconds.
+2018-08-13 17:00:00,634 INFO     : Run time of aa: 82.567 seconds.
+2018-08-13 17:00:34,048 INFO     : No local info file: D:\WorkSpace\python_ws\stool\datakit\info.csv, get all codes online.
+2018-08-13 17:01:31,629 INFO     : Run time of test: 37.056 seconds.
+2018-08-13 17:01:31,630 INFO     : Run time of aa: 57.583 seconds.
+2018-08-13 17:02:41,356 INFO     : No local info file: D:\WorkSpace\python_ws\stool\datakit\info.csv, get all codes online.
+2018-08-13 17:03:12,382 INFO     : Run time of test: 16.054 seconds.
+2018-08-13 17:04:51,294 INFO     : No local info file: D:\WorkSpace\python_ws\stool\datakit\info.csv, get all codes online.
+2018-08-13 17:05:38,736 INFO     : Run time of test: 24.014 seconds.
+2018-08-13 18:01:44,949 INFO     : Run time of Get info data...: 2.136 seconds.
+2018-08-13 18:02:00,215 INFO     : Run time of Get info data...: 0.401 seconds.
+2018-08-13 18:06:39,370 INFO     : Run time of test: 273.746 seconds.
+2018-08-13 18:07:16,210 INFO     : Run time of Get info data...: 0.522 seconds.
+2018-08-13 18:07:16,623 INFO     : Run time of Initial task pool of 32 workers: 0.406 seconds.
+2018-08-13 18:11:37,291 INFO     : Run time of test: 256.254 seconds.
+2018-08-13 18:13:16,277 INFO     : [down_trade_data] run time is 0.0000 seconds.
+2018-08-13 18:14:19,260 INFO     : [update_local_database] run time is 423.5728 seconds.
+2018-08-14 10:44:02,665 INFO     : Run time of test: 1.141 seconds.
+2018-08-14 10:45:38,663 INFO     : Run time of test: 9.458 seconds.
+2018-08-14 10:48:58,507 INFO     : Run time of Get info data...: 0.875 seconds.
+2018-08-14 10:48:59,184 INFO     : Run time of manager: 0.670 seconds.
+2018-08-14 10:48:59,394 INFO     : Run time of Initial task pool of 32 workers: 0.210 seconds.
+2018-08-14 10:49:43,525 INFO     : Run time of Get info data...: 0.231 seconds.
+2018-08-14 10:49:43,736 INFO     : Run time of Initial task pool of 32 workers: 0.206 seconds.
+2018-08-14 10:49:48,252 INFO     : Run time of manager: 4.442 seconds.
+2018-08-14 10:55:05,218 INFO     : Run time of Get info data...: 0.896 seconds.
+2018-08-14 10:55:05,911 INFO     : Run time of manager: 0.684 seconds.
+2018-08-14 10:55:06,245 INFO     : Run time of Initial task pool of 33 workers: 0.334 seconds.
+2018-08-16 15:51:13,941 INFO     : Run time of Initial task pool of 33 workers: 0.185 seconds.
+2018-08-21 11:13:27,307 INFO     : [test] run time is 1.0007 seconds.
+2018-08-21 11:14:15,646 INFO     : [test] run time is 1.0014 seconds.
+2018-08-21 11:33:54,412 INFO     : [test] run time is 4.0438 seconds.
+2018-08-21 11:34:02,996 INFO     : [test] run time is 1.0007 seconds.
+2018-08-21 16:41:46,308 INFO     : [multi_task] run time is 149.4195 seconds.
+2018-08-21 16:46:16,347 INFO     : [multi_task] run time is 63.9777 seconds.
+2018-08-21 16:48:55,400 INFO     : [multi_task] run time is 36.3199 seconds.
+2018-08-21 17:04:02,678 INFO     : [multi_task] run time is 19.2354 seconds.
+2018-08-21 17:06:44,962 INFO     : [multi_task] run time is 25.9028 seconds.
+2018-08-21 17:11:30,693 INFO     : [multi_task] run time is 27.2025 seconds.
+2018-08-21 17:21:35,256 INFO     : [multi_task] run time is 9.2285 seconds.
+2018-08-21 17:22:36,152 INFO     : [multi_task] run time is 14.2746 seconds.
+2018-08-21 17:22:43,773 INFO     : [multi_task] run time is 7.6208 seconds.
+2018-08-21 17:22:43,775 INFO     : [down_trade_data] run time is 0.0013 seconds.
+2018-08-21 17:22:43,786 INFO     : [update_local_database] run time is 25.5711 seconds.

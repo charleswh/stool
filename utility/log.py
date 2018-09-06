@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 import logging
 import sys
+import os
 
 log = logging.getLogger('STOOL')
 formatter = logging.Formatter('%(asctime)s %(levelname)-8s : %(message)s')
 
-file_handler = logging.FileHandler('stool.log')
+path = os.path.dirname(os.path.realpath(__file__))[0:-5]
+path = os.path.join(path, 'stool.log')
+file_handler = logging.FileHandler(path)
 file_handler.setFormatter(formatter)
 
 console_handler = logging.StreamHandler(sys.stdout)
