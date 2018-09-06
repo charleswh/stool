@@ -1,4 +1,4 @@
 *.csv
 *.html
 *.pyc
-workspace.xml
+.idea
