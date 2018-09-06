@@ -76,6 +76,8 @@ def zt_reason_filter(tag):
 
 
 def download_tips_worker(code):
+    import random
+    sleep(random.randint(0, 7) * 0.1)
     info_dict = {}
     info_dict['code'] = code
     url = THS_F10_URL.format(code)
@@ -129,25 +131,33 @@ def download_stock_tips_m(codes):
 
 
 def download_stock_tips(codes):
+    codes = codes
     import random
     if not os.path.exists(TIP_FOLDER):
         os.mkdir(TIP_FOLDER)
-    results = []
-    from tqdm import tqdm
-    counter = 0
-    for code in tqdm(codes, ascii=True):
-        aa = download_tips_worker(code)
-        results.append(aa)
-        sleep(random.randint(0, 6) * 0.1)
-        if counter == 150:
-            counter = 0
-            sleep(2)
-        else:
-            counter += 1
 
+    var = 0
+    mt = MultiTasks()
+    if var:
+        sub_size = int((len(codes) + 2) / 2)
+        sub_code = [codes[i:i + sub_size] for i in range(0, len(codes), sub_size)]
+        results = mt.run_tasks(func=download_tips_worker, var_args=sub_code, en_bar=True, desc='Down-Tips')
+    else:
+        results = []
+        from tqdm import tqdm
+        counter = 0
+        for code in tqdm(codes, ascii=True):
+            aa = download_tips_worker(code)
+            results.append(aa)
+            sleep(random.randint(0, 6) * 0.1)
+            if counter == 150:
+                counter = 0
+                sleep(2)
+            else:
+                counter += 1
     sub_size = int((len(codes) + MAX_TASK_NUM) / MAX_TASK_NUM)
     sub_item = [results[i:i + sub_size] for i in range(0, len(results), sub_size)]
-    multi_task(func=save_tips_worker, var_args=sub_item, enable_bar=True, desc='Save-Tips')
+    mt.run_tasks(func=save_tips_worker, var_args=sub_item, en_bar=True, desc='Save-Tips')
 
 
 def update_tips(args):

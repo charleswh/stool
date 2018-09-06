@@ -4,12 +4,12 @@ import multiprocessing as mp
 from functools import reduce
 from utility.log import log
 from utility.timer import TimerCount, print_run_time
+import numpy as np
 
-# mp.cpu_count()
-MAX_TASK_NUM = 2
+
+MAX_TASK_NUM = mp.cpu_count() * 5
 OBJ = 0
 LIST = 1
-DICT = 2
 
 
 class MultiTasks(object):
@@ -49,18 +49,35 @@ class MultiTasks(object):
         if var is None or len(var) <= 0:
             log.error('Illegal <var> para in <packed_func>')
         fix_type = None if fix is None else \
-            LIST if isinstance(fix, list) else DICT if isinstance(fix, dict) else OBJ
+            LIST if isinstance(fix, list) else OBJ
+        var_type = None if var[0] is None else \
+            LIST if isinstance(var[0], list) or isinstance(var[0], np.ndarray) else OBJ
         ret_set = []
         for item in var:
             if fix is None:
-                ret = func(item)
+                if var_type == OBJ:
+                    ret = func(item)
+                elif var_type == LIST:
+                    ret = func(*item)
+                else:
+                    ret = None
             else:
                 if fix_type == OBJ:
-                    ret = func(item, fix)
+                    if var_type == OBJ:
+                        ret = func(item, fix)
+                    elif var_type == LIST:
+                        ret = func(fix, *item)
+                    else:
+                        ret = None
                 elif fix_type == LIST:
-                    ret = func(item, *fix)
+                    if var_type == OBJ:
+                        ret = func(item, *fix)
+                    elif var_type == LIST:
+                        ret = func(*item, *fix)
+                    else:
+                        ret = None
                 else:
-                    ret = func(item, **fix)
+                    ret = None
             if lock is not None and counter is not None:
                 with lock:
                     counter.value += 1

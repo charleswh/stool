@@ -9,17 +9,15 @@ def percision(x, p):
     return float('{:.0{}f}'.format(float(x), p))
 
 
-def ma(code, ktype, period):
+def ma(code, ktype='D', period=5):
     close_price = dk.read_local_data(code, ktype, 'close', period)
     close_price = close_price.sort_index(ascending=True)
     moving_average = close_price.rolling(window=period).mean()
     return moving_average.iloc[-1]
 
 
-def tor(para, ktype='D'):
-    c = para['code']
-    total_vol = para['outstanding']
-    current_vol = dk.read_local_data(c, ktype, 'volume', count=1).iloc[0]
+def tor(code, total_vol, ktype='D'):
+    current_vol = dk.read_local_data(code, ktype, 'volume', count=1).iloc[0]
     toa = current_vol / (total_vol * 10000)
     return percision(toa, 2)
 
@@ -38,7 +36,13 @@ def _zt_status(para):
     return c >= zt_price
 
 
-def zt(code, start_pos):
+def zt(code, start_pos=0):
+    """
+    cal zhang ting
+    :param code:
+    :param start_pos:
+    :return: zhang ting days
+    """
     check_window = dk.read_local_data(code, 'D', pos=start_pos,
                                      item='close', count=30).sort_index(ascending=False)
     check_window = check_window[check_window != 0]
@@ -56,7 +60,13 @@ def zt(code, start_pos):
         return 0
 
 
-def zb(code, start_pos):
+def zb(code, start_pos=0):
+    """
+    cal zha ban
+    :param code:
+    :param start_pos:
+    :return:
+    """
     close, pre_close = list(dk.read_local_data(code, 'D', item='close', pos=start_pos, count=2).iloc[:, 0])
     high = dk.read_local_data(code, 'D', 'high', pos=start_pos, count=1).iloc[0, 0]
     zt_price = percision(pre_close * 1.1, 2)
@@ -70,9 +80,13 @@ def tp(code, latest_trade_date):
     return date < trade_date
 
 
-def ltsz(para):
-    code = para['code']
-    total_vol = para['outstanding']
+def ltsz(code, total_vol):
+    """
+    cal liu tong shi zhi
+    :param code:
+    :param total_vol:
+    :return:
+    """
     close = dk.read_local_data(code, 'D', 'close', count=1).iloc[0]
     return percision(close * total_vol, 2)
 
