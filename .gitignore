@@ -2,3 +2,9 @@
 *.csv
 *.xml
 .idea/workspace.xml
+*.html
+.pytest_cache/v/cache/nodeids
+*.log
+*.pyc
+*.pyc
+*.pyc
