@@ -178,3 +178,37 @@
 2018-08-21 17:22:43,773 INFO     : [multi_task] run time is 7.6208 seconds.
 2018-08-21 17:22:43,775 INFO     : [down_trade_data] run time is 0.0013 seconds.
 2018-08-21 17:22:43,786 INFO     : [update_local_database] run time is 25.5711 seconds.
+2018-09-06 17:27:06,957 INFO     : [down_trade_data] run time is 0.0030 seconds.
+2018-09-06 17:27:19,130 INFO     : Run time of init: 9.705 seconds.
+2018-09-06 17:28:09,993 INFO     : Run time of Test of Download:: 192.582 seconds.
+2018-09-06 17:34:16,037 INFO     : [down_trade_data] run time is 0.0010 seconds.
+2018-09-06 17:34:41,209 INFO     : Run time of init: 10.552 seconds.
+2018-09-06 17:38:22,443 INFO     : Run time of Test of Download:: 263.338 seconds.
+2018-09-06 17:39:56,821 INFO     : [down_trade_data] run time is 0.0000 seconds.
+2018-09-06 17:40:00,875 INFO     : Run time of init: 4.054 seconds.
+2018-09-06 17:40:00,879 INFO     : Run time of Test of Download:: 14.936 seconds.
+2018-09-06 17:40:59,795 INFO     : [down_trade_data] run time is 0.0000 seconds.
+2018-09-06 17:41:03,709 INFO     : Run time of init: 3.914 seconds.
+2018-09-06 17:41:03,712 INFO     : Run time of Test of Download:: 20.809 seconds.
+2018-09-06 17:43:10,683 INFO     : [down_trade_data] run time is 0.0000 seconds.
+2018-09-06 17:43:14,543 INFO     : Run time of init: 3.858 seconds.
+2018-09-06 17:43:50,338 INFO     : Run time of Test of Download:: 59.103 seconds.
+2018-09-06 17:48:06,760 INFO     : Run time of Test of Download:: 28.765 seconds.
+2018-09-06 17:48:50,258 INFO     : [down_trade_data] run time is 0.0000 seconds.
+2018-09-06 17:48:54,037 INFO     : Run time of init: 3.778 seconds.
+2018-09-06 17:49:09,482 INFO     : Run time of Test of Download:: 48.468 seconds.
+2018-09-06 17:50:56,392 INFO     : [down_trade_data] run time is 0.0000 seconds.
+2018-09-06 17:51:00,221 INFO     : Run time of init: 3.828 seconds.
+2018-09-06 17:51:36,716 INFO     : Run time of Test of Download:: 56.779 seconds.
+2018-09-06 17:51:56,316 INFO     : [down_trade_data] run time is 0.0000 seconds.
+2018-09-06 17:52:00,135 INFO     : Run time of init: 3.819 seconds.
+2018-09-06 17:52:57,348 INFO     : [down_trade_data] run time is 0.0000 seconds.
+2018-09-06 17:55:03,313 INFO     : [down_trade_data] run time is 0.0010 seconds.
+2018-09-06 17:55:07,152 INFO     : Run time of init: 3.838 seconds.
+2018-09-06 17:56:27,884 INFO     : [down_trade_data] run time is 0.0000 seconds.
+2018-09-06 17:56:31,638 INFO     : Run time of init: 3.753 seconds.
+2018-09-06 17:58:28,550 INFO     : [down_trade_data] run time is 0.0000 seconds.
+2018-09-06 17:58:32,528 INFO     : Run time of init: 3.977 seconds.
+2018-09-06 18:00:33,299 INFO     : Run time of Test of Download:: 25.327 seconds.
+2018-09-06 18:00:52,552 INFO     : [down_trade_data] run time is 0.0010 seconds.
+2018-09-06 18:00:56,365 INFO     : Run time of init: 3.813 seconds.

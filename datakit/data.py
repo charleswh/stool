@@ -5,7 +5,6 @@ from utility import *
 import pandas as pd
 import numpy as np
 import os
-from tqdm import tqdm
 
 KTYPE = ['D', '60', '30', '15', '5']
 KSUB = {'D': 'day', '60': 'M60', '30': 'M30', '15': 'M15', '5': 'M5'}
@@ -139,54 +138,39 @@ def download_basic_worker(code):
     return ret
 
 
-def download_basic_data(codes):
-    sub_size = int((len(codes) + MAX_TASK_NUM) / MAX_TASK_NUM)
-    sub_code = [codes[i:i + sub_size] for i in range(0, len(codes), sub_size)]
-    results = multi_task(func=download_basic_worker, var_args=sub_code,
-                         enable_bar=True, desc='Down-Basic', merge_result=False)
-
-    multi_task(func=save_basic_worker, var_args=results, enable_bar=True, desc='Save-Basic')
-    down_trade_data('2018')
-
-
-def download_info_data(info):
-    # sub_size = int((info.shape[0] + MAX_TASK_NUM) / MAX_TASK_NUM)
-    # sub_item = [info['code'][i:i + sub_size] for i in range(0, info.shape[0], sub_size)]
-    # zt = multi_task(func=cal.zt, args=sub_item, desc='Cal-ZT')
-    from tqdm import tqdm
-    tqdm.pandas(desc='Cal ZhangTing', ascii=True)
-    zt = info['code'].progress_apply(cal.zt, args=[0]).rename('zt')
-    tqdm.pandas(desc='Cal ZhaBan', ascii=True)
-    zb = info['code'].progress_apply(cal.zb, args=[0]).rename('zb')
-    tqdm.pandas(desc='Cal TurnOverRatio', ascii=True)
-    tor = info.progress_apply(cal.tor, axis=1).rename('tor')
-    tqdm.pandas(desc='Cal PriceChangePercentage', ascii=True)
-    pcp = info['code'].progress_apply(cal.pcp).rename('pcp')
-    tqdm.pandas(desc='Cal CirculationMarketValue', ascii=True)
-    ltsz = info.progress_apply(cal.ltsz, axis=1).rename('ltsz')
-    updated_info = pd.concat([info, zt, zb, tor, pcp, ltsz], axis=1)
-    updated_info.to_csv(INFO_FILE, encoding='utf-8-sig')
-
-
 @print_run_time
 def update_local_database(mode):
     check_subdirs()
     info_data = down_info_data()
-    if mode == 'basic':
-        download_basic_data(sorted(info_data['code'])[:100])
-    elif mode == 'info':
-        download_info_data(info_data)
-    else:
-        download_basic_data(sorted(info_data['code']))
-        download_info_data(info_data)
-
-
-def make_lists():
-    # make current 'zhangting' list
-    # make pool list
-    pass
+    codes = list(info_data['code'])[:50]
+    down_trade_data('2018')
+    mt = MultiTasks()
+    sub_size = int((len(codes) + MAX_TASK_NUM) / MAX_TASK_NUM)
+    sub_code = [codes[i:i + sub_size] for i in range(0, len(codes), sub_size)]
+    if mode == 'basic' or mode == 'all':
+        basic = mt.run_tasks(func=download_basic_worker, var_args=sub_code,
+                             en_bar=True, desc='Down-Basic', merge_result=False)
+        mt.run_tasks(func=save_basic_worker, var_args=basic, en_bar=True, desc='Save-Basic')
+    elif mode == 'info' or mode == 'all':
+        # sub_size = int((info.shape[0] + MAX_TASK_NUM) / MAX_TASK_NUM)
+        # sub_item = [info['code'][i:i + sub_size] for i in range(0, info.shape[0], sub_size)]
+        # zt = multi_task(func=cal.zt, args=sub_item, desc='Cal-ZT')
+        from tqdm import tqdm
+        tqdm.pandas(desc='Cal ZhangTing', ascii=True)
+        zt = info_data['code'].progress_apply(cal.zt, args=[0]).rename('zt')
+        tqdm.pandas(desc='Cal ZhaBan', ascii=True)
+        zb = info_data['code'].progress_apply(cal.zb, args=[0]).rename('zb')
+        tqdm.pandas(desc='Cal TurnOverRatio', ascii=True)
+        tor = info_data.progress_apply(cal.tor, axis=1).rename('tor')
+        tqdm.pandas(desc='Cal PriceChangePercentage', ascii=True)
+        pcp = info_data['code'].progress_apply(cal.pcp).rename('pcp')
+        tqdm.pandas(desc='Cal CirculationMarketValue', ascii=True)
+        ltsz = info_data.progress_apply(cal.ltsz, axis=1).rename('ltsz')
+        updated_info = pd.concat([info_data, zt, zb, tor, pcp, ltsz], axis=1)
+        updated_info.to_csv(INFO_FILE, encoding='utf-8-sig')
+    mt.close_tasks()
 
 
 if __name__ == '__main__':
     with TimerCount('Test of Download:'):
-        update_local_database('info')
+        update_local_database('basic')
