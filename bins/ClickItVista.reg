@@ -1,0 +1,53 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Software\S3 Graphics\ClickIt Vista]
+"Author"="JoeyChai"
+"Date(Sumit)"="2007/6/28"
+"Version"="V 0.5"
+"CompanyName"="S3 Graphics(Shanghai)"
+"Started"=dword:00000001
+"Interval"=dword:00000001
+"ItemCount"=dword:0000000e
+"Enable0"=dword:00000000
+"WindowCaption0"="Player.exe"
+"ButtonCaption0"="&Don't Send"
+"Enable1"=dword:00000000
+"WindowCaption1"="Source Control"
+"ButtonCaption1"="OK"
+"Enable2"=dword:00000000
+"WindowCaption2"="Player10.exe"
+"ButtonCaption2"="&Don't Send"
+"Enable3"=dword:00000000
+"WindowCaption3"="Microsoft Visual C++ Runtime Library"
+"ButtonCaption3"="ÖÐÖ¹(&A)"
+"Enable4"=dword:00000000
+"WindowCaption4"="Player.exe - Application Error"
+"ButtonCaption4"="OK"
+"Enable5"=dword:00000000
+"WindowCaption5"="Player10.exe - Application Error"
+"ButtonCaption5"="OK"
+"Enable6"=dword:00000000
+"WindowCaption6"="Microsoft Visual C++ Debug Library"
+"ButtonCaption6"="ÖÐÖ¹(&A)"
+"Enable7"=dword:00000000
+"WindowCaption7"="Error"
+"ButtonCaption7"="OK"
+"Enable8"=dword:00000000
+"WindowCaption8"="Warning!"
+"ButtonCaption8"="&No"
+"Enable9"=dword:00000000
+"WindowCaption9"="Microsoft DirectX SDK (d3dx10.dll)"
+"ButtonCaption9"="OK"
+"Enable10"=dword:00000000
+"WindowCaption10"="Microsoft DirectX SDK (d3d10sdkLayers.dll)"
+"ButtonCaption10"="OK"
+"Enable11"=dword:00000000
+"WindowCaption11"="Visual Studio Just-In-Time Debugger"
+"ButtonCaption11"="&No"
+"Enable12"=dword:00000000
+"WindowCaption12"="Microsoft Development Environment"
+"ButtonCaption12"="OK"
+"Enable13"=dword:00000001
+"WindowCaption13"="Microsoft Windows"
+"ButtonCaption13"="Close program"
+
