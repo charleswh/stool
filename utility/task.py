@@ -7,7 +7,6 @@ from utility.timer import TimerCount, print_run_time
 
 MAX_TASK_NUM = mp.cpu_count() * 5
 
-
 def task_bar(c, q, d=None, bar_max=None):
     if bar_max is None:
         log.error('Wrong <bar max> para when doing <task_bar>')
