@@ -41,6 +41,9 @@ parser.add_argument('--recover_th0002',
 parser.add_argument('--update_tips',
                     nargs=3,
                     help='test function entry')
+parser.add_argument('--blakfp',
+                    action='store_true',
+                    help='download blakfp papers')
 parser.add_argument('--test',
                     action='store_true',
                     help='test function entry')
@@ -67,5 +70,7 @@ if __name__ == '__main__':
             recover_th0002(args.recover_dst_path)
         if args.update_tips is not None:
             update_tips(args.update_tips)
+        if args.blakfp is not None:
+            blakfp_entry()
         if args.test:
             mail_test()

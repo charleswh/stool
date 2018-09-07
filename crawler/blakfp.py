@@ -6,14 +6,16 @@ import os
 import http.cookiejar
 from urllib.request import HTTPCookieProcessor, build_opener, Request
 from urllib.parse import urlencode
+from urllib.error import URLError
 from crawler.html_parser import parser
 from crawler.output2docx import output2docx
 
 HOME_URL = r'https://www.taoguba.com.cn/moreTopic?userID=252069'
 HOST_URL = r'https://www.taoguba.com.cn/'
 LOGIN_URL = r'https://www.taoguba.com.cn/newLogin'
-COOKIE_FILE = 'cookie.txt'
-PAPER_FILE = 'paper.txt'
+COOKIE_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'cookie.txt')
+PAPER_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'paper.txt')
+PAPER_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'paper')
 
 
 def create_opener_online_save_cookie(login_url):
@@ -31,7 +33,7 @@ def create_opener_online_save_cookie(login_url):
 
     try:
         response = opener.open(request)
-    except urllib.error.URLError as err:
+    except URLError as err:
         print('Error code = ', err.code, ':', err.reason)
 
     print('Login and get cookie successfully.')
@@ -52,16 +54,17 @@ def create_opener_from_exist_cookie(cookie_file=None):
     print('Local cookie:')
     for item in cookie:
         print('Name: ', item.name, '\nValue: ', item.value)
-    handler = urllib.request.HTTPCookieProcessor(cookie)
-    opener = urllib.request.build_opener(handler)
+    handler = HTTPCookieProcessor(cookie)
+    opener = build_opener(handler)
     return opener
 
 
 def get_sync_list(home_url, opener):
-    request = urllib.request.Request(home_url)
+    request = Request(home_url)
+    response = None
     try:
         response = opener.open(request)
-    except urllib.error.URLError as err:
+    except URLError as err:
         print('Open page fail: ', home_url)
         print('Error code = ', err.code, ':', err.reason)
 
@@ -80,7 +83,7 @@ def get_sync_list(home_url, opener):
             tmp = 'pageNum=%d&pageNo=%d&sortFlag=T&' % (pageNum, i)
             url_next = ''.join(
                 [home_url[:home_url.find('?') + 1], tmp, home_url[home_url.find('?') + 1:]])
-            request = urllib.request.Request(url_next)
+            request = Request(url_next)
             response = opener.open(request)
             content = response.read().decode('utf-8')
             paper_list.extend(pat_paper.findall(content))
@@ -103,7 +106,7 @@ def get_sync_list(home_url, opener):
             tmp = 'pageNum=%d&pageNo=%d&sortFlag=T&' % (pageNum, i)
             url_next = ''.join(
                 [home_url[:home_url.find('?') + 1], tmp, home_url[home_url.find('?') + 1:]])
-            request = urllib.request.Request(url_next)
+            request = Request(url_next)
             response = opener.open(request)
             content = response.read().decode('utf-8')
             paper_list = pat_paper.findall(content)
@@ -125,7 +128,7 @@ def get_sync_list(home_url, opener):
     return paper_list
 
 
-def blakfp_main(argv=None):
+def blakfp_entry(argv=None):
     if not os.path.exists(COOKIE_FILE):
         print('No local cookie file, try to create...')
         opener = create_opener_online_save_cookie(LOGIN_URL)
@@ -143,7 +146,7 @@ def blakfp_main(argv=None):
     for paper in paper_list:
         print(paper, end='  ')
         paper_url = HOST_URL + paper
-        request = urllib.request.Request(paper_url)
+        request = Request(paper_url)
         html = opener.open(request).read().decode('utf-8')
         format_text = parser(html)
         filename = format_text.pop(0) + '.docx'
@@ -151,4 +154,4 @@ def blakfp_main(argv=None):
 
 
 if __name__ == '__main__':
-    blakfp_main()
+    blakfp_entry()

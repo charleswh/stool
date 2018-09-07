@@ -6,7 +6,7 @@ from docx.shared import RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
 import os
-
+from crawler.blakfp import PAPER_DIR
 
 def add_text(para, text, bold=False, color=None):
     if color != None and color[0:1] != '#':
@@ -93,11 +93,9 @@ def output2docx(text=None, docx_name=None, opener=None):
                         else:
                             add_text(docx_para, bot)
 
-    paperfolder = r'.\papers\\'
-    if not os.path.exists(paperfolder):
-        os.makedirs(paperfolder)
-
-    docx.save(paperfolder + docx_name)
+    if not os.path.exists(PAPER_DIR):
+        os.makedirs(PAPER_DIR)
+    docx.save(os.path.join(PAPER_DIR, docx_name))
     print('Write paper done.')
 
 
