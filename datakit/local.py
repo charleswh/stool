@@ -1,11 +1,15 @@
 # -*- coding:utf-8 -*-
+import re
+import os
+import pandas as pd
+import numpy as np
+import platform
+from bs4 import BeautifulSoup
+from urllib.request import Request, urlopen
 import analysis as cal
 import tushare as ts
 from utility import *
-import pandas as pd
-import numpy as np
-import os
-import platform
+
 
 KTYPE = ['D', '60', '30', '15', '5']
 KSUB = {'D': 'day', '60': 'M60', '30': 'M30', '15': 'M15', '5': 'M5'}
@@ -314,8 +318,8 @@ def update_local_database(mode):
         import random
         if not os.path.exists(TIP_FOLDER):
             os.mkdir(TIP_FOLDER)
-        var = 0
-        if var:
+        multi = 0
+        if multi:
             sub_size = int((len(codes) + 2) / 2)
             sub_code = [codes[i:i + sub_size] for i in range(0, len(codes), sub_size)]
             results = mt.run_tasks(func=download_tips_worker, var_args=sub_code,
