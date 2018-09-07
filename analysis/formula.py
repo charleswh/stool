@@ -110,8 +110,4 @@ def ta24(code, ktype='D'):
 
 
 if __name__ == '__main__':
-    # aa = ma('300139', 'D', 10)
-    # bb = tor('300139', 'D')
-    # cc = statistics(0)
-    ta24('603595', '60')
     pass

@@ -7,7 +7,7 @@ from crawler import *
 
 
 parser = argparse.ArgumentParser(description='Integrated share tool for NEIL',
-                    formatter_class=argparse.RawTextHelpFormatter)
+                                 formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument('-d',
                     type=str,
                     help='download share data by using TuShare and make local database(csv)\n'
@@ -69,10 +69,3 @@ if __name__ == '__main__':
             update_tips(args.update_tips)
         if args.test:
             mail_test()
-
-            # var = [[1, 2], [3, 4]]
-            # fix = {'c':16, 'd':23}
-            # test(*var[0], **fix)
-            # update_local_database('basic')
-            a = 0
-

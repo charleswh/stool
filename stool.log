@@ -328,3 +328,20 @@
 2018-09-06 23:43:23,922 INFO     : Run time of init: 1.816 seconds.
 2018-09-06 23:43:55,503 INFO     : Run time of init: 1.878 seconds.
 2018-09-06 23:44:23,077 INFO     : [run_tasks] run time is 0.0859 seconds.
+2018-09-07 15:28:08,896 INFO     : Run time of Test of Download:: 36.736 seconds.
+2018-09-07 15:29:55,878 INFO     : Run time of Test of Download:: 6.586 seconds.
+2018-09-07 15:30:14,999 INFO     : [update_local_database] run time is 5.9218 seconds.
+2018-09-07 15:30:15,000 INFO     : Run time of Test of Download:: 7.092 seconds.
+2018-09-07 15:32:06,289 INFO     : Run time of Test of Download:: 4.198 seconds.
+2018-09-07 15:32:53,241 INFO     : [update_local_database] run time is 0.8971 seconds.
+2018-09-07 15:32:53,242 INFO     : Run time of Test of Download:: 0.897 seconds.
+2018-09-07 15:33:42,139 INFO     : [update_local_database] run time is 4.8821 seconds.
+2018-09-07 15:33:46,852 INFO     : Run time of Test of Download:: 9.597 seconds.
+2018-09-07 15:38:00,176 INFO     : [update_local_database] run time is 33.1299 seconds.
+2018-09-07 15:38:00,177 INFO     : Run time of Test of Download:: 33.131 seconds.
+2018-09-07 15:39:08,313 INFO     : [update_local_database] run time is 54.6077 seconds.
+2018-09-07 15:39:08,313 INFO     : Run time of Test of Download:: 54.609 seconds.
+2018-09-07 15:39:28,112 INFO     : [update_local_database] run time is 0.8621 seconds.
+2018-09-07 15:39:28,112 INFO     : Run time of Test of Download:: 0.863 seconds.
+2018-09-07 15:40:59,463 INFO     : [update_local_database] run time is 5.5092 seconds.
+2018-09-07 15:40:59,464 INFO     : Run time of Test of Download:: 5.510 seconds.
