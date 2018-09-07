@@ -58,11 +58,7 @@ if __name__ == '__main__':
         parser.print_help()
     else:
         if args.down_mode is not None:
-            if args.down_mode == 'tips':
-                codes = get_all_codes()
-                download_stock_tips(codes)
-            else:
-                update_local_database(args.down_mode)
+            update_local_database(args.down_mode)
         if args.th0002_template is not None:
             make_list_of_th0002(args.th0002_template)
         if args.backup_src_path is not None:
