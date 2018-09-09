@@ -16,7 +16,7 @@ KSUB = {'D': 'day', '60': 'M60', '30': 'M30', '15': 'M15', '5': 'M5'}
 AA = ['day', 'M60', 'M30', 'M15', 'M5']
 # PERIORD_TAG = {'D': 'day', '60': 'min60', '30': 'min30', '15': 'min15', '5': 'min5'}
 FILE_ROOT = os.path.dirname(os.path.realpath(__file__))
-CSV_SUB = os.path.join(FILE_ROOT, 'data_csv')
+CSV_DIR = os.path.join(FILE_ROOT, 'data_csv')
 PERIORD_TAG = ['day', 'min60', 'min30', 'min15', 'min5']
 DATESTAMP_FILE = os.path.join(FILE_ROOT, 'data.datestamp')
 INFO_FILE = os.path.join(FILE_ROOT, 'info.csv')
@@ -68,24 +68,8 @@ USER_AGENTS = [
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
 ]
 TDX_ROOT = 'e:\\software\\zd_zsone' if platform.node() == 'NeilWang-L10' \
-    else 'o:\\workspace\\zd_zsone'
+    else 'o:\\Program Files\\zd_zsone'
 
-
-def read_local_data(code, ktype, item, pos=0, count=None):
-    file = os.path.join(CSV_SUB, '{}_{}.csv'.format(KSUB[ktype], code))
-    if not os.path.exists(file):
-        log.error('No local data file: {}!'.format(file))
-        assert 0
-    df = pd.read_csv(file,
-                     nrows=(count - pos) if count is not None else count,
-                     usecols=[item])
-    if pos != 0:
-        df.drop([abs(pos) - 1], inplace=True)
-    if count is not None and df.shape[0] < count:
-        df = pd.concat([df, pd.DataFrame(np.zeros((count - df.shape[0],
-                                                   df.shape[1])),
-                                         columns=df.columns)])
-    return df
 
 
 def get_local_info(code, item):
@@ -107,24 +91,13 @@ def get_all_codes():
     return ret
 
 
-def get_trade_date(start_year=None):
-    if not os.path.exists(TRADE_DATE_FILE):
-        df = ts.trade_cal()
-        df = df[df['isOpen'] == 1]
-        df.to_csv(TRADE_DATE_FILE, encoding='utf-8-sig')
-    else:
-        df = pd.read_csv(TRADE_DATE_FILE)
-    if start_year is not None:
-        df = df[df['calendarDate'].str.find(start_year) == 0]
-    return df
-
-
-def down_trade_data(start_year=None):
+def download_trade_data(start_year=None):
     if not os.path.exists(TRADE_DATE_FILE):
         df = ts.trade_cal()
         df = df[df['isOpen'] == 1]
         df = df[df['calendarDate'].str.find(start_year) == 0]
-        df.to_csv(TRADE_DATE_FILE, encoding='utf-8-sig')
+        df.to_csv(TRADE_DATE_FILE, columns=['calendarDate'], header=False, index=False,
+                  encoding='utf-8-sig')
     else:
         pass
 
@@ -209,7 +182,7 @@ def save_basic_worker(stock):
     # write with csv format
     for code in stock:
         for i in range(5):
-            file_name = '{}\\{}_{}.csv'.format(CSV_SUB, PERIORD_TAG[i], code)
+            file_name = '{}\\{}_{}.csv'.format(CSV_DIR, PERIORD_TAG[i], code)
             stock[code][i].sort_index(ascending=False).to_csv(file_name, index=False)
     # # write with csv format
     # hdf = pd.HDFStore(HDF_FILE)
@@ -242,7 +215,7 @@ def zt_reason_filter(tag):
 
 def download_tips_worker(code):
     import random
-    sleep(random.randint(0, 7) * 0.1)
+    sleep(random.randint(0, 4) * 0.1)
     info_dict = {}
     info_dict['code'] = code
     url = THS_F10_URL.format(code)
@@ -260,7 +233,11 @@ def download_tips_worker(code):
                 info_dict.setdefault('concept', []).append(tag.text)
     find_res = soup.find_all(zt_reason_filter)
     if len(find_res) != 0:
-        info_dict.setdefault('zhangting', []).append(find_res[0].td.text)
+        if '今天' in find_res[0].td.text:
+            date_str = time_str(fine=False)
+        else:
+            date_str = find_res[0].td.text
+        info_dict.setdefault('zhangting', []).append(date_str)
         tmp = re.search(r'(\d+:\d+).*：(.*).*', find_res[0].span.text.strip())
         if tmp:
             info_dict.setdefault('zhangting', []).extend(tmp.groups())
@@ -272,7 +249,7 @@ def save_tips_worker(item):
     file = TIP_FILE.format(item['code'])
     yw = item['business'] if 'business' in item.keys() else '--'
     tc = ', '.join(item['concept']) if 'concept' in item.keys() else '--'
-    zt = ' : '.join(item['zhangting'][:3]) if 'zhangting' in item.keys() else '--'
+    zt = ', '.join(item['zhangting'][:3]) if 'zhangting' in item.keys() else '--'
     ztyy = item['zhangting'][3] if 'zhangting' in item.keys() else '--'
     content = '<head><meta http-equiv="Content-Type" content="text/html; charset=gbk" /></head>\n' \
               '<body bgcolor="#070608"></body>\n' \
@@ -284,11 +261,11 @@ def save_tips_worker(item):
 
 @print_run_time
 def update_local_database(mode):
-    if not os.path.exists(CSV_SUB):
-        os.mkdir(CSV_SUB)
+    if not os.path.exists(CSV_DIR):
+        os.mkdir(CSV_DIR)
     info_data = down_info_data()
     codes = list(info_data['code'])
-    down_trade_data('2018')
+    download_trade_data('2018')
     mt = MultiTasks()
     if mode == 'basic' or mode == 'all':
         sub_size = int((len(codes) + MAX_TASK_NUM) / MAX_TASK_NUM)
@@ -345,9 +322,7 @@ def update_local_database(mode):
     mt.close_tasks()
 
 
-def sasadf(a, b):
-    asdfasdf = 0
-
 if __name__ == '__main__':
-    with TimerCount('Test of Download'):
-        update_local_database('tips')
+    save_tips_worker(download_tips_worker('300071'))
+    # with TimerCount('Test of Download'):
+    #     update_local_database('tips')

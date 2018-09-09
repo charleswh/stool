@@ -51,8 +51,11 @@ def add_one_day(date):
     return ds
 
 
-def time_str():
-    return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+def time_str(fine=True):
+    if fine:
+        return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+    else:
+        return time.strftime('%Y-%m-%d', time.localtime())
 
 
 def sleep(secs):

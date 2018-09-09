@@ -6,7 +6,7 @@ from docx.shared import RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
 import os
-from crawler.blakfp import PAPER_DIR
+PAPER_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'paper')
 
 def add_text(para, text, bold=False, color=None):
     if color != None and color[0:1] != '#':

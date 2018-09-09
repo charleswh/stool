@@ -1,6 +1,7 @@
 import datakit as dk
 import datetime
 import pandas as pd
+import numpy as np
 from tqdm import tqdm
 import tushare as ts
 
@@ -9,11 +10,12 @@ def percision(x, p):
     return float('{:.0{}f}'.format(float(x), p))
 
 
-def ma(code, ktype='D', period=5):
-    close_price = dk.read_local_data(code, ktype, 'close', period)
+def ma(code, ktype:str='D', period:int=5):
+    close_price = dk.read_local_data(code, ktype, item='close', count=60)
     close_price = close_price.sort_index(ascending=True)
-    moving_average = close_price.rolling(window=period).mean()
-    return moving_average.iloc[-1]
+    moving_average = close_price.rolling(window=period).mean().dropna(axis=0)
+    return moving_average.iloc[:, 0].apply(percision, **{'p': 2}).values.reshape(moving_average.shape)
+    #return percision(moving_average.iloc[0], 2)
 
 
 def tor(code, total_vol, ktype='D'):
@@ -108,6 +110,13 @@ def ta24(code, ktype='D'):
     ma24 = data.loc['close'].rolling(window=24).mean()
 
 
+def cross(a:np.ndarray, b:np.ndarray):
+    min_length = min(a.shape[0], b.shape[0])
+    c = a > b
+    dbg = 0
+
 
 if __name__ == '__main__':
-    pass
+    ma24 = ma('300071', period=24)
+    l = dk.read_local_data('300071', item='low', count=60)
+    cross(l.values, ma24)

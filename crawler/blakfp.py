@@ -15,7 +15,6 @@ HOST_URL = r'https://www.taoguba.com.cn/'
 LOGIN_URL = r'https://www.taoguba.com.cn/newLogin'
 COOKIE_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'cookie.txt')
 PAPER_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'paper.txt')
-PAPER_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'paper')
 
 
 def create_opener_online_save_cookie(login_url):

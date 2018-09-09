@@ -358,3 +358,17 @@
 2018-09-07 21:06:14,320 INFO     : [run_tasks] run time is 4.9513 seconds.
 2018-09-07 21:06:16,186 INFO     : [update_local_database] run time is 175.1916 seconds.
 2018-09-07 22:29:16,365 INFO     : [run_tasks] run time is 2.1248 seconds.
+2018-09-07 23:44:50,902 INFO     : [down_info_data] run time is 2.0016 seconds.
+2018-09-07 23:44:52,575 INFO     : Run time of init: 1.673 seconds.
+2018-09-07 23:45:26,443 INFO     : [down_info_data] run time is 1.6362 seconds.
+2018-09-07 23:45:28,058 INFO     : Run time of init: 1.615 seconds.
+2018-09-07 23:45:58,396 INFO     : [down_info_data] run time is 1.9877 seconds.
+2018-09-07 23:46:00,111 INFO     : Run time of init: 1.714 seconds.
+2018-09-07 23:46:27,229 INFO     : [down_info_data] run time is 3.5902 seconds.
+2018-09-07 23:46:29,001 INFO     : Run time of init: 1.770 seconds.
+2018-09-08 00:46:10,405 INFO     : [run_tasks] run time is 1.2078 seconds.
+2018-09-08 00:46:13,884 INFO     : [copy_diff_tips] run time is 3.4787 seconds.
+2018-09-08 00:46:15,125 INFO     : [update_local_database] run time is 3591.4862 seconds.
+2018-09-08 13:31:33,428 ERROR    : No local data file: O:\workspace\stool\datakit\data_csv\M60_601330.csv!
+2018-09-08 22:20:13,636 ERROR    : No local data file: o:\WorkSpace\stool\datakit\data_csv\day_30023.csv!
+2018-09-09 23:14:57,813 INFO     : Successfully import tdx list
