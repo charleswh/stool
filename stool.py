@@ -70,7 +70,7 @@ if __name__ == '__main__':
             recover_th0002(args.recover_dst_path)
         if args.update_tips is not None:
             update_tips(args.update_tips)
-        if args.blakfp is not None:
+        if args.blakfp is True:
             blakfp_entry()
         if args.test:
             mail_test()
