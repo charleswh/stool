@@ -63,7 +63,7 @@ def simple_ts24_monitor():
     res = list(map(lambda x:int(''.join(list(map(str, x))), 2), res))
     res = dict(zip(code_list, res))
     print(res)
-    return resk
+    return res
 
 
 if __name__ == '__main__':
