@@ -2,7 +2,6 @@
 import time
 import datetime
 import functools
-import cProfile
 from .log import log
 
 

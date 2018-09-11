@@ -1,4 +1,3 @@
-import tushare as ts
 import os
 import pandas as pd
 import numpy as np
@@ -9,14 +8,12 @@ from datakit import *
 CSV_PREFIX = dict(zip(KTYPE, PERIORD_TAG))
 
 
-def read_trade_date(start_year=None):
+def read_trade_date():
     df = None
     if not os.path.exists(TRADE_DATE_FILE):
-        download_trade_data(start_year)
+        download_trade_data()
     else:
         df = pd.read_csv(TRADE_DATE_FILE, header=None)
-    if start_year is not None:
-        df = df[df.iloc[:, 0].str.find(start_year) == 0]
     return df.values
 
 

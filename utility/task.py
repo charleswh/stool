@@ -3,7 +3,7 @@ import ctypes
 import multiprocessing as mp
 from functools import reduce
 from utility.log import log
-from utility.timer import TimerCount, print_run_time
+from utility.timekit import TimerCount, print_run_time
 import numpy as np
 
 

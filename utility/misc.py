@@ -1,5 +1,5 @@
 import subprocess
-from utility.timer import time_str
+from utility.timekit import time_str
 from utility.log import log
 from utility.mail import py_send
 from glob import glob

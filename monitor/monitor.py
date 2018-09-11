@@ -1,10 +1,13 @@
-import pandas as pd
 import tushare as ts
 import os
 from datakit.local import TDX_ROOT
 from glob import glob
 from utility import *
 from analysis import *
+from datakit import *
+import datetime
+import time
+from apscheduler.schedulers.background import BackgroundScheduler
 
 FILE_ROOT = os.path.dirname(os.path.realpath(__file__))
 TDX_IMPORT_LIST = os.path.join(FILE_ROOT, 'tdx.txt')
@@ -66,7 +69,42 @@ def simple_ts24_monitor():
     return res
 
 
+def check_trade_time() -> bool:
+    trade_date = read_trade_date()
+    cur_date = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d')
+    if cur_date not in trade_date:
+        return False
+    else:
+        cur_time = datetime.datetime.strftime(datetime.datetime.now(), '%H:%M:%S')
+        if ('11:30:00' > cur_time > '9:30:00') or \
+                ('15:00:00' > cur_time > '13:00:00'):
+            return True
+        else:
+            return False
+
+
+def my_job():
+    print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+
+
+def monitor_main():
+    aa = check_trade_time()
+    mode = {'apscheduler.executors.processpool':
+                {'type': 'processpool', 'max_workers': '2'}}
+    scheduler = BackgroundScheduler(mode)
+    scheduler.add_job(my_job, 'cron', second='*/5')
+    scheduler.add_job(my_job, 'cron', second='*/3')
+    scheduler.start()
+
+    print('Press ctrl+{} to exit monitor.'.format('Break' if os.name == 'nt' else 'C'))
+    try:
+        while True:
+            sleep(1)
+    except (KeyboardInterrupt, SystemExit):
+        scheduler.shutdown()
+
+
 if __name__ == '__main__':
     #simple_cal_one('300106', ktype='30')
-    simple_ts24_monitor()
-
+    # simple_ts24_monitor()
+    monitor_main()

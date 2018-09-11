@@ -91,11 +91,10 @@ def get_all_codes():
     return ret
 
 
-def download_trade_data(start_year=None):
+def download_trade_data():
     if not os.path.exists(TRADE_DATE_FILE):
         df = ts.trade_cal()
         df = df[df['isOpen'] == 1]
-        df = df[df['calendarDate'].str.find(start_year) == 0]
         df.to_csv(TRADE_DATE_FILE, columns=['calendarDate'], header=False, index=False,
                   encoding='utf-8-sig')
     else:
