@@ -380,3 +380,30 @@
 2018-09-10 00:14:10,754 INFO     : Login email server with user charles_wh@outlook.com
 2018-09-10 00:14:17,015 INFO     : Sending mail...
 2018-09-10 00:14:17,283 INFO     : Success!
+2018-09-10 20:54:55,228 INFO     : [down_info_data] run time is 0.8395 seconds.
+2018-09-10 20:54:57,368 INFO     : Run time of init: 2.139 seconds.
+2018-09-10 20:55:04,397 ERROR    : HTTP Error 500: Internal Server Error, http://basic.10jqka.com.cn/002076
+2018-09-10 20:56:15,385 INFO     : [down_info_data] run time is 0.7116 seconds.
+2018-09-10 20:56:18,595 INFO     : Run time of init: 3.208 seconds.
+2018-09-10 20:58:40,830 ERROR    : HTTP Error 500: Internal Server Error, http://basic.10jqka.com.cn/600582
+2018-09-10 22:02:44,221 INFO     : Backup TDX customer data...
+2018-09-10 22:03:01,136 INFO     : Login email server with user charles_wh@outlook.com
+2018-09-10 22:03:07,058 INFO     : Sending mail...
+2018-09-10 22:03:07,269 INFO     : Success!
+2018-09-11 20:40:25,196 INFO     : [down_info_data] run time is 1.6614 seconds.
+2018-09-11 20:40:26,965 INFO     : Run time of init: 1.767 seconds.
+2018-09-11 21:38:48,057 INFO     : [run_tasks] run time is 1.5371 seconds.
+2018-09-11 21:38:51,206 INFO     : [copy_diff_tips] run time is 3.1482 seconds.
+2018-09-11 21:38:53,377 INFO     : [update_local_database] run time is 3509.8421 seconds.
+2018-09-11 23:16:05,762 INFO     : [down_info_data] run time is 7.1416 seconds.
+2018-09-11 23:16:30,741 INFO     : [down_info_data] run time is 21.2855 seconds.
+2018-09-11 23:16:50,341 INFO     : [down_info_data] run time is 6.9845 seconds.
+2018-09-11 23:17:28,417 INFO     : [down_info_data] run time is 6.1713 seconds.
+2018-09-11 23:17:30,631 INFO     : Run time of init: 2.213 seconds.
+2018-09-11 23:18:20,011 INFO     : [down_info_data] run time is 5.3135 seconds.
+2018-09-11 23:18:22,129 INFO     : Run time of init: 2.116 seconds.
+2018-09-11 23:20:09,842 ERROR    : HTTP Error 403: Forbidden, http://basic.10jqka.com.cn/603729
+2018-09-11 23:27:59,541 INFO     : Backup TDX customer data...
+2018-09-11 23:28:26,733 INFO     : Login email server with user charles_wh@outlook.com
+2018-09-11 23:28:32,873 INFO     : Sending mail...
+2018-09-11 23:28:33,147 INFO     : Success!

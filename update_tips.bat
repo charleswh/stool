@@ -1,0 +1,1 @@
+python stool.py --update_tips #070608 #3CB371 Î¢ÈíÑÅºÚ nolocal

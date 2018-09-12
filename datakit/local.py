@@ -213,8 +213,6 @@ def zt_reason_filter(tag):
 
 
 def download_tips_worker(code):
-    import random
-    sleep(random.randint(0, 4) * 0.1)
     info_dict = {}
     info_dict['code'] = code
     url = THS_F10_URL.format(code)
@@ -264,7 +262,7 @@ def update_local_database(mode):
         os.mkdir(CSV_DIR)
     info_data = down_info_data()
     codes = list(info_data['code'])
-    download_trade_data('2018')
+    download_trade_data()
     mt = MultiTasks()
     if mode == 'basic' or mode == 'all':
         sub_size = int((len(codes) + MAX_TASK_NUM) / MAX_TASK_NUM)
@@ -307,7 +305,7 @@ def update_local_database(mode):
             for code in tqdm(codes, ascii=True):
                 aa = download_tips_worker(code)
                 results.append(aa)
-                sleep(random.randint(0, 6) * 0.1)
+                #sleep(random.randint(0, 3) * 0.1)
                 if counter == 150:
                     counter = 0
                     sleep(2)
@@ -316,7 +314,7 @@ def update_local_database(mode):
         sub_size = int((len(codes) + MAX_TASK_NUM) / MAX_TASK_NUM)
         sub_item = [results[i:i + sub_size] for i in range(0, len(results), sub_size)]
         mt.run_tasks(func=save_tips_worker, var_args=sub_item, en_bar=True, desc='Save-Tips')
-        copy_diff_tips()
+        #copy_diff_tips()
 
     mt.close_tasks()
 

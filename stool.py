@@ -39,7 +39,7 @@ parser.add_argument('--recover_th0002',
                     dest='recover_dst_path',
                     help='recover for th0002')
 parser.add_argument('--update_tips',
-                    nargs=3,
+                    nargs=4,
                     help='test function entry')
 parser.add_argument('--blakfp',
                     action='store_true',
