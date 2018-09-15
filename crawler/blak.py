@@ -7,8 +7,8 @@ import http.cookiejar
 from urllib.request import HTTPCookieProcessor, build_opener, Request
 from urllib.parse import urlencode
 from urllib.error import URLError
-from crawler.html_parser import parser
-from crawler.output2docx import output2docx
+from crawler.blak_parser import parser
+from crawler.blak_docx import output2docx
 
 HOME_URL = r'https://www.taoguba.com.cn/moreTopic?userID=252069'
 HOST_URL = r'https://www.taoguba.com.cn/'

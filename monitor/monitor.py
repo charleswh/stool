@@ -1,6 +1,6 @@
 import tushare as ts
 import os
-from datakit.local import TDX_ROOT
+from datakit.data_local import TDX_ROOT
 from glob import glob
 from utility import *
 from analysis import *

@@ -3,7 +3,7 @@ import sys
 import argparse
 from utility import *
 from datakit import *
-from crawler import *
+from crawler.blak import blakfp_entry
 
 
 parser = argparse.ArgumentParser(description='Integrated share tool for NEIL',
@@ -47,12 +47,6 @@ parser.add_argument('--blakfp',
 parser.add_argument('--test',
                     action='store_true',
                     help='test function entry')
-
-
-def test(a, b, c=None, d=1):
-    print(a+b)
-    print(c)
-    print(d)
 
 
 if __name__ == '__main__':
