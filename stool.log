@@ -511,3 +511,24 @@
 2018-09-16 20:06:40,883 INFO     : [down_info_data] run time is 0.4099 seconds.
 2018-09-16 20:06:43,145 INFO     : Run time of init: 2.261 seconds.
 2018-09-16 20:07:54,293 ERROR    : HTTP Error 403: Forbidden, http://basic.10jqka.com.cn/002304
+2018-09-16 21:05:48,036 INFO     : [down_info_data] run time is 0.4178 seconds.
+2018-09-16 21:05:50,096 INFO     : Run time of init: 2.059 seconds.
+2018-09-16 21:08:16,406 ERROR    : HTTP Error 403: Forbidden, http://basic.10jqka.com.cn/300124
+2018-09-16 21:21:11,526 INFO     : [down_info_data] run time is 0.5987 seconds.
+2018-09-16 22:04:15,349 INFO     : [down_info_data] run time is 0.8125 seconds.
+2018-09-16 22:04:17,496 INFO     : Run time of init: 2.146 seconds.
+2018-09-16 22:04:17,820 ERROR    : 'Response' object has no attribute 'type', http://basic.10jqka.com.cn/600152
+2018-09-16 22:06:03,384 INFO     : [down_info_data] run time is 0.5362 seconds.
+2018-09-16 22:06:05,300 INFO     : Run time of init: 1.916 seconds.
+2018-09-16 22:19:46,930 INFO     : [down_info_data] run time is 0.8305 seconds.
+2018-09-16 22:19:49,846 INFO     : Run time of init: 2.915 seconds.
+2018-09-16 22:44:39,812 INFO     : Run time of concept make time: 0.000 seconds.
+2018-09-16 22:48:06,936 INFO     : [down_info_data] run time is 0.7566 seconds.
+2018-09-16 22:48:08,914 INFO     : Run time of init: 1.977 seconds.
+2018-09-16 22:48:22,826 INFO     : Backup TDX customer data...
+2018-09-16 22:50:06,703 INFO     : Backup TDX customer data...
+2018-09-16 22:50:41,561 INFO     : Backup TDX customer data...
+2018-09-16 22:53:39,287 INFO     : Backup TDX customer data...
+2018-09-16 22:54:04,802 INFO     : Login email server with user charles_wh@outlook.com
+2018-09-16 22:54:15,003 INFO     : Sending mail...
+2018-09-16 22:54:15,265 INFO     : Success!

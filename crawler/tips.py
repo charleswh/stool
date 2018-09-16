@@ -71,23 +71,35 @@ def download_tips_worker(code):
     import random
     user_agent = random.choice(USER_AGENTS)
     headers = {'User-Agent': user_agent, 'Connection': 'keep-alive'}
-    req = Request(url, headers=headers)
-    content = None
-    try:
-        content = urlopen(req)
-    except Exception as err:
-        log.error('{}, {}'.format(err, url))
-    html = content.read().decode('gbk')
+    ip = '120.52.73.173'
+    port = '8080'
+    whole_ip = {'http': ':'.join((ip, port))}
+    # req = Request(url, headers=headers)
+    import requests
+    req = requests.get('http://basic.10jqka.com.cn/000760', headers=headers,
+                       proxies=whole_ip, timeout=10)
+    # content = None
+    # try:
+    #     content = urlopen(req)
+    # except Exception as err:
+    #     log.error('{}, {}'.format(err, url))
+    # html = content.read().decode('gbk')
+    req.encoding = 'gbk'
+    html = req.text
     soup = BeautifulSoup(html, "html.parser")
     # dbg_a = soup.prettify()
     find_res = soup.find_all(business_filter)
     if len(find_res) != 0:
         info_dict['business'] = find_res[0].a['title']
+    else:
+        info_dict['bussiness'] = '--'
     find_res = soup.find_all(concept_filter)
     if len(find_res) != 0:
         for tag in find_res[0].find_all('a'):
             if '详情' not in tag.text:
                 info_dict.setdefault('concept', []).append(tag.text)
+    else:
+        info_dict['concept'] = '--'
     find_res = soup.find_all(zt_reason_filter)
     if len(find_res) != 0:
         if '今天' in find_res[0].td.text:
@@ -99,6 +111,8 @@ def download_tips_worker(code):
         if tmp:
             info_dict.setdefault('zhangting', []).extend(tmp.groups())
             info_dict.setdefault('zhangting', []).append(find_res[0].div.text.strip())
+    else:
+        info_dict['zhangting'] = '--'
     return info_dict
 
 

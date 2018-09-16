@@ -67,10 +67,11 @@ def is_ip_valid(ip, port, host, timeout=10):
 
 if __name__ == '__main__':
     #-get_proxies_from_xici()
-    host = '221.221.93.237'
-    ip = '59.172.27.6'
-    port = '38380'
+    host = '221.223.183.198'
+    ip = '120.52.73.173'
+    port = '8080'
     is_ip_valid(ip, port, host=host)
-    whole_ip = {'http': ':'.join(('140.143.105.229', '80'))}
-    req = requests.get('http://basic.10jqka.com.cn/000760', headers=get_random_header(), proxies=whole_ip)
+    whole_ip = {'http': ':'.join((ip, port))}
+    req = requests.get('http://basic.10jqka.com.cn/000760', headers=get_random_header(),
+                       proxies=whole_ip, timeout=10)
     aa = 0

@@ -143,10 +143,13 @@ def update_local_database(mode):
                     sleep(1)
                 else:
                     counter += 1
-        with TimerCount('concept make time'):
-            c = '\n'.join(list(map(lambda x:','.join((x['code'], ' '.join(x['concept']))), results)))
-        with open(CONCEPT_FILE, 'w') as f:
-            f.write(c)
+        try:
+            with TimerCount('concept make time'):
+                c = '\n'.join(list(map(lambda x:','.join((x['code'], ' '.join(x['concept']))), results)))
+            with open(CONCEPT_FILE, 'w') as f:
+                f.write(c)
+        except Exception as err:
+            print(err)
         sub_size = int((len(codes) + MAX_TASK_NUM) / MAX_TASK_NUM)
         sub_item = [results[i:i + sub_size] for i in range(0, len(results), sub_size)]
         mt.run_tasks(func=save_tips_worker, var_args=sub_item, fix_args=TIP_FILE,

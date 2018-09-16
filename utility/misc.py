@@ -1,7 +1,5 @@
 import subprocess
-from utility.timekit import time_str
-from utility.log import log
-from utility.mail import py_send
+from utility import *
 from glob import glob
 import os
 import shutil
