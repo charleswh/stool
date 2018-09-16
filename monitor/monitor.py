@@ -1,13 +1,15 @@
-import tushare as ts
 import os
-from datakit.data_local import TDX_ROOT
-from glob import glob
-from utility import *
-from analysis import *
-from datakit import *
-import datetime
 import time
+import datetime
+import tushare as ts
+from glob import glob
 from apscheduler.schedulers.background import BackgroundScheduler
+from utility.log import log
+from utility.timekit import sleep
+from utility.settings import TDX_ROOT
+from datakit.data_interface import read_trade_date
+from analysis.formula import percision
+
 
 FILE_ROOT = os.path.dirname(os.path.realpath(__file__))
 TDX_IMPORT_LIST = os.path.join(FILE_ROOT, 'tdx.txt')

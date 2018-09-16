@@ -1,9 +1,14 @@
 import re
+import os
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 from utility.log import log
 from utility.timekit import time_str
+from utility.settings import OUT_DIR, TDX_ROOT
+from utility.timekit import print_run_time
 
+TIP_FOLDER = os.path.join(OUT_DIR, 'tips')
+TIP_FILE = os.path.join(TIP_FOLDER, '{}.html')
 USER_AGENTS = [
     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; AcooBrowser; .NET CLR 1.1.4322; .NET CLR 2.0.50727)",
     "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; Acoo Browser; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; .NET CLR 3.0.04506)",
@@ -43,6 +48,9 @@ USER_AGENTS = [
 ]
 THS_F10_URL = 'http://basic.10jqka.com.cn/{}'
 
+
+if not os.path.exists(TIP_FOLDER):
+    os.mkdir(TIP_FOLDER)
 
 def business_filter(tag):
     return tag.name == 'td' and '主营业务' in tag.get_text()
@@ -106,3 +114,34 @@ def save_tips_worker(item, tip_file):
               '业务：{}<br />题材：{}<br />涨停：{}<br />涨停原因：{}</span></p>'.format(yw, tc, zt, ztyy)
     with open(file, 'w') as f:
         f.write(content)
+
+
+@print_run_time
+def copy_diff_tips():
+    import filecmp
+    import shutil
+    dst_tip_dir = os.path.join(TDX_ROOT, 'T0002', 'tips')
+    dir_diff = filecmp.dircmp(TIP_FOLDER, dst_tip_dir)
+    diffs = dir_diff.diff_files
+    list(map(shutil.copy,
+             [os.path.join(TIP_FOLDER, x) for x in diffs],
+             [os.path.join(dst_tip_dir, x) for x in diffs]))
+
+
+def update_tips(args):
+    back_color, font_color, font_type, place = args
+    from glob import glob
+    _dir = TIP_FOLDER if place == 'local' else os.path.join(TDX_ROOT, 'T0002', 'tips')
+    files = glob(_dir + '\\*')
+    for file in files:
+        with open(file, 'r') as f:
+            c = f.read()
+            pattern = re.compile(r'bgcolor="(.*)"></body>')
+            u = pattern.sub('bgcolor="{}"></body>'.format(back_color), c)
+            pattern = re.compile(r'style="color:.*?;')
+            u = pattern.sub('style="color:{};'.format(font_color), u)
+            pattern = re.compile(r'font-family:.*?;')
+            u = pattern.sub('font-family:{};'.format(font_type), u)
+        if u != c:
+            with open(file, 'w') as f:
+                f.write(u)

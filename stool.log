@@ -499,3 +499,15 @@
 2018-09-15 21:36:51,947 INFO     : [down_info_data] run time is 0.7469 seconds.
 2018-09-15 21:36:54,276 INFO     : Run time of init: 2.328 seconds.
 2018-09-15 21:38:24,246 ERROR    : HTTP Error 403: Forbidden, http://basic.10jqka.com.cn/600027
+2018-09-16 16:25:58,073 INFO     : [down_info_data] run time is 0.7587 seconds.
+2018-09-16 16:26:06,785 INFO     : [down_info_data] run time is 0.6876 seconds.
+2018-09-16 16:26:08,534 INFO     : Run time of init: 1.747 seconds.
+2018-09-16 16:27:22,715 ERROR    : HTTP Error 403: Forbidden, http://basic.10jqka.com.cn/600027
+2018-09-16 20:03:17,199 INFO     : [down_info_data] run time is 1.0445 seconds.
+2018-09-16 20:03:34,175 INFO     : [down_info_data] run time is 0.4269 seconds.
+2018-09-16 20:03:36,169 INFO     : Run time of init: 1.993 seconds.
+2018-09-16 20:05:56,665 INFO     : [down_info_data] run time is 0.5839 seconds.
+2018-09-16 20:05:58,749 INFO     : Run time of init: 2.082 seconds.
+2018-09-16 20:06:40,883 INFO     : [down_info_data] run time is 0.4099 seconds.
+2018-09-16 20:06:43,145 INFO     : Run time of init: 2.261 seconds.
+2018-09-16 20:07:54,293 ERROR    : HTTP Error 403: Forbidden, http://basic.10jqka.com.cn/002304

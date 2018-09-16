@@ -1,9 +1,10 @@
 # -*- coding:utf-8 -*-
 import sys
 import argparse
-from utility import *
-from datakit import *
+from datakit.data_local import update_local_database
 from crawler.blak import blakfp_entry
+from crawler.tips import update_tips
+from utility.misc import backup_th0002, recover_th0002, make_list_of_th0002
 
 
 parser = argparse.ArgumentParser(description='Integrated share tool for NEIL',
@@ -67,4 +68,5 @@ if __name__ == '__main__':
         if args.blakfp is True:
             blakfp_entry()
         if args.test:
-            mail_test()
+            # mail_test()
+            dbg = 0

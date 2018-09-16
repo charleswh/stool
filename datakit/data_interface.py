@@ -1,7 +1,8 @@
 import os
 import pandas as pd
 import numpy as np
-from utility import *
+from utility.log import log
+from utility.settings import KTYPE, PERIORD_TAG
 from datakit import *
 
 

@@ -3,31 +3,24 @@ import re
 import os
 import pandas as pd
 import numpy as np
-import platform
-import analysis as cal
 import tushare as ts
+from analysis.formula import zt, zb, ltsz, pcp, tor
+from crawler.tips import download_tips_worker, save_tips_worker, copy_diff_tips
 from utility.log import log
-from crawler.tips import download_tips_worker, save_tips_worker
-from utility.task import MultiTasks, print_run_time, sleep, time_str, MAX_TASK_NUM, TimerCount
+from utility.task import MultiTasks, MAX_TASK_NUM
+from utility.timekit import sleep, time_str, TimerCount, print_run_time
+from utility.settings import OUT_DIR, MAX_TASK_NUM, KTYPE, PERIORD_TAG
 
 
 FILE_ROOT = os.path.dirname(os.path.realpath(__file__))
-TIP_FOLDER = os.path.join(FILE_ROOT, 'tips')
-CSV_DIR = os.path.join(FILE_ROOT, 'data_csv')
-TIP_FILE = os.path.join(TIP_FOLDER, '{}.html')
-INFO_FILE = os.path.join(FILE_ROOT, 'info.csv')
-CONCEPT_FILE = os.path.join(FILE_ROOT, 'concept.csv')
-TRADE_DATE_FILE = os.path.join(FILE_ROOT, 'trade_date.csv')
-
-KTYPE = ['D', '60', '30', '15', '5']
-KSUB = {'D': 'day', '60': 'M60', '30': 'M30', '15': 'M15', '5': 'M5'}
-PERIORD_TAG = ['day', 'min60', 'min30', 'min15', 'min5']
+CSV_DIR = os.path.join(OUT_DIR, 'data_csv')
+INFO_FILE = os.path.join(OUT_DIR, 'info.csv')
+CONCEPT_FILE = os.path.join(OUT_DIR, 'concept.csv')
+TRADE_DATE_FILE = os.path.join(OUT_DIR, 'trade_date.csv')
 INFO_TOTAL_COL = ['name', 'industry', 'area', 'pe', 'outstanding', 'totals',
                   'totalAssets', 'liquidAssets', 'fixedAssets', 'reserved',
                   'reservedPerShare', 'esp', 'bvps', 'pb', 'timeToMarket',
                   'undp', 'perundp', 'rev', 'profit', 'gpr', 'npr', 'holders']
-TDX_ROOT = 'e:\\software\\zd_zsone' if platform.node() == 'NeilWang-L10' \
-                                    else 'o:\\Program Files\\zd_zsone'
 
 
 def get_local_info(code, item):
@@ -57,37 +50,6 @@ def download_trade_data():
                   encoding='utf-8-sig')
     else:
         pass
-
-
-def update_tips(args):
-    back_color, font_color, font_type, place = args
-    from glob import glob
-    _dir = TIP_FOLDER if place == 'local' else os.path.join(TDX_ROOT, 'T0002', 'tips')
-    files = glob(_dir + '\\*')
-    for file in files:
-        with open(file, 'r') as f:
-            c = f.read()
-            pattern = re.compile(r'bgcolor="(.*)"></body>')
-            u = pattern.sub('bgcolor="{}"></body>'.format(back_color), c)
-            pattern = re.compile(r'style="color:.*?;')
-            u = pattern.sub('style="color:{};'.format(font_color), u)
-            pattern = re.compile(r'font-family:.*?;')
-            u = pattern.sub('font-family:{};'.format(font_type), u)
-        if u != c:
-            with open(file, 'w') as f:
-                f.write(u)
-
-
-@print_run_time
-def copy_diff_tips():
-    import filecmp
-    import shutil
-    dst_tip_dir = os.path.join(TDX_ROOT, 'T0002', 'tips')
-    dir_diff = filecmp.dircmp(TIP_FOLDER, dst_tip_dir)
-    diffs = dir_diff.diff_files
-    list(map(shutil.copy,
-             [os.path.join(TIP_FOLDER, x) for x in diffs],
-             [os.path.join(dst_tip_dir, x) for x in diffs]))
 
 
 @print_run_time
@@ -145,13 +107,13 @@ def update_local_database(mode):
     if mode == 'info' or mode == 'all':
         sub_size = int((info_data.shape[0] + MAX_TASK_NUM) / MAX_TASK_NUM)
         sub_item = [list(info_data['code'][i:i + sub_size]) for i in range(0, info_data.shape[0], sub_size)]
-        zt = mt.run_tasks(func=cal.zt, var_args=sub_item, en_bar=True, desc='Cal-ZT')
-        zb = mt.run_tasks(func=cal.zb, var_args=sub_item, en_bar=True, desc='Cal-ZB')
-        pcp = mt.run_tasks(func=cal.pcp, var_args=sub_item, en_bar=True, desc='Cal-PCP')
+        zt = mt.run_tasks(func=zt, var_args=sub_item, en_bar=True, desc='Cal-ZT')
+        zb = mt.run_tasks(func=zb, var_args=sub_item, en_bar=True, desc='Cal-ZB')
+        pcp = mt.run_tasks(func=pcp, var_args=sub_item, en_bar=True, desc='Cal-PCP')
         t = info_data.loc[:, ('code', 'outstanding')].values
         sub_item = [t[i:i + sub_size] for i in range(0, info_data.shape[0], sub_size)]
-        tor = mt.run_tasks(func=cal.tor, var_args=sub_item, en_bar=True, desc='Cal-TOR')
-        ltsz = mt.run_tasks(func=cal.ltsz, var_args=sub_item, en_bar=True, desc='Cal-LTSZ')
+        tor = mt.run_tasks(func=tor, var_args=sub_item, en_bar=True, desc='Cal-TOR')
+        ltsz = mt.run_tasks(func=ltsz, var_args=sub_item, en_bar=True, desc='Cal-LTSZ')
 
         updated_info = pd.concat([info_data,
                                   pd.Series(zt, name='zt'),
@@ -162,8 +124,6 @@ def update_local_database(mode):
         updated_info.to_csv(INFO_FILE, encoding='utf-8-sig')
     if mode == 'tips':
         import random
-        if not os.path.exists(TIP_FOLDER):
-            os.mkdir(TIP_FOLDER)
         multi = 0
         if multi:
             sub_size = int((len(codes) + MAX_TASK_NUM) / MAX_TASK_NUM)
@@ -178,9 +138,9 @@ def update_local_database(mode):
                 aa = download_tips_worker(code)
                 results.append(aa)
                 sleep(random.randint(0, 6) * 0.1)
-                if counter == 150:
+                if counter == 30:
                     counter = 0
-                    sleep(2)
+                    sleep(1)
                 else:
                     counter += 1
         with TimerCount('concept make time'):

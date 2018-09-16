@@ -1,13 +1,13 @@
 from tqdm import tqdm
 import ctypes
+import numpy as np
 import multiprocessing as mp
 from functools import reduce
 from utility.log import log
+from utility.settings import MAX_TASK_NUM
 from utility.timekit import TimerCount, print_run_time
-import numpy as np
 
 
-MAX_TASK_NUM = mp.cpu_count() * 5
 OBJ = 0
 LIST = 1
 
