@@ -1,7 +1,7 @@
 import re
 import os
 from bs4 import BeautifulSoup
-from urllib.request import Request, urlopen
+from urllib.request import Request, urlopen, ProxyHandler, build_opener, install_opener
 from utility.log import log
 from utility.timekit import time_str
 from utility.settings import OUT_DIR, TDX_ROOT
@@ -70,22 +70,30 @@ def download_tips_worker(code):
     url = THS_F10_URL.format(code)
     import random
     user_agent = random.choice(USER_AGENTS)
-    headers = {'User-Agent': user_agent, 'Connection': 'keep-alive'}
-    ip = '120.52.73.173'
-    port = '8080'
-    whole_ip = {'http': ':'.join((ip, port))}
-    # req = Request(url, headers=headers)
-    import requests
-    req = requests.get('http://basic.10jqka.com.cn/000760', headers=headers,
-                       proxies=whole_ip, timeout=10)
+    headers = {'User-Agent': user_agent,
+               'Connection': 'keep-alive',
+               'Accept': "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+               'Accept-Encoding': 'gzip'}
+    # ip = '120.52.73.173'
+    # port = '8080'
+    ip = '27.203.160.35'
+    port = '8060'
+    proxy_ip = {'http': ':'.join((ip, port))}
+    # proxy_handler = ProxyHandler(proxy_ip)
+    # opener = build_opener(proxy_handler)
+    # opener.addheaders = [('User-Agent', user_agent)]
+    # install_opener(opener)
     # content = None
     # try:
-    #     content = urlopen(req)
+    #     content = urlopen(url)
     # except Exception as err:
     #     log.error('{}, {}'.format(err, url))
     # html = content.read().decode('gbk')
-    req.encoding = 'gbk'
-    html = req.text
+    import requests
+    req = requests.get(url, headers=headers, proxies=proxy_ip, timeout=5)
+    if req.status_code != 200:
+        log.error('error, code is {}'.format(req.status_code))
+    html = req.content.decode('gbk')
     soup = BeautifulSoup(html, "html.parser")
     # dbg_a = soup.prettify()
     find_res = soup.find_all(business_filter)
@@ -120,8 +128,10 @@ def save_tips_worker(item, tip_file):
     file = tip_file.format(item['code'])
     yw = item['business'] if 'business' in item.keys() else '--'
     tc = ', '.join(item['concept']) if 'concept' in item.keys() else '--'
-    zt = ', '.join(item['zhangting'][:3]) if 'zhangting' in item.keys() else '--'
-    ztyy = item['zhangting'][3] if 'zhangting' in item.keys() else '--'
+    zt = ', '.join(item['zhangting'][:3]) if 'zhangting' in item.keys() \
+                                             and len(item['zhangting']) > 1 else '--'
+    ztyy = item['zhangting'][3] if 'zhangting' in item.keys() \
+                                   and len(item['zhangting']) > 1 else '--'
     content = '<head><meta http-equiv="Content-Type" content="text/html; charset=gbk" /></head>\n' \
               '<body bgcolor="#070608"></body>\n' \
               '<p><span style="color:#3CB371;line-height:1.3;font-size:14px;font-family:微软雅黑;">' \
@@ -159,3 +169,7 @@ def update_tips(args):
         if u != c:
             with open(file, 'w') as f:
                 f.write(u)
+
+
+if __name__ == '__main__':
+    download_tips_worker('000421')

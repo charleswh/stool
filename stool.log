@@ -532,3 +532,137 @@
 2018-09-16 22:54:04,802 INFO     : Login email server with user charles_wh@outlook.com
 2018-09-16 22:54:15,003 INFO     : Sending mail...
 2018-09-16 22:54:15,265 INFO     : Success!
+2018-09-16 23:13:33,236 INFO     : Run time of concept make time: 0.003 seconds.
+2018-09-16 23:26:03,881 INFO     : [down_info_data] run time is 0.7136 seconds.
+2018-09-16 23:26:05,966 INFO     : Run time of init: 2.083 seconds.
+2018-09-16 23:26:06,483 ERROR    : HTTP Error 403: Forbidden, http://basic.10jqka.com.cn/600152
+2018-09-16 23:27:55,634 INFO     : [down_info_data] run time is 0.4607 seconds.
+2018-09-16 23:27:57,716 INFO     : Run time of init: 2.080 seconds.
+2018-09-16 23:27:58,007 ERROR    : too many values to unpack (expected 2), http://basic.10jqka.com.cn/600152
+2018-09-16 23:30:28,674 ERROR    : HTTP Error 403: Forbidden, http://basic.10jqka.com.cn/000760
+2018-09-17 21:20:19,570 INFO     : [down_info_data] run time is 3.3216 seconds.
+2018-09-17 21:20:21,937 INFO     : Run time of init: 2.364 seconds.
+2018-09-17 21:21:08,195 INFO     : [down_info_data] run time is 0.2929 seconds.
+2018-09-17 21:21:10,591 INFO     : Run time of init: 2.395 seconds.
+2018-09-17 21:21:22,383 INFO     : Run time of concept make time: 0.000 seconds.
+2018-09-17 21:21:22,433 INFO     : [run_tasks] run time is 0.0470 seconds.
+2018-09-17 21:21:22,485 INFO     : [copy_diff_tips] run time is 0.0520 seconds.
+2018-09-17 21:26:26,245 INFO     : [down_info_data] run time is 0.2818 seconds.
+2018-09-17 21:26:28,300 INFO     : Run time of init: 2.053 seconds.
+2018-09-17 21:28:07,895 INFO     : Make concept list done.
+2018-09-17 21:36:54,608 INFO     : [down_info_data] run time is 0.3338 seconds.
+2018-09-17 21:36:57,076 INFO     : Run time of init: 2.467 seconds.
+2018-09-17 21:37:41,370 INFO     : Make concept list done.
+2018-09-17 21:37:41,529 INFO     : [run_tasks] run time is 0.1589 seconds.
+2018-09-17 21:37:41,763 INFO     : [copy_diff_tips] run time is 0.2347 seconds.
+2018-09-17 21:44:48,822 INFO     : [down_info_data] run time is 1.1364 seconds.
+2018-09-17 21:46:19,769 INFO     : Run time of init: 90.945 seconds.
+2018-09-17 21:47:29,364 INFO     : Make concept list done.
+2018-09-17 22:01:44,228 INFO     : [down_info_data] run time is 0.2938 seconds.
+2018-09-17 22:04:30,532 INFO     : Run time of init: 164.873 seconds.
+2018-09-17 22:05:18,016 INFO     : Make concept list done.
+2018-09-17 22:07:08,110 INFO     : [down_info_data] run time is 1.7450 seconds.
+2018-09-17 22:07:10,121 INFO     : Run time of init: 2.010 seconds.
+2018-09-17 22:07:34,142 INFO     : Make concept list done.
+2018-09-17 22:07:34,423 INFO     : [run_tasks] run time is 0.2808 seconds.
+2018-09-17 22:07:34,572 INFO     : [copy_diff_tips] run time is 0.1464 seconds.
+2018-09-17 22:09:37,818 INFO     : [down_info_data] run time is 4.0381 seconds.
+2018-09-17 22:09:40,656 INFO     : Run time of init: 2.838 seconds.
+2018-09-17 22:09:57,932 INFO     : Make concept list done.
+2018-09-17 22:09:58,880 INFO     : [run_tasks] run time is 0.9313 seconds.
+2018-09-17 22:09:59,230 INFO     : [copy_diff_tips] run time is 0.3478 seconds.
+2018-09-17 22:10:02,020 INFO     : [update_local_database] run time is 28.2401 seconds.
+2018-09-17 22:15:35,253 INFO     : [down_info_data] run time is 0.7226 seconds.
+2018-09-17 22:15:37,512 INFO     : Run time of init: 2.258 seconds.
+2018-09-17 22:16:02,305 INFO     : [down_info_data] run time is 0.2898 seconds.
+2018-09-17 22:16:04,601 INFO     : Run time of init: 2.296 seconds.
+2018-09-17 22:16:24,908 INFO     : [down_info_data] run time is 1.1114 seconds.
+2018-09-17 22:16:27,193 INFO     : Run time of init: 2.285 seconds.
+2018-09-17 22:24:00,780 INFO     : [down_info_data] run time is 0.7674 seconds.
+2018-09-17 22:24:02,947 INFO     : Run time of init: 2.167 seconds.
+2018-09-17 22:24:39,910 INFO     : [down_info_data] run time is 1.3731 seconds.
+2018-09-17 22:24:41,996 INFO     : Run time of init: 2.084 seconds.
+2018-09-17 22:25:38,522 ERROR    : error, code is 403
+2018-09-17 22:25:38,794 ERROR    : error, code is 403
+2018-09-17 22:25:39,267 ERROR    : error, code is 403
+2018-09-17 22:25:39,941 ERROR    : error, code is 403
+2018-09-17 22:25:40,223 ERROR    : error, code is 403
+2018-09-17 22:25:40,500 ERROR    : error, code is 403
+2018-09-17 22:25:41,257 ERROR    : error, code is 403
+2018-09-17 22:25:41,949 ERROR    : error, code is 403
+2018-09-17 22:25:42,247 ERROR    : error, code is 403
+2018-09-17 22:25:42,624 ERROR    : error, code is 403
+2018-09-17 22:25:44,102 ERROR    : error, code is 403
+2018-09-17 22:25:44,172 ERROR    : error, code is 403
+2018-09-17 22:25:44,445 ERROR    : error, code is 403
+2018-09-17 22:25:44,721 ERROR    : error, code is 403
+2018-09-17 22:25:45,209 ERROR    : error, code is 403
+2018-09-17 22:25:45,884 ERROR    : error, code is 403
+2018-09-17 22:25:46,062 ERROR    : error, code is 403
+2018-09-17 22:25:46,738 ERROR    : error, code is 403
+2018-09-17 22:25:47,422 ERROR    : error, code is 403
+2018-09-17 22:25:47,703 ERROR    : error, code is 403
+2018-09-17 22:25:48,394 ERROR    : error, code is 403
+2018-09-17 22:25:48,567 ERROR    : error, code is 403
+2018-09-17 22:25:48,644 ERROR    : error, code is 403
+2018-09-17 22:25:49,217 ERROR    : error, code is 403
+2018-09-17 22:25:49,804 ERROR    : error, code is 403
+2018-09-17 22:25:49,992 ERROR    : error, code is 403
+2018-09-17 22:25:50,469 ERROR    : error, code is 403
+2018-09-17 22:25:50,852 ERROR    : error, code is 403
+2018-09-17 22:25:51,138 ERROR    : error, code is 403
+2018-09-17 22:25:51,427 ERROR    : error, code is 403
+2018-09-17 22:25:52,117 ERROR    : error, code is 403
+2018-09-17 22:25:52,188 ERROR    : error, code is 403
+2018-09-17 22:25:52,461 ERROR    : error, code is 403
+2018-09-17 22:25:52,734 ERROR    : error, code is 403
+2018-09-17 22:25:53,205 ERROR    : error, code is 403
+2018-09-17 22:25:53,579 ERROR    : error, code is 403
+2018-09-17 22:25:53,957 ERROR    : error, code is 403
+2018-09-17 22:25:54,044 ERROR    : error, code is 403
+2018-09-17 22:25:54,122 ERROR    : error, code is 403
+2018-09-17 22:25:54,699 ERROR    : error, code is 403
+2018-09-17 22:25:55,182 ERROR    : error, code is 403
+2018-09-17 22:25:56,760 ERROR    : error, code is 403
+2018-09-17 22:25:57,136 ERROR    : error, code is 403
+2018-09-17 22:25:57,320 ERROR    : error, code is 403
+2018-09-17 22:25:57,700 ERROR    : error, code is 403
+2018-09-17 22:25:57,782 ERROR    : error, code is 403
+2018-09-17 22:25:58,257 ERROR    : error, code is 403
+2018-09-17 22:25:58,832 ERROR    : error, code is 403
+2018-09-17 22:25:59,104 ERROR    : error, code is 403
+2018-09-17 22:38:09,247 ERROR    : error, code is 403
+2018-09-17 22:46:42,502 INFO     : [down_info_data] run time is 3.9704 seconds.
+2018-09-17 22:46:44,701 INFO     : Run time of init: 2.198 seconds.
+2018-09-17 23:11:50,915 INFO     : Backup TDX customer data...
+2018-09-17 23:12:31,274 INFO     : Backup TDX customer data...
+2018-09-17 23:12:36,561 INFO     : Backup TDX customer data...
+2018-09-17 23:13:06,192 INFO     : Login email server with user charles_wh@outlook.com
+2018-09-17 23:13:13,254 INFO     : Sending mail...
+2018-09-17 23:13:13,526 INFO     : Success!
+2018-09-17 23:36:36,248 INFO     : Make concept list done.
+2018-09-17 23:36:38,143 INFO     : [run_tasks] run time is 1.8949 seconds.
+2018-09-17 23:36:44,175 INFO     : [copy_diff_tips] run time is 6.0318 seconds.
+2018-09-17 23:36:47,304 INFO     : [update_local_database] run time is 3008.7734 seconds.
+2018-09-17 23:50:32,408 INFO     : [down_info_data] run time is 0.2659 seconds.
+2018-09-17 23:50:34,409 INFO     : Run time of init: 2.000 seconds.
+2018-09-17 23:50:48,603 INFO     : Make concept list done.
+2018-09-17 23:50:48,658 INFO     : [run_tasks] run time is 0.0550 seconds.
+2018-09-17 23:50:50,825 INFO     : [copy_diff_tips] run time is 2.1658 seconds.
+2018-09-17 23:50:52,625 INFO     : [update_local_database] run time is 20.4826 seconds.
+2018-09-17 23:53:55,541 INFO     : [down_info_data] run time is 0.3158 seconds.
+2018-09-17 23:53:57,415 INFO     : Run time of init: 1.871 seconds.
+2018-09-17 23:54:09,719 INFO     : [down_info_data] run time is 0.8002 seconds.
+2018-09-17 23:54:11,814 INFO     : Run time of init: 2.095 seconds.
+2018-09-18 00:32:31,906 INFO     : Backup TDX customer data...
+2018-09-18 00:32:51,168 INFO     : Login email server with user charles_wh@outlook.com
+2018-09-18 00:32:55,637 INFO     : Sending mail...
+2018-09-18 00:32:55,843 INFO     : Success!
+2018-09-18 22:03:13,029 INFO     : [down_info_data] run time is 1.0986 seconds.
+2018-09-18 22:03:15,480 INFO     : Run time of init: 2.448 seconds.
+2018-09-18 22:03:33,328 INFO     : [down_info_data] run time is 0.9645 seconds.
+2018-09-18 22:03:35,442 INFO     : Run time of init: 2.112 seconds.
+2018-09-18 23:27:35,597 INFO     : Backup TDX customer data...
+2018-09-18 23:27:53,975 INFO     : Login email server with user charles_wh@outlook.com
+2018-09-18 23:27:58,791 INFO     : Sending mail...
+2018-09-18 23:27:58,999 INFO     : Success!

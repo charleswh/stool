@@ -24,9 +24,9 @@ class MultiTasks(object):
             self.pool = mp.Pool(processes=self.task_num + 1)
 
     def init_counter_queue(self):
+        self.counter.value = 0
         while self.queue.qsize() != self.task_num:
             self.queue.put('f')
-            self.counter.value = 0
 
     def close_tasks(self):
         self.pool.close()
@@ -39,7 +39,7 @@ class MultiTasks(object):
         with tqdm(total=bar_max, desc=d, ascii=True) as tbar:
             while c.value <= bar_max:
                 tbar.update(c.value - tbar.n)
-                if q.qsize() == 0:
+                if q.qsize() == 0 or c.value == bar_max:
                     tbar.update(bar_max - tbar.n)
                     break
 

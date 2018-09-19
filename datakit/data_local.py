@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 import tushare as ts
 from analysis.formula import zt, zb, ltsz, pcp, tor
-from crawler.tips import download_tips_worker, save_tips_worker, copy_diff_tips
+from crawler.tips import download_tips_worker, save_tips_worker, copy_diff_tips, TIP_FILE
 from utility.log import log
 from utility.task import MultiTasks, MAX_TASK_NUM
 from utility.timekit import sleep, time_str, TimerCount, print_run_time
@@ -143,19 +143,15 @@ def update_local_database(mode):
                     sleep(1)
                 else:
                     counter += 1
-        try:
-            with TimerCount('concept make time'):
-                c = '\n'.join(list(map(lambda x:','.join((x['code'], ' '.join(x['concept']))), results)))
+            c = '\n'.join(list(map(lambda x:','.join((x['code'], ' '.join(x['concept']))), results)))
             with open(CONCEPT_FILE, 'w') as f:
                 f.write(c)
-        except Exception as err:
-            print(err)
+            log.info('Make concept list done.')
         sub_size = int((len(codes) + MAX_TASK_NUM) / MAX_TASK_NUM)
         sub_item = [results[i:i + sub_size] for i in range(0, len(results), sub_size)]
         mt.run_tasks(func=save_tips_worker, var_args=sub_item, fix_args=TIP_FILE,
                      en_bar=True, desc='Save-Tips')
         copy_diff_tips()
-
     mt.close_tasks()
 
 

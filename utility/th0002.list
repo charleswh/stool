@@ -71,8 +71,6 @@ tdxinfo_zd.ini
 tdxline.dat
 tpool
 TQClient.ini
-TS24N_120Day.cos
-TS24N_6030.cos
 user.ini
 usercomm.ini
 user_def.ini
@@ -86,3 +84,6 @@ zx_default.mht
 ÕÇÍ£.cos
 Õ¨°å.cos
 Á¬°å.cos
+TA24_6030.cos
+TA24_120DAY.cos
+TA24_R.cos
