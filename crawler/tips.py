@@ -3,7 +3,6 @@ import os
 import random
 import requests
 from tqdm import tqdm
-from bs4 import BeautifulSoup
 from utility.log import log
 from utility.timekit import time_str, sleep
 from setting.settings import TDX_ROOT, TIP_FOLDER
@@ -51,18 +50,6 @@ THS_F10_URL = 'http://basic.10jqka.com.cn/{}'
 
 if not os.path.exists(TIP_FOLDER):
     os.mkdir(TIP_FOLDER)
-
-
-def business_filter(tag):
-    return tag.name == 'td' and '主营业务' in tag.get_text()
-
-
-def concept_filter(tag):
-    return tag.name == 'td' and '概念强弱排名' in tag.get_text()
-
-
-def zt_reason_filter(tag):
-    return tag.name == 'tr' and '涨停揭秘' in tag.get_text()
 
 
 def download_tips_worker(code):

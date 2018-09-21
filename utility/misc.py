@@ -3,7 +3,7 @@ import os
 import shutil
 from glob import glob
 from utility import *
-from setting.settings import TH0002_LIST, EXE_7Z
+from setting.settings import T0002_LIST, EXE_7Z
 
 
 def run_cmd(cmd, show_result=True):
@@ -20,7 +20,7 @@ def run_cmd(cmd, show_result=True):
 
 def make_list_of_th0002(template_path):
     p = template_path + ('*' if template_path[-1] == '\\' else '\\*')
-    with open(TH0002_LIST, 'w') as f:
+    with open(T0002_LIST, 'w') as f:
         for i in glob(p):
             print(i.split('\\')[-1], file=f)
     log.info('Make th0002 list done.')
@@ -35,10 +35,10 @@ def backup_th0002(src_path, en_compress=True):
     else:
         shutil.rmtree(dst_path)
         os.mkdir(dst_path)
-    if not os.path.exists(TH0002_LIST):
-        log.error(r'Can not find {}'.format(TH0002_LIST))
+    if not os.path.exists(T0002_LIST):
+        log.error(r'Can not find {}'.format(T0002_LIST))
         exit(0)
-    with open(TH0002_LIST, 'r') as f:
+    with open(T0002_LIST, 'r') as f:
         list = filter(None, f.read().split('\n'))
     for i in list:
         copy_func = shutil.copy if '.' in i else shutil.copytree

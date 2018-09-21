@@ -14,7 +14,7 @@ EXE_CLICKIT = os.path.join(BIN_ROOT, 'bins', 'ClickIt.exe')
 EXE_7Z = os.path.join(BIN_ROOT, 'bins', '7z.exe')
 
 SETTING_ROOT = os.path.join(ROOT, 'setting')
-TH0002_LIST = os.path.join(SETTING_ROOT, 'th0002.list')
+T0002_LIST = os.path.join(SETTING_ROOT, 'th0002.list')
 
 MONITOR_ROOT = os.path.join(ROOT, 'monitor')
 TDX_IMPORT_LIST = os.path.join(MONITOR_ROOT, 'tdx.txt')
