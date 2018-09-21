@@ -1,16 +1,14 @@
 # -*- coding:utf-8 -*-
 from email import encoders
-from email.header import Header
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart, MIMEBase
-from email.utils import parseaddr, formataddr
 import smtplib
 import os
 from utility import *
+from setting.settings import EXE_CLICKIT
 import win32com.client as win32c
 
 
-EXE_CLICKIT = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'bins', 'ClickIt.exe')
 
 ADDR = {'o': 'charles_wh@outlook.com',
         'n': 'noodleormeat@163.com',

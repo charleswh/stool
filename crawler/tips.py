@@ -1,10 +1,9 @@
 import re
 import os
 from bs4 import BeautifulSoup
-from urllib.request import Request, urlopen, ProxyHandler, build_opener, install_opener
 from utility.log import log
 from utility.timekit import time_str
-from utility.settings import OUT_DIR, TDX_ROOT
+from setting.settings import OUT_DIR, TDX_ROOT
 from utility.timekit import print_run_time
 
 TIP_FOLDER = os.path.join(OUT_DIR, 'tips')

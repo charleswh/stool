@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 from utility.log import log
-from utility.settings import KTYPE, PERIORD_TAG
+from setting.settings import KTYPE, PERIORD_TAG, TRADE_DATE_FILE, CSV_DIR
 from datakit import *
 
 

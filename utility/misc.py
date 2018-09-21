@@ -1,12 +1,10 @@
 import subprocess
-from utility import *
-from glob import glob
 import os
 import shutil
+from glob import glob
+from utility import *
+from setting.settings import TH0002_LIST, EXE_7Z
 
-
-TH0002_LIST = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'th0002.list')
-EXE_7Z = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'bins', '7z.exe')
 
 def run_cmd(cmd, show_result=True):
     print(cmd)

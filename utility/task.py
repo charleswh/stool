@@ -4,7 +4,7 @@ import numpy as np
 import multiprocessing as mp
 from functools import reduce
 from utility.log import log
-from utility.settings import MAX_TASK_NUM
+from setting.settings import MAX_TASK_NUM
 from utility.timekit import TimerCount, print_run_time
 
 

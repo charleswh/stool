@@ -1,22 +1,17 @@
 # -*- coding:utf-8 -*-
-import re
 import os
 import pandas as pd
-import numpy as np
 import tushare as ts
-from analysis.formula import zt, zb, ltsz, pcp, tor
+from analysis import formula
 from crawler.tips import download_tips_worker, save_tips_worker, copy_diff_tips, TIP_FILE
 from utility.log import log
-from utility.task import MultiTasks, MAX_TASK_NUM
-from utility.timekit import sleep, time_str, TimerCount, print_run_time
-from utility.settings import OUT_DIR, MAX_TASK_NUM, KTYPE, PERIORD_TAG
+from utility.task import MultiTasks
+from utility.timekit import sleep, print_run_time
+from setting.settings import CSV_DIR, INFO_FILE, CONCEPT_FILE, TRADE_DATE_FILE, \
+    MAX_TASK_NUM, KTYPE, PERIORD_TAG
 
 
 FILE_ROOT = os.path.dirname(os.path.realpath(__file__))
-CSV_DIR = os.path.join(OUT_DIR, 'data_csv')
-INFO_FILE = os.path.join(OUT_DIR, 'info.csv')
-CONCEPT_FILE = os.path.join(OUT_DIR, 'concept.csv')
-TRADE_DATE_FILE = os.path.join(OUT_DIR, 'trade_date.csv')
 INFO_TOTAL_COL = ['name', 'industry', 'area', 'pe', 'outstanding', 'totals',
                   'totalAssets', 'liquidAssets', 'fixedAssets', 'reserved',
                   'reservedPerShare', 'esp', 'bvps', 'pb', 'timeToMarket',
@@ -33,12 +28,11 @@ def get_local_info(code, item):
 
 
 def get_all_codes():
-    info_file = os.path.join(FILE_ROOT, INFO_FILE)
-    if not os.path.exists(info_file):
-        log.info('No local info file: {}, get all codes online.'.format(info_file))
+    if not os.path.exists(INFO_FILE):
+        log.info('No local info file: {}, get all codes online.'.format(INFO_FILE))
         ret = ts.get_stock_basics().index
     else:
-        ret = pd.read_csv(info_file, dtype={'code': str}).loc[:, 'code']
+        ret = pd.read_csv(INFO_FILE, dtype={'code': str}).loc[:, 'code']
     return ret
 
 
@@ -107,13 +101,13 @@ def update_local_database(mode):
     if mode == 'info' or mode == 'all':
         sub_size = int((info_data.shape[0] + MAX_TASK_NUM) / MAX_TASK_NUM)
         sub_item = [list(info_data['code'][i:i + sub_size]) for i in range(0, info_data.shape[0], sub_size)]
-        zt = mt.run_tasks(func=zt, var_args=sub_item, en_bar=True, desc='Cal-ZT')
-        zb = mt.run_tasks(func=zb, var_args=sub_item, en_bar=True, desc='Cal-ZB')
-        pcp = mt.run_tasks(func=pcp, var_args=sub_item, en_bar=True, desc='Cal-PCP')
+        zt = mt.run_tasks(func=formula.zt, var_args=sub_item, en_bar=True, desc='Cal-ZT')
+        zb = mt.run_tasks(func=formula.zb, var_args=sub_item, en_bar=True, desc='Cal-ZB')
+        pcp = mt.run_tasks(func=formula.pcp, var_args=sub_item, en_bar=True, desc='Cal-PCP')
         t = info_data.loc[:, ('code', 'outstanding')].values
         sub_item = [t[i:i + sub_size] for i in range(0, info_data.shape[0], sub_size)]
-        tor = mt.run_tasks(func=tor, var_args=sub_item, en_bar=True, desc='Cal-TOR')
-        ltsz = mt.run_tasks(func=ltsz, var_args=sub_item, en_bar=True, desc='Cal-LTSZ')
+        tor = mt.run_tasks(func=formula.tor, var_args=sub_item, en_bar=True, desc='Cal-TOR')
+        ltsz = mt.run_tasks(func=formula.ltsz, var_args=sub_item, en_bar=True, desc='Cal-LTSZ')
 
         updated_info = pd.concat([info_data,
                                   pd.Series(zt, name='zt'),
@@ -138,6 +132,7 @@ def update_local_database(mode):
                 try:
                     aa = download_tips_worker(code)
                 except Exception as err:
+                    aa = None
                     print(err)
                     print(code)
                     exit()

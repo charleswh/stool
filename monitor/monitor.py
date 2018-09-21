@@ -6,15 +6,9 @@ from glob import glob
 from apscheduler.schedulers.background import BackgroundScheduler
 from utility.log import log
 from utility.timekit import sleep
-from utility.settings import TDX_ROOT
+from setting.settings import TDX_ROOT, TDX_IMPORT_LIST, MANUAL_LIST
 from datakit.data_interface import read_trade_date
 from analysis.formula import percision
-
-
-FILE_ROOT = os.path.dirname(os.path.realpath(__file__))
-TDX_IMPORT_LIST = os.path.join(FILE_ROOT, 'tdx.txt')
-MANUAL_LIST = os.path.join(FILE_ROOT, 'manual.txt')
-
 
 def import_tdx_list():
     blk_dir = os.path.join(TDX_ROOT, 'T0002', 'blocknew')
