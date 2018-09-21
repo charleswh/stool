@@ -3,6 +3,7 @@ import platform
 
 ROOT = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 OUT_DIR = os.path.join(ROOT, 'out_dir')
+TIP_FOLDER = os.path.join(OUT_DIR, 'tips')
 CSV_DIR = os.path.join(OUT_DIR, 'data_csv')
 INFO_FILE = os.path.join(OUT_DIR, 'info.csv')
 CONCEPT_FILE = os.path.join(OUT_DIR, 'concept.csv')

@@ -1,12 +1,14 @@
 import re
 import os
+import random
+import requests
+from tqdm import tqdm
 from bs4 import BeautifulSoup
 from utility.log import log
-from utility.timekit import time_str
-from setting.settings import OUT_DIR, TDX_ROOT
+from utility.timekit import time_str, sleep
+from setting.settings import TDX_ROOT, TIP_FOLDER
 from utility.timekit import print_run_time
 
-TIP_FOLDER = os.path.join(OUT_DIR, 'tips')
 TIP_FILE = os.path.join(TIP_FOLDER, '{}.html')
 USER_AGENTS = [
     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; AcooBrowser; .NET CLR 1.1.4322; .NET CLR 2.0.50727)",
@@ -47,9 +49,9 @@ USER_AGENTS = [
 ]
 THS_F10_URL = 'http://basic.10jqka.com.cn/{}'
 
-
 if not os.path.exists(TIP_FOLDER):
     os.mkdir(TIP_FOLDER)
+
 
 def business_filter(tag):
     return tag.name == 'td' and '主营业务' in tag.get_text()
@@ -67,73 +69,76 @@ def download_tips_worker(code):
     info_dict = {}
     info_dict['code'] = code
     url = THS_F10_URL.format(code)
-    import random
     user_agent = random.choice(USER_AGENTS)
     headers = {'User-Agent': user_agent,
                'Connection': 'keep-alive',
                'Accept': "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
                'Accept-Encoding': 'gzip'}
-    ip = '101.6.97.134'
-    port = '1080'
-    # ip = '218.60.8.83'
-    # port = '3129'
-    # ip = '120.52.73.173'
-    # port = '80'
-    # ip = '27.203.160.35'
-    # port = '8060'
-    proxy_ip = {'http': ':'.join((ip, port))}
-    # proxy_handler = ProxyHandler(proxy_ip)
-    # opener = build_opener(proxy_handler)
-    # opener.addheaders = [('User-Agent', user_agent)]
-    # install_opener(opener)
-    # content = None
-    # try:
-    #     content = urlopen(url)
-    # except Exception as err:
-    #     log.error('{}, {}'.format(err, url))
-    # html = content.read().decode('gbk')
-    import requests
-    req = requests.get(url, headers=headers, proxies=proxy_ip, timeout=5)
+
+    req = requests.get(url, headers=headers)
     if req.status_code != 200:
         log.error('error, code is {}'.format(req.status_code))
+        exit(0)
+
     html = req.content.decode('gbk')
-    soup = BeautifulSoup(html, "html.parser")
-    # dbg_a = soup.prettify()
-    find_res = soup.find_all(business_filter)
-    if len(find_res) != 0:
-        info_dict['business'] = find_res[0].a['title']
+    pat = re.compile(r'主营业务：.*?<a.*?>(.*?)</a>.*', re.S)
+    find = pat.findall(html)
+    if len(find) == 1:
+        info_dict['business'] = find[0]
+    elif len(find) == 0:
+        info_dict['bussiness'] = None
     else:
-        info_dict['bussiness'] = '--'
-    find_res = soup.find_all(concept_filter)
-    if len(find_res) != 0:
-        for tag in find_res[0].find_all('a'):
-            if '详情' not in tag.text:
-                info_dict.setdefault('concept', []).append(tag.text)
+        print(code)
+        assert 0
+
+    pat = re.compile(r'<a class=\'newtaid\'.*?ifind">(.*?)<', re.S)
+    find = pat.findall(html)
+    if len(find) > 0:
+        info_dict['concept'] = find
     else:
-        info_dict['concept'] = '--'
-    find_res = soup.find_all(zt_reason_filter)
-    if len(find_res) != 0:
-        if '今天' in find_res[0].td.text:
-            date_str = time_str(fine=False)
+        info_dict['concept'] = None
+        print(code)
+        assert 0
+
+    if html.find('涨停揭秘'):
+        pat = re.compile(
+            r'<td class="hltip tc f12">(.*?)</td>.*?<strong class="hltip fl">(.*?)</strong>', re.S)
+        find = pat.findall(html)
+        date = list(filter(lambda x: '涨停揭秘：' in x, find))[0][0]
+        date = time_str(fine=False) if '今天' in date else date
+        if date:
+            info_dict.setdefault('zhangting', []).append(date)
         else:
-            date_str = find_res[0].td.text
-        info_dict.setdefault('zhangting', []).append(date_str)
-        tmp = re.search(r'(\d+:\d+).*：(.*).*', find_res[0].span.text.strip())
-        if tmp:
-            info_dict.setdefault('zhangting', []).extend(tmp.groups())
-            info_dict.setdefault('zhangting', []).append(find_res[0].div.text.strip())
+            info_dict.setdefault('zhangting', []).append(None)
+        pat = re.compile(r'<a class="fr hla gray f12 client.*?<span>\s*(.*?)\s*</span>', re.S)
+        find = pat.findall(html)
+        if len(find) > 0:
+            info_dict.setdefault('zhangting', []).extend(find)
+        else:
+            info_dict.setdefault('zhangting', []).append(None)
+        pat = re.compile(r'涨停原因.*?<div class="check_else">\s*(.*?)\s*</div>', re.S)
+        find = pat.findall(html)
+        if len(find) > 0:
+            info_dict.setdefault('zhangting', []).extend(find)
+        else:
+            info_dict.setdefault('zhangting', []).append(None)
     else:
-        info_dict['zhangting'] = '--'
+        info_dict['zhangting'] = None
+
+    if len(find) > 0:
+        info_dict.setdefault('concept', []).append(html)
+    else:
+        print(code)
+        assert 0
     return info_dict
 
 
 def save_tips_worker(item, tip_file):
     file = tip_file.format(item['code'])
-    yw = item['business'] if 'business' in item.keys() else '--'
-    tc = ', '.join(item['concept']) if 'concept' in item.keys() else '--'
-    zt_valid = 'zhangting' in item.keys() and isinstance(item['zhangting'], list)
-    zt = ', '.join(item['zhangting'][:3]) if zt_valid else '--'
-    ztyy = item['zhangting'][3] if zt_valid else '--'
+    yw = item['business'] if item['business'] is not None else '--'
+    tc = ', '.join(item['concept']) if item['concept'] is not None else '--'
+    zt = '{}, {}'.format(*item['zhangting'][:2]) if item['zhangting'] is not None else '--'
+    ztyy = item['zhangting'][2] if item['zhangting'][2] is not None else '--'
     content = '<head><meta http-equiv="Content-Type" content="text/html; charset=gbk" /></head>\n' \
               '<body bgcolor="#070608"></body>\n' \
               '<p><span style="color:#3CB371;line-height:1.3;font-size:14px;font-family:微软雅黑;">' \
@@ -173,5 +178,35 @@ def update_tips(args):
                 f.write(u)
 
 
+def down_tips(codes: list, mt=None):
+    ret_list = []
+    counter = 0
+    for code in tqdm(codes, ascii=True, desc='DownTips'):
+        try:
+            aa = download_tips_worker(code)
+        except Exception as err:
+            aa = None
+            print(err)
+            print(code)
+            exit()
+        save_tips_worker(aa, TIP_FILE)
+        ret_list.append(aa)
+        sleep(random.randint(0, 6) * 0.1)
+        if counter == 30:
+            counter = 0
+            sleep(1)
+        else:
+            counter += 1
+    c = '\n'.join(list(map(lambda x: ','.join((x['code'], ' '.join(x['concept']))), results)))
+    with open(CONCEPT_FILE, 'w') as f:
+        f.write(c)
+    log.info('Make concept list done.')
+    # sub_size = int((len(codes) + MAX_TASK_NUM) / MAX_TASK_NUM)
+    # sub_item = [results[i:i + sub_size] for i in range(0, len(results), sub_size)]
+    # mt.run_tasks(func=save_tips_worker, var_args=sub_item, fix_args=TIP_FILE,
+    #              en_bar=True, desc='Save-Tips')
+    copy_diff_tips()
+
+
 if __name__ == '__main__':
-    download_tips_worker('000421')
+    down_tips(['300173'])
