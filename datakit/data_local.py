@@ -134,8 +134,14 @@ def update_local_database(mode):
             results = []
             from tqdm import tqdm
             counter = 0
-            for code in tqdm(codes, ascii=True, desc='DownTips'):
-                aa = download_tips_worker(code)
+            for code in tqdm(codes[1350:], ascii=True, desc='DownTips'):
+                try:
+                    aa = download_tips_worker(code)
+                except Exception as err:
+                    print(err)
+                    print(code)
+                    exit()
+                save_tips_worker(aa, TIP_FILE)
                 results.append(aa)
                 sleep(random.randint(0, 6) * 0.1)
                 if counter == 30:
@@ -147,10 +153,10 @@ def update_local_database(mode):
             with open(CONCEPT_FILE, 'w') as f:
                 f.write(c)
             log.info('Make concept list done.')
-        sub_size = int((len(codes) + MAX_TASK_NUM) / MAX_TASK_NUM)
-        sub_item = [results[i:i + sub_size] for i in range(0, len(results), sub_size)]
-        mt.run_tasks(func=save_tips_worker, var_args=sub_item, fix_args=TIP_FILE,
-                     en_bar=True, desc='Save-Tips')
+        # sub_size = int((len(codes) + MAX_TASK_NUM) / MAX_TASK_NUM)
+        # sub_item = [results[i:i + sub_size] for i in range(0, len(results), sub_size)]
+        # mt.run_tasks(func=save_tips_worker, var_args=sub_item, fix_args=TIP_FILE,
+        #              en_bar=True, desc='Save-Tips')
         copy_diff_tips()
     mt.close_tasks()
 

@@ -74,10 +74,14 @@ def download_tips_worker(code):
                'Connection': 'keep-alive',
                'Accept': "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
                'Accept-Encoding': 'gzip'}
+    ip = '101.6.97.134'
+    port = '1080'
+    # ip = '218.60.8.83'
+    # port = '3129'
     # ip = '120.52.73.173'
-    # port = '8080'
-    ip = '27.203.160.35'
-    port = '8060'
+    # port = '80'
+    # ip = '27.203.160.35'
+    # port = '8060'
     proxy_ip = {'http': ':'.join((ip, port))}
     # proxy_handler = ProxyHandler(proxy_ip)
     # opener = build_opener(proxy_handler)
@@ -128,10 +132,9 @@ def save_tips_worker(item, tip_file):
     file = tip_file.format(item['code'])
     yw = item['business'] if 'business' in item.keys() else '--'
     tc = ', '.join(item['concept']) if 'concept' in item.keys() else '--'
-    zt = ', '.join(item['zhangting'][:3]) if 'zhangting' in item.keys() \
-                                             and len(item['zhangting']) > 1 else '--'
-    ztyy = item['zhangting'][3] if 'zhangting' in item.keys() \
-                                   and len(item['zhangting']) > 1 else '--'
+    zt_valid = 'zhangting' in item.keys() and isinstance(item['zhangting'], list)
+    zt = ', '.join(item['zhangting'][:3]) if zt_valid else '--'
+    ztyy = item['zhangting'][3] if zt_valid else '--'
     content = '<head><meta http-equiv="Content-Type" content="text/html; charset=gbk" /></head>\n' \
               '<body bgcolor="#070608"></body>\n' \
               '<p><span style="color:#3CB371;line-height:1.3;font-size:14px;font-family:微软雅黑;">' \
