@@ -3,6 +3,7 @@ import random
 import re
 import os
 import time
+import pandas as pd
 from utility.log import log
 from setting.settings import USER_AGENTS, PROXY_LIST, PROXY_BAK
 
@@ -124,6 +125,25 @@ def kuai():
     return valid_ip
 
 
+def xiaohuan():
+    date = time.strftime('%Y/%m/%d', time.localtime())
+    hour = time.strftime('%H', time.localtime())
+    base_url = 'https://ip.ihuan.me/today/{}/{}.html'
+    url = base_url.format(date, hour)
+    req = requests.get(url, headers=get_random_header())
+    req.encoding = 'utf-8'
+    pat = re.compile('(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}):(\d{1,5}).*?', re.S)
+    raw_ips = pat.findall(req.text)
+    valid_ip = []
+    for ip in raw_ips:
+        cost = check_ip_valid(*ip)
+        if cost is not None:
+            valid_ip.append([*ip, cost])
+        else:
+            pass
+    log.info('Got {} valid IPs from <xiaohuan>'.format(len(valid_ip)))
+    return valid_ip
+
 
 def get_proxy_ip():
     global g_host_ip
@@ -135,8 +155,9 @@ def get_proxy_ip():
     # ip = [*xici(), *ip3366()]
     # ip = [*ip3366()]
     # ip = data5u()
-    ip = kuai()
-    #ip = []
+    # ip = kuai()
+    # ip = []
+    ip = xiaohuan()
     bak_list = []
     if os.path.exists(PROXY_LIST):
         with open(PROXY_LIST, 'r') as f:
@@ -148,8 +169,20 @@ def get_proxy_ip():
                 ip.append([*t[:2], cost])
             else:
                 bak_list.append([*t[:2], '--'])
-
+    if os.path.exists(PROXY_BAK):
+        with open(PROXY_BAK, 'r') as f:
+            ip_pre_list = f.read().split('\n')
+        for pre_ip in ip_pre_list:
+            t = pre_ip.split(',')
+            cost = check_ip_valid(*t[:2], timeout=3)
+            if cost is not None:
+                ip.append([*t[:2], cost])
+            else:
+                bak_list.append([*t[:2], '--'])
     ip.sort(key=lambda x:int(x[2]))
+    df = pd.DataFrame(ip, columns=['ip', 'port', 'cost'])
+    df = df.drop_duplicates(['ip', 'port'], 'first')
+    ip = df.values.tolist()
     with open(PROXY_LIST, 'w') as f:
         f.write('\n'.join(list(map(lambda x: ','.join(x), ip))))
     with open(PROXY_BAK, 'a+') as f:

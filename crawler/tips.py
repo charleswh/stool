@@ -5,7 +5,7 @@ import requests
 from tqdm import tqdm
 from utility.log import log
 from utility.timekit import time_str, sleep
-from setting.settings import TDX_ROOT, TIP_FOLDER, USER_AGENTS
+from setting.settings import TDX_ROOT, TIP_FOLDER, USER_AGENTS, CONCEPT_FILE
 from utility.timekit import print_run_time
 
 TIP_FILE = os.path.join(TIP_FOLDER, '{}.html')
@@ -25,7 +25,9 @@ def download_tips_worker(code):
                'Accept': "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
                'Accept-Encoding': 'gzip'}
 
-    req = requests.get(url, headers=headers)
+    proxy_ip = '117.127.0.209:80'
+    proxy_ip = {'http': proxy_ip}
+    req = requests.get(url, headers=headers, proxies=proxy_ip, timeout=5)
     if req.status_code != 200:
         log.error('error, code is {}'.format(req.status_code))
         exit(0)
@@ -50,11 +52,20 @@ def download_tips_worker(code):
         print(code)
         assert 0
 
-    if html.find('涨停揭秘'):
+    if html.find('涨停揭秘') != -1:
         pat = re.compile(
             r'<td class="hltip tc f12">(.*?)</td>.*?<strong class="hltip fl">(.*?)</strong>', re.S)
         find = pat.findall(html)
-        date = list(filter(lambda x: '涨停揭秘：' in x, find))[0][0]
+        date = None
+        try:
+            date = list(filter(lambda x: '涨停揭秘：' in x, find))[0][0]
+        except IndexError as err:
+            pat = re.compile(
+                r'<td rowspan="\d+" class="today tc">(.*?)</td>.*?<strong class="hltip fl">(.*?)</strong>',
+                re.S)
+            find = pat.findall(html)
+            date = list(filter(lambda x: '涨停揭秘：' in x, find))[0][0]
+        assert 0 if date is None else 1
         date = time_str(fine=False) if '今天' in date else date
         if date:
             info_dict.setdefault('zhangting', []).append(date)
@@ -69,17 +80,15 @@ def download_tips_worker(code):
         pat = re.compile(r'涨停原因.*?<div class="check_else">\s*(.*?)\s*</div>', re.S)
         find = pat.findall(html)
         if len(find) > 0:
+            for i in range(len(find)):
+                find[i] = find[i].replace('<span class="hl">', '')
+                find[i] = find[i].replace('</span>', '')
             info_dict.setdefault('zhangting', []).extend(find)
         else:
             info_dict.setdefault('zhangting', []).append(None)
     else:
         info_dict['zhangting'] = None
 
-    if len(find) > 0:
-        info_dict.setdefault('concept', []).append(html)
-    else:
-        print(code)
-        assert 0
     return info_dict
 
 
@@ -87,8 +96,12 @@ def save_tips_worker(item, tip_file):
     file = tip_file.format(item['code'])
     yw = item['business'] if item['business'] is not None else '--'
     tc = ', '.join(item['concept']) if item['concept'] is not None else '--'
-    zt = '{}, {}'.format(*item['zhangting'][:2]) if item['zhangting'] is not None else '--'
-    ztyy = item['zhangting'][2] if item['zhangting'][2] is not None else '--'
+    if item['zhangting'] is not None:
+        zt = '{}, {}'.format(*item['zhangting'][:2])
+        ztyy = item['zhangting'][2] if item['zhangting'][2] is not None else '--'
+    else:
+        zt = '--'
+        ztyy = '--'
     content = '<head><meta http-equiv="Content-Type" content="text/html; charset=gbk" /></head>\n' \
               '<body bgcolor="#070608"></body>\n' \
               '<p><span style="color:#3CB371;line-height:1.3;font-size:14px;font-family:微软雅黑;">' \
@@ -147,7 +160,7 @@ def down_tips(codes: list, mt=None):
             sleep(1)
         else:
             counter += 1
-    c = '\n'.join(list(map(lambda x: ','.join((x['code'], ' '.join(x['concept']))), results)))
+    c = '\n'.join(list(map(lambda x: ','.join((x['code'], ' '.join(x['concept']))), ret_list)))
     with open(CONCEPT_FILE, 'w') as f:
         f.write(c)
     log.info('Make concept list done.')
@@ -159,4 +172,4 @@ def down_tips(codes: list, mt=None):
 
 
 if __name__ == '__main__':
-    down_tips(['300173'])
+    down_tips(['002399'])

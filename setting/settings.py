@@ -10,11 +10,11 @@ CONCEPT_FILE = os.path.join(OUT_DIR, 'concept.csv')
 TRADE_DATE_FILE = os.path.join(OUT_DIR, 'trade_date.csv')
 
 BIN_ROOT = os.path.join(ROOT, 'bins')
-EXE_CLICKIT = os.path.join(BIN_ROOT, 'bins', 'ClickIt.exe')
-EXE_7Z = os.path.join(BIN_ROOT, 'bins', '7z.exe')
+EXE_CLICKIT = os.path.join(BIN_ROOT, 'ClickIt.exe')
+EXE_7Z = os.path.join(BIN_ROOT, '7z.exe')
 
 SETTING_ROOT = os.path.join(ROOT, 'setting')
-T0002_LIST = os.path.join(SETTING_ROOT, 'th0002.list')
+T0002_LIST = os.path.join(SETTING_ROOT, 't0002.list')
 PROXY_LIST = os.path.join(SETTING_ROOT, 'proxy_ips.txt')
 PROXY_BAK = os.path.join(SETTING_ROOT, 'porxy_baks.txt')
 

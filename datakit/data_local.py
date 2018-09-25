@@ -3,7 +3,7 @@ import os
 import pandas as pd
 import tushare as ts
 from analysis import formula
-from crawler.tips import download_tips_worker, save_tips_worker, copy_diff_tips, TIP_FILE
+from crawler.tips import down_tips, TIP_FILE
 from utility.log import log
 from utility.task import MultiTasks
 from utility.timekit import sleep, print_run_time
@@ -91,7 +91,7 @@ def update_local_database(mode):
     info_data = down_info_data()
     codes = list(info_data['code'])
     download_trade_data()
-    mt = MultiTasks()
+    #mt = MultiTasks()
     if mode == 'basic' or mode == 'all':
         sub_size = int((len(codes) + MAX_TASK_NUM) / MAX_TASK_NUM)
         sub_code = [list(codes[i:i + sub_size]) for i in range(0, len(codes), sub_size)]
@@ -117,15 +117,8 @@ def update_local_database(mode):
                                   pd.Series(ltsz, name='ltsz')], axis=1)
         updated_info.to_csv(INFO_FILE, encoding='utf-8-sig')
     if mode == 'tips':
-        multi = 0
-        if multi:
-            sub_size = int((len(codes) + MAX_TASK_NUM) / MAX_TASK_NUM)
-            sub_code = [codes[i:i + sub_size] for i in range(0, len(codes), sub_size)]
-            results = mt.run_tasks(func=download_tips_worker, var_args=sub_code,
-                                   en_bar=True, desc='DownTips')
-        else:
-            pass
-    mt.close_tasks()
+        down_tips(codes)
+    #mt.close_tasks()
 
 
 if __name__ == '__main__':

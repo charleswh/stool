@@ -18,7 +18,7 @@ def run_cmd(cmd, show_result=True):
         print(error)
 
 
-def make_list_of_th0002(template_path):
+def make_list_of_t0002(template_path):
     p = template_path + ('*' if template_path[-1] == '\\' else '\\*')
     with open(T0002_LIST, 'w') as f:
         for i in glob(p):
@@ -26,8 +26,8 @@ def make_list_of_th0002(template_path):
     log.info('Make th0002 list done.')
 
 
-def backup_th0002(src_path, en_compress=True):
-    dst_folder_name = 'th0002_backup'
+def backup_t0002(src_path, en_compress=True):
+    dst_folder_name = 't0002_backup'
     dst_path = os.path.join(os.getcwd(), dst_folder_name)
     log.info('Backup TDX customer data...')
     if not os.path.exists(dst_path):
@@ -55,7 +55,7 @@ def backup_th0002(src_path, en_compress=True):
         os.remove(zip_full_path)
 
 
-def recover_th0002(dst_path, en_compress=True):
+def recover_t0002(dst_path, en_compress=True):
     src_folder_name = 'th0002_backup'
     src_path = os.path.join(src_folder_name, '*.*')
     if en_compress:
