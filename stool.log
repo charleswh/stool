@@ -1042,3 +1042,7 @@
 2018-09-20 23:18:10,315 INFO     : Login email server with user charles_wh@outlook.com
 2018-09-20 23:18:17,662 INFO     : Sending mail...
 2018-09-20 23:18:17,931 INFO     : Success!
+2018-09-24 21:51:41,109 INFO     : Got 0 valid IPs from <data5u>
+2018-09-24 21:59:34,165 INFO     : Got 2 valid IPs from <kuai>
+2018-09-24 22:12:01,845 INFO     : Got 3 valid IPs from <kuai>
+2018-09-24 22:20:07,103 INFO     : Backup TDX customer data...

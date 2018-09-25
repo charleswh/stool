@@ -1,8 +1,10 @@
 import requests
 import random
 import re
+import os
 import time
-from crawler.tips import USER_AGENTS
+from utility.log import log
+from setting.settings import USER_AGENTS, PROXY_LIST, PROXY_BAK
 
 
 IP_TEST_WEB = 'http://2018.ip138.com/ic.asp'
@@ -49,13 +51,14 @@ def xici():
     req = requests.get(url, headers=get_random_header())
     req.encoding = 'utf-8'
     pat = re.compile('<td class="country">.*?alt="Cn" />.*?</td>.*?<td>(.*?)</td>.*?<td>(.*?)</td>', re.S)
-    raw_ip = pat.findall(req.text)
-    for ip in raw_ip:
+    raw_ips = pat.findall(req.text)
+    for ip in raw_ips:
         cost = check_ip_valid(*ip)
         if cost is not None:
             valid_ip.append([*ip, cost])
         else:
             pass
+    log.info('Got {} valid IPs from <xici>'.format(len(valid_ip)))
     return valid_ip
 
 
@@ -70,29 +73,56 @@ def ip3366():
             req = requests.get(url, headers=get_random_header())
             req.encoding = 'gb2312'
             pat = re.compile('<tr>.*?<td>(.*?)</td>.*?<td>(.*?)</td>', re.S)
-            raw_ip = pat.findall(req.text)
-            for ip in raw_ip:
+            raw_ips = pat.findall(req.text)
+            for ip in raw_ips:
                 cost = check_ip_valid(*ip)
                 if cost is not None:
                     valid_ip.append([*ip, cost])
                 else:
                     pass
+    log.info('Got {} valid IPs from <ip3366>'.format(len(valid_ip)))
     return valid_ip
 
 
-def half_hour_update():
-    url = 'http://7xrnwq.com1.z0.glb.clouddn.com/proxy_list.txt'
+def data5u():
+    base_url = r'http://www.data5u.com/free/{}/index.shtml'
     valid_ip = []
-    req = requests.get(url, headers=get_random_header())
-    req.encoding = 'utf-8'
-    raw_list = list(filter(None, req.text.split('\n')))
-    for ip in raw_list:
-        cost = check_ip_valid(*ip.split(':'))
-        if cost is not None:
-            valid_ip.append([*ip.split(':'), cost])
-        else:
-            pass
+    for sub in ('gngn', 'gnpt'):
+        url = base_url.format(sub)
+        req = requests.get(url, headers=get_random_header())
+        req.encoding = 'utf-8'
+        pat = re.compile(r'<ul class="l2">.*?<li>(.*?)</li>.*?<li class="port .*?">(.*?)</li>', re.S)
+        raw_ips = pat.findall(req.text)
+        for ip in raw_ips:
+            cost = check_ip_valid(*ip)
+            if cost is not None:
+                valid_ip.append([*ip, cost])
+            else:
+                pass
+    log.info('Got {} valid IPs from <data5u>'.format(len(valid_ip)))
     return valid_ip
+
+
+def kuai():
+    base_url = 'https://www.kuaidaili.com/free/{}/'
+    valid_ip = []
+    for sub in ('inha', 'intr'):
+        s_url = base_url.format(sub) + '{}/'
+        for page in range(1, 3):
+            url = s_url.format(page)
+            req = requests.get(url, headers=get_random_header())
+            req.encoding = 'utf-8'
+            pat = re.compile('<td data-title="IP">(.*?)</td>.*?<td data-title="PORT">(.*?)</td>', re.S)
+            raw_ips = pat.findall(req.text)
+            for ip in raw_ips:
+                cost = check_ip_valid(*ip)
+                if cost is not None:
+                    valid_ip.append([*ip, cost])
+                else:
+                    pass
+    log.info('Got {} valid IPs from <kuai>'.format(len(valid_ip)))
+    return valid_ip
+
 
 
 def get_proxy_ip():
@@ -102,11 +132,28 @@ def get_proxy_ip():
     g_host_ip = re.search('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', req.text)
     g_host_ip = g_host_ip.group()
     # start
-    # ip = xici()
-    # ip = ip3366()
-    ip = half_hour_update()
-    with open('proxy_ips.txt', 'a+') as f:
+    # ip = [*xici(), *ip3366()]
+    # ip = [*ip3366()]
+    # ip = data5u()
+    ip = kuai()
+    #ip = []
+    bak_list = []
+    if os.path.exists(PROXY_LIST):
+        with open(PROXY_LIST, 'r') as f:
+            ip_pre_list = f.read().split('\n')
+        for pre_ip in ip_pre_list:
+            t = pre_ip.split(',')
+            cost = check_ip_valid(*t[:2], timeout=3)
+            if cost is not None:
+                ip.append([*t[:2], cost])
+            else:
+                bak_list.append([*t[:2], '--'])
+
+    ip.sort(key=lambda x:int(x[2]))
+    with open(PROXY_LIST, 'w') as f:
         f.write('\n'.join(list(map(lambda x: ','.join(x), ip))))
+    with open(PROXY_BAK, 'a+') as f:
+        f.write('\n'.join(list(map(lambda x: ','.join(x), bak_list))))
 
 
 if __name__ == '__main__':
