@@ -56,7 +56,7 @@ def backup_t0002(src_path, en_compress=True):
 
 
 def recover_t0002(dst_path, en_compress=True):
-    src_folder_name = 'th0002_backup'
+    src_folder_name = 't0002_backup'
     src_path = os.path.join(src_folder_name, '*.*')
     if en_compress:
         cmd = '{} x -y {}.7z -o{}'.format(EXE_7Z, src_folder_name, dst_path)
