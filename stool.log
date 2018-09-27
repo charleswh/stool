@@ -1068,3 +1068,18 @@
 2018-09-25 22:54:24,406 INFO     : Login email server with user charles_wh@outlook.com
 2018-09-25 22:54:31,354 INFO     : Sending mail...
 2018-09-25 22:54:31,629 INFO     : Success!
+2018-09-26 23:07:30,183 INFO     : Backup TDX customer data...
+2018-09-26 23:52:58,241 INFO     : Backup TDX customer data...
+2018-09-26 23:53:16,196 INFO     : Login email server with user charles_wh@outlook.com
+2018-09-26 23:53:21,724 INFO     : Sending mail...
+2018-09-26 23:53:21,999 INFO     : Success!
+2018-09-27 21:59:41,344 INFO     : Run time of init: 23.848 seconds.
+2018-09-27 22:02:45,552 INFO     : Run time of init: 23.648 seconds.
+2018-09-27 22:03:50,844 INFO     : Run time of init: 23.907 seconds.
+2018-09-27 22:06:13,395 INFO     : Run time of init: 23.704 seconds.
+2018-09-27 22:10:54,743 INFO     : Run time of init: 26.290 seconds.
+2018-09-27 22:11:52,565 INFO     : [run_tasks] run time is 18.5462 seconds.
+2018-09-27 22:16:19,561 INFO     : Run time of init: 11.426 seconds.
+2018-09-27 22:16:32,326 INFO     : [run_tasks] run time is 10.9882 seconds.
+2018-09-27 22:18:29,642 INFO     : Run time of init: 11.467 seconds.
+2018-09-27 22:18:42,328 INFO     : [run_tasks] run time is 11.2052 seconds.

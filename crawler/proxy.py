@@ -4,8 +4,10 @@ import re
 import os
 import time
 import pandas as pd
+import numpy as np
 from utility.log import log
-from setting.settings import USER_AGENTS, PROXY_LIST, PROXY_BAK
+from setting.settings import USER_AGENTS, PROXY_LIST, PROXY_BAK, MAX_TASK_NUM
+from utility.task import MultiTasks
 
 
 IP_TEST_WEB = 'http://2018.ip138.com/ic.asp'
@@ -31,17 +33,29 @@ def check_ip_valid(ip, port, timeout=1):
             result = re.search('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', req.text)
             result = result.group()
             if result == ip or result != g_host_ip:
-                print('{}:{}, VALID'.format(ip, port))
+                # print('{}:{}, VALID'.format(ip, port))
                 return str(cost)
             else:
-                print('{}:{}, INVALID'.format(ip, port))
+                # print('{}:{}, INVALID'.format(ip, port))
                 return None
     except Exception as err:
-        if 'timeout' in str(err):
-            print('{} timeout of {}'.format(ip, timeout))
-        else:
-            print('IP check fail: {}'.format(err))
+        # if 'timeout' in str(err):
+        #     print('{} timeout of {}'.format(ip, timeout))
+        # else:
+        #     print('IP check fail: {}'.format(err))
         return None
+
+
+def check_ip_batch(ip_list:list, mt=None, timeout=1):
+    if mt is not None:
+        sub_size = int((len(ip_list) + mt.task_num) / mt.task_num)
+        sub_ips = [list(ip_list[i:i + sub_size]) for i in range(0, len(ip_list), sub_size)]
+        ret_ips = mt.run_tasks(func=check_ip_valid, var_args=sub_ips, en_bar=True)
+        res = np.c_[np.array(ip_list), np.array(ret_ips)].tolist()
+        res = list(filter(lambda x:x[2] is not None, res))
+        return res
+    else:
+        pass
 
 
 def xici():
@@ -125,7 +139,7 @@ def kuai():
     return valid_ip
 
 
-def xiaohuan():
+def xiaohuan(mt=None):
     date = time.strftime('%Y/%m/%d', time.localtime())
     hour = time.strftime('%H', time.localtime())
     base_url = 'https://ip.ihuan.me/today/{}/{}.html'
@@ -133,8 +147,15 @@ def xiaohuan():
     req = requests.get(url, headers=get_random_header())
     req.encoding = 'utf-8'
     pat = re.compile('(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}):(\d{1,5}).*?', re.S)
-    raw_ips = pat.findall(req.text)
+    raw_ips = pat.findall(req.text)[:50]
+    if len(raw_ips) == 0:
+        url = base_url.format(date, int(hour) - 1)
+        url = base_url.format(date, hour)
+        req = requests.get(url, headers=get_random_header())
+        req.encoding = 'utf-8'
+        raw_ips = pat.findall(req.text)
     valid_ip = []
+    ret = check_ip_batch(raw_ips, mt)
     for ip in raw_ips:
         cost = check_ip_valid(*ip)
         if cost is not None:
@@ -157,7 +178,8 @@ def get_proxy_ip():
     # ip = data5u()
     # ip = kuai()
     # ip = []
-    ip = xiaohuan()
+    mt = MultiTasks(4)
+    ip = xiaohuan(mt)
     bak_list = []
     if os.path.exists(PROXY_LIST):
         with open(PROXY_LIST, 'r') as f:

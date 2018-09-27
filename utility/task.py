@@ -51,7 +51,8 @@ class MultiTasks(object):
         fix_type = None if fix is None else \
             LIST if isinstance(fix, list) else OBJ
         var_type = None if var[0] is None else \
-            LIST if isinstance(var[0], list) or isinstance(var[0], np.ndarray) else OBJ
+            LIST if isinstance(var[0], list) or isinstance(var[0], np.ndarray) \
+                    or isinstance(var[0], tuple) else OBJ
         ret_set = []
         for item in var:
             if fix is None:
