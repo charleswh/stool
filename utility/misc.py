@@ -20,6 +20,7 @@ def run_cmd(cmd, show_result=True):
 
 def make_list_of_t0002(template_path):
     p = template_path + ('*' if template_path[-1] == '\\' else '\\*')
+    os.rename(T0002_LIST, T0002_LIST + '.bak')
     with open(T0002_LIST, 'w') as f:
         for i in glob(p):
             print(i.split('\\')[-1], file=f)
@@ -72,7 +73,6 @@ def recover_t0002(dst_path, en_compress=True):
     tip_dir = os.path.join(dst_path, 'tips')
     pad_files = glob(os.path.join(pad_dir, '*.sp'))
     for file in pad_files:
-        c = None
         f = 0
         u = 0
         l = []

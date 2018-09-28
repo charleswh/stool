@@ -10,7 +10,6 @@ from utility.timekit import sleep, print_run_time
 from setting.settings import CSV_DIR, INFO_FILE, CONCEPT_FILE, TRADE_DATE_FILE, \
     MAX_TASK_NUM, KTYPE, PERIORD_TAG
 
-
 FILE_ROOT = os.path.dirname(os.path.realpath(__file__))
 INFO_TOTAL_COL = ['name', 'industry', 'area', 'pe', 'outstanding', 'totals',
                   'totalAssets', 'liquidAssets', 'fixedAssets', 'reserved',
@@ -91,23 +90,21 @@ def update_local_database(mode):
     info_data = down_info_data()
     codes = list(info_data['code'])
     download_trade_data()
-    #mt = MultiTasks()
+    mt = MultiTasks()
     if mode == 'basic' or mode == 'all':
-        sub_size = int((len(codes) + MAX_TASK_NUM) / MAX_TASK_NUM)
-        sub_code = [list(codes[i:i + sub_size]) for i in range(0, len(codes), sub_size)]
-        basic = mt.run_tasks(func=download_basic_worker, var_args=sub_code, en_bar=True,
-                             desc='Down-Basic', merge_result=False)
-        mt.run_tasks(func=save_basic_worker, var_args=basic, en_bar=True, desc='Save-Basic')
+        basic = mt.run_list_tasks(func=download_basic_worker, var_args=codes, en_bar=True,
+                                  desc='Down-Basic')
+        mt.run_list_tasks(func=save_basic_worker, var_args=basic, en_bar=True, desc='Save-Basic')
     if mode == 'info' or mode == 'all':
-        sub_size = int((info_data.shape[0] + MAX_TASK_NUM) / MAX_TASK_NUM)
-        sub_item = [list(info_data['code'][i:i + sub_size]) for i in range(0, info_data.shape[0], sub_size)]
-        zt = mt.run_tasks(func=formula.zt, var_args=sub_item, en_bar=True, desc='Cal-ZT')
-        zb = mt.run_tasks(func=formula.zb, var_args=sub_item, en_bar=True, desc='Cal-ZB')
-        pcp = mt.run_tasks(func=formula.pcp, var_args=sub_item, en_bar=True, desc='Cal-PCP')
+        zt = mt.run_list_tasks(func=formula.zt, var_args=info_data.shape[0], en_bar=True,
+                               desc='Cal-ZT')
+        zb = mt.run_list_tasks(func=formula.zb, var_args=info_data.shape[0], en_bar=True,
+                               desc='Cal-ZB')
+        pcp = mt.run_list_tasks(func=formula.pcp, var_args=info_data.shape[0], en_bar=True,
+                                desc='Cal-PCP')
         t = info_data.loc[:, ('code', 'outstanding')].values
-        sub_item = [t[i:i + sub_size] for i in range(0, info_data.shape[0], sub_size)]
-        tor = mt.run_tasks(func=formula.tor, var_args=sub_item, en_bar=True, desc='Cal-TOR')
-        ltsz = mt.run_tasks(func=formula.ltsz, var_args=sub_item, en_bar=True, desc='Cal-LTSZ')
+        tor = mt.run_list_tasks(func=formula.tor, var_args=t, en_bar=True, desc='Cal-TOR')
+        ltsz = mt.run_list_tasks(func=formula.ltsz, var_args=t, en_bar=True, desc='Cal-LTSZ')
 
         updated_info = pd.concat([info_data,
                                   pd.Series(zt, name='zt'),
@@ -118,7 +115,7 @@ def update_local_database(mode):
         updated_info.to_csv(INFO_FILE, encoding='utf-8-sig')
     if mode == 'tips':
         down_tips(codes)
-    #mt.close_tasks()
+    mt.close_tasks()
 
 
 if __name__ == '__main__':

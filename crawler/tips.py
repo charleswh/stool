@@ -166,7 +166,7 @@ def down_tips(codes: list, mt=None):
     log.info('Make concept list done.')
     # sub_size = int((len(codes) + MAX_TASK_NUM) / MAX_TASK_NUM)
     # sub_item = [results[i:i + sub_size] for i in range(0, len(results), sub_size)]
-    # mt.run_tasks(func=save_tips_worker, var_args=sub_item, fix_args=TIP_FILE,
+    # mt.run_list_tasks(func=save_tips_worker, var_args=sub_item, fix_args=TIP_FILE,
     #              en_bar=True, desc='Save-Tips')
     copy_diff_tips()
 

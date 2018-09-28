@@ -22,11 +22,9 @@ MONITOR_ROOT = os.path.join(ROOT, 'monitor')
 TDX_IMPORT_LIST = os.path.join(MONITOR_ROOT, 'tdx.txt')
 MANUAL_LIST = os.path.join(MONITOR_ROOT, 'manual.txt')
 
-
 OFFICE_TDX_ROOT = 'e:\\software\\zd_zsone'
 HOME_TDX_ROOT= 'o:\\Program Files\\zd_zsone'
 TDX_ROOT = OFFICE_TDX_ROOT if platform.node() == 'NeilWang-L10' else HOME_TDX_ROOT
-
 
 MAX_TASK_NUM = 32
 KTYPE = ['D', '60', '30', '15', '5']

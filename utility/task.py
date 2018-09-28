@@ -7,7 +7,6 @@ from utility.log import log
 from setting.settings import MAX_TASK_NUM
 from utility.timekit import TimerCount, print_run_time
 
-
 OBJ = 0
 LIST = 1
 
@@ -88,16 +87,19 @@ class MultiTasks(object):
         return ret_set
 
     @print_run_time
-    def run_tasks(self, func, var_args, fix_args=None, en_bar=False, desc=None, merge_result=True):
+    def run_list_tasks(self, func, var_args, fix_args=None, en_bar=False, desc=None):
         self.init_counter_queue()
-        args = [[func, v, fix_args, self.lock, self.counter, self.queue] for v in var_args]
-        bar_max = sum(len(x) for x in var_args) if en_bar else None
+        single_workload = int((len(var_args) + self.task_num) / self.task_num)
+        packed_var_args = [list(var_args[i:i + single_workload]) for i in
+                           range(0, len(var_args), single_workload)]
+        args = [[func, v, fix_args, self.lock, self.counter, self.queue] for v in packed_var_args]
+        bar_max = sum(len(x) for x in packed_var_args) if en_bar else None
         if en_bar:
             bar_args = (self.counter, self.queue, desc, bar_max)
             self.pool.apply_async(func=self.task_bar, args=bar_args)
         ret_res = self.pool.map(func=self.pack_func, iterable=args)
         if isinstance(ret_res[0], dict):
-            ret_res = reduce(lambda x, y: {**x, **y}, ret_res) if merge_result else ret_res
+            ret_res = reduce(lambda x, y: {**x, **y}, ret_res)
         elif isinstance(ret_res[0], list):
-            ret_res = reduce(lambda x, y: x + y, ret_res) if merge_result else ret_res
+            ret_res = reduce(lambda x, y: x + y, ret_res)
         return ret_res
