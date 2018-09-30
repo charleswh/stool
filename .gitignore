@@ -3,3 +3,4 @@
 *.pyc
 .idea
 *.docx
+crawler/geckodriver.log
