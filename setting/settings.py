@@ -12,6 +12,7 @@ TRADE_DATE_FILE = os.path.join(OUT_DIR, 'trade_date.csv')
 BIN_ROOT = os.path.join(ROOT, 'bins')
 EXE_CLICKIT = os.path.join(BIN_ROOT, 'ClickIt.exe')
 EXE_7Z = os.path.join(BIN_ROOT, '7z.exe')
+CHROME_EXE = os.path.join(BIN_ROOT, 'chromedriver.exe')
 
 SETTING_ROOT = os.path.join(ROOT, 'setting')
 T0002_LIST = os.path.join(SETTING_ROOT, 't0002.list')

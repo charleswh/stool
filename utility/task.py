@@ -7,9 +7,6 @@ from utility.log import log
 from setting.settings import MAX_TASK_NUM
 from utility.timekit import TimerCount, print_run_time
 
-OBJ = 0
-LIST = 1
-
 
 class MultiTasks(object):
     def __init__(self, tn=None):
@@ -43,41 +40,20 @@ class MultiTasks(object):
                     break
 
     @staticmethod
-    def pack_func(paras):
+    def pack_list_func(paras):
         func, var, fix, lock, counter, finish_queue = paras
         if var is None or len(var) <= 0:
             log.error('Illegal <var> para in <packed_func>')
-        fix_type = None if fix is None else \
-            LIST if isinstance(fix, list) else OBJ
-        var_type = None if var[0] is None else \
-            LIST if isinstance(var[0], list) or isinstance(var[0], np.ndarray) \
-                    or isinstance(var[0], tuple) else OBJ
+        if fix is not None and not isinstance(fix, dict):
+            assert 0
+        if not (isinstance(var[0], list) or isinstance(var[0], np.ndarray) or isinstance(var[0], tuple)):
+            assert 0
         ret_set = []
         for item in var:
             if fix is None:
-                if var_type == OBJ:
-                    ret = func(item)
-                elif var_type == LIST:
-                    ret = func(*item)
-                else:
-                    ret = None
+                ret = func(*item)
             else:
-                if fix_type == OBJ:
-                    if var_type == OBJ:
-                        ret = func(item, fix)
-                    elif var_type == LIST:
-                        ret = func(fix, *item)
-                    else:
-                        ret = None
-                elif fix_type == LIST:
-                    if var_type == OBJ:
-                        ret = func(item, *fix)
-                    elif var_type == LIST:
-                        ret = func(*item, *fix)
-                    else:
-                        ret = None
-                else:
-                    ret = None
+                ret = func(*item, **fix)
             if lock is not None and counter is not None:
                 with lock:
                     counter.value += 1
@@ -97,9 +73,15 @@ class MultiTasks(object):
         if en_bar:
             bar_args = (self.counter, self.queue, desc, bar_max)
             self.pool.apply_async(func=self.task_bar, args=bar_args)
-        ret_res = self.pool.map(func=self.pack_func, iterable=args)
+        ret_res = self.pool.map(func=self.pack_list_func, iterable=args)
         if isinstance(ret_res[0], dict):
             ret_res = reduce(lambda x, y: {**x, **y}, ret_res)
         elif isinstance(ret_res[0], list):
             ret_res = reduce(lambda x, y: x + y, ret_res)
         return ret_res
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close_tasks()

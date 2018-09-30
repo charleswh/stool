@@ -61,5 +61,5 @@ def sleep(secs):
     time.sleep(secs)
 
 
-
-
+def unix_timestamp():
+    return int(time.mktime(datetime.datetime.now().timetuple()))
