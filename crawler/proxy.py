@@ -220,9 +220,7 @@ def get_proxy_ip():
     global g_host_ip
     req = requests.get(IP_TEST_WEB)
     req.encoding = 'gbk'
-    g_host_ip = re.search('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', req.text)
-    g_host_ip = g_host_ip.group()
-    ip = []
+    g_host_ip = re.search('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', req.text).group()
     with MultiTasks(64) as mt:
         ip = lingdu(mt)
     # if os.path.exists(PROXY_LIST):
