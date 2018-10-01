@@ -67,10 +67,9 @@ def check_ip_batch(ip_list: list, mt=None, timeout=1):
 
 
 # 0.5%
-def xici(mt=None):
+def xici():
     url_base = 'http://www.xicidaili.com/{}/'
     raw_ips = []
-    valid_ips = []
     print('Getting raw IPs from <xici>...')
     for sub in ('nn', 'nt', 'wn', 'wt'):
         sub_url = url_base.format(sub) + '/{}'
@@ -82,18 +81,14 @@ def xici(mt=None):
                 '<td class="country">.*?alt="Cn" />.*?</td>.*?<td>(.*?)</td>.*?<td>(.*?)</td>', re.S)
             raw_ips.extend(pat.findall(req.text))
     print('Done')
-    df = pd.DataFrame(raw_ips, columns=['ip', 'port'])
-    raw_ips = df.drop_duplicates(['ip', 'port'], 'first').values.tolist()
-    valid_ips = check_ip_batch(raw_ips, mt)
-    log.info('Got {} valid IPs from <xici>'.format(len(valid_ips)))
-    return valid_ips
+    log.info('Got {} raw IPs from <xici>'.format(len(raw_ips)))
+    return raw_ips
 
 
 # 8%
-def ip3366(mt=None):
+def ip3366():
     ip3366_url = 'http://www.ip3366.net/free/'
     raw_ips = []
-    valid_ips = []
     for style in range(1, 5):
         url = ip3366_url + '?stype={}'.format(style)
         for page in range(1, 8):
@@ -102,32 +97,28 @@ def ip3366(mt=None):
             req.encoding = 'gb2312'
             pat = re.compile('<tr>.*?<td>(.*?)</td>.*?<td>(.*?)</td>', re.S)
             raw_ips.extend(pat.findall(req.text))
-    valid_ips.extend(check_ip_batch(raw_ips, mt))
-    log.info('Got {} valid IPs from <ip3366>'.format(len(valid_ips)))
-    return valid_ips
+    log.info('Got {} raw IPs from <ip3366>'.format(len(raw_ips)))
+    return raw_ips
 
 
 # 0.01%
-def data5u(mt=None):
+def data5u():
     base_url = r'http://www.data5u.com/free/{}/index.shtml'
     raw_ips = []
-    valid_ips = []
     for sub in ('gngn', 'gnpt', 'gwgn', 'gwpt'):
         url = base_url.format(sub)
         req = requests.get(url, headers=get_random_header())
         req.encoding = 'utf-8'
         pat = re.compile(r'<ul class="l2">.*?<li>(.*?)</li>.*?<li class="port .*?">(.*?)</li>', re.S)
         raw_ips.extend(pat.findall(req.text))
-    valid_ips.extend(check_ip_batch(raw_ips, mt))
-    log.info('Got {} valid IPs from <data5u>'.format(len(valid_ips)))
-    return valid_ips
+    log.info('Got {} raw IPs from <data5u>'.format(len(raw_ips)))
+    return raw_ips
 
 
 # 1%
-def kuai(mt=None):
+def kuai():
     base_url = 'https://www.kuaidaili.com/free/{}/'
     raw_ips = []
-    valid_ips = []
     print('Getting raw IPs from <kuai>...')
     for sub in ('inha', 'intr'):
         s_url = base_url.format(sub) + '{}/'
@@ -141,29 +132,26 @@ def kuai(mt=None):
             pat = re.compile('<td data-title="IP">(.*?)</td>.*?<td data-title="PORT">(.*?)</td>', re.S)
             raw_ips.extend(pat.findall(req.text))
     print('Done.')
-    valid_ips.extend(check_ip_batch(raw_ips, mt))
-    log.info('Got {} valid IPs from <kuai>'.format(len(valid_ips)))
-    return valid_ips
+    log.info('Got {} raw IPs from <kuai>'.format(len(raw_ips)))
+    return raw_ips
 
 
 # 5%
-def ip66(mt=None):
+def ip66():
     base_url = 'http://www.66ip.cn/areaindex_{}/1.html'
     raw_ips = []
-    valid_ips = []
     for sub in range(1, 35):
         url = base_url.format(sub)
         req = requests.get(url, headers=get_random_header())
         req.encoding = 'gb2312'
         pat = re.compile(r'<tr><td>(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td><td>(\d{1,5})</td>', re.S)
         raw_ips.extend(pat.findall(req.text))
-    valid_ips = check_ip_batch(raw_ips, mt)
-    log.info('Got {} valid IPs from <ip66>'.format(len(valid_ips)))
-    return valid_ips
+    log.info('Got {} raw IPs from <ip66>'.format(len(raw_ips)))
+    return raw_ips
 
 
 # 40+%
-def xiaohuan(mt=None):
+def xiaohuan():
     date = time.strftime('%Y/%m/%d', time.localtime())
     hour = time.strftime('%H', time.localtime())
     base_url = 'https://ip.ihuan.me/today/{}/{}.html'
@@ -177,17 +165,15 @@ def xiaohuan(mt=None):
         req = requests.get(url, headers=get_random_header())
         req.encoding = 'utf-8'
         raw_ips = pat.findall(req.text)
-    valid_ips = check_ip_batch(raw_ips, mt)
-    log.info('Got {} valid IPs from <xiaohuan>'.format(len(valid_ips)))
-    return valid_ips
+    log.info('Got {} raw IPs from <xiaohuan>'.format(len(raw_ips)))
+    return raw_ips
 
 
 # 10+%
-def lingdu(mt=None):
+def lingdu():
     base_url = 'https://www.nyloner.cn/proxy'
     retry_count = 0
     raw_ips = []
-    valid_ips = []
     print('Getting raw IPs from <lingdu>...')
     opt = Options()
     opt.add_argument('--headless')
@@ -207,13 +193,9 @@ def lingdu(mt=None):
             brower.find_element_by_id('next-page').click()
         except Exception as err:
             break
-    df = pd.DataFrame(raw_ips, columns=['ip', 'port'])
-    df = df.drop_duplicates(['ip', 'port'], 'first')
-    raw_ips = df.values.tolist()
     print('Done.')
-    valid_ips = check_ip_batch(raw_ips, mt)
-    log.info('Got {} valid IPs from <lingdu>'.format(len(valid_ips)))
-    return valid_ips
+    log.info('Got {} raw IPs from <lingdu>'.format(len(raw_ips)))
+    return raw_ips
 
 
 def get_proxy_ip():
@@ -221,8 +203,11 @@ def get_proxy_ip():
     req = requests.get(IP_TEST_WEB)
     req.encoding = 'gbk'
     g_host_ip = re.search('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', req.text).group()
-    with MultiTasks(64) as mt:
-        ip = lingdu(mt)
+    raw_ips = [*xiaohuan(), *lingdu(), *ip66(), *kuai(), *ip3366(), *xici(), *data5u()]
+    df = pd.DataFrame(raw_ips, columns=['ip', 'port'])
+    raw_ips = df.drop_duplicates(['ip', 'port'], 'first').values.tolist()
+    with MultiTasks(128) as mt:
+        valid_ips = check_ip_batch(raw_ips, mt)
     # if os.path.exists(PROXY_LIST):
     #     with open(PROXY_LIST, 'r') as f:
     #         ip_pre_list = f.read().split('\n')
