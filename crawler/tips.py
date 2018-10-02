@@ -259,8 +259,8 @@ def down_tips():
 
 
 if __name__ == '__main__':
-    url = 'http://basic.10jqka.com.cn/300240'
-    req = requests.get(url=url, headers=get_random_header())
-    req.encoding = 'gbk'
-    parse_html(req.text)
-    # down_tips()
+    # url = 'http://basic.10jqka.com.cn/300240'
+    # req = requests.get(url=url, headers=get_random_header())
+    # req.encoding = 'gbk'
+    # parse_html(req.text)
+    down_tips()
