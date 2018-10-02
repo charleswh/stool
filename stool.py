@@ -3,7 +3,7 @@ import sys
 import argparse
 from datakit.data_local import update_local_database
 from crawler.blak import blakfp_entry
-from crawler.tips import update_tips
+from crawler.tips import down_tips, update_tips
 from utility.misc import backup_t0002, recover_t0002, make_list_of_t0002
 
 
@@ -56,7 +56,10 @@ if __name__ == '__main__':
         parser.print_help()
     else:
         if args.down_mode is not None:
-            update_local_database(args.down_mode)
+            if args.down_mode == 'tips':
+                down_tips()
+            else:
+                update_local_database(args.down_mode)
         if args.t0002_template is not None:
             make_list_of_t0002(args.t0002_template)
         if args.backup_src_path is not None:

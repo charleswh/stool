@@ -3,12 +3,10 @@ import os
 import pandas as pd
 import tushare as ts
 from analysis import formula
-from crawler.tips import down_tips, TIP_FILE
 from utility.log import log
 from utility.task import MultiTasks
-from utility.timekit import sleep, print_run_time
-from setting.settings import CSV_DIR, INFO_FILE, CONCEPT_FILE, TRADE_DATE_FILE, \
-    MAX_TASK_NUM, KTYPE, PERIORD_TAG
+from utility.timekit import print_run_time
+from setting.settings import CSV_DIR, INFO_FILE, TRADE_DATE_FILE, KTYPE, PERIORD_TAG
 
 FILE_ROOT = os.path.dirname(os.path.realpath(__file__))
 INFO_TOTAL_COL = ['name', 'industry', 'area', 'pe', 'outstanding', 'totals',
@@ -113,8 +111,6 @@ def update_local_database(mode):
                                   pd.Series(pcp, name='pcp'),
                                   pd.Series(ltsz, name='ltsz')], axis=1)
         updated_info.to_csv(INFO_FILE, encoding='utf-8-sig')
-    if mode == 'tips':
-        down_tips(codes)
     mt.close_tasks()
 
 

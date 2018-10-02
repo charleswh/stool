@@ -3,16 +3,14 @@ import os
 import random
 import requests
 from tqdm import tqdm
+import tushare as ts
 from utility.log import log
-from utility.timekit import time_str, sleep
-from setting.settings import TDX_ROOT, TIP_FOLDER, USER_AGENTS, CONCEPT_FILE
-from utility.timekit import print_run_time
+from utility.timekit import time_str, sleep, print_run_time
+from utility.task import MultiTasks
+from crawler.proxy import get_random_header
+from setting.settings import TDX_ROOT, TIP_FOLDER, USER_AGENTS, CONCEPT_FILE, PROXY_LIST
 
 TIP_FILE = os.path.join(TIP_FOLDER, '{}.html')
-THS_F10_URL = 'http://basic.10jqka.com.cn/{}'
-
-if not os.path.exists(TIP_FOLDER):
-    os.mkdir(TIP_FOLDER)
 
 
 def download_tips_worker(code):
@@ -92,13 +90,13 @@ def download_tips_worker(code):
     return info_dict
 
 
-def save_tips_worker(item, tip_file):
-    file = tip_file.format(item['code'])
-    yw = item['business'] if item['business'] is not None else '--'
-    tc = ', '.join(item['concept']) if item['concept'] is not None else '--'
-    if item['zhangting'] is not None:
-        zt = '{}, {}'.format(*item['zhangting'][:2])
-        ztyy = item['zhangting'][2] if item['zhangting'][2] is not None else '--'
+def save_tips(info):
+    file = TIP_FILE.format(info['code'])
+    yw = info['business'] if info['business'] is not None else '--'
+    tc = ', '.join(info['concept']) if info['concept'] is not None else '--'
+    if info['zhangting'] is not None:
+        zt = '{}, {}'.format(*info['zhangting'][:2])
+        ztyy = info['zhangting'][2] if info['zhangting'][2] is not None else '--'
     else:
         zt = '--'
         ztyy = '--'
@@ -141,35 +139,128 @@ def update_tips(args):
                 f.write(u)
 
 
-def down_tips(codes: list, mt=None):
-    ret_list = []
-    counter = 0
-    for code in tqdm(codes, ascii=True, desc='DownTips'):
+def get_single_html(code, proxy_queue, p_ip, lock):
+    header = get_random_header()
+    url = 'http://basic.10jqka.com.cn/{}'.format(code)
+    html = None
+    while True:
+        if len(p_ip) == 0:
+            with lock:
+                if not proxy_queue.empty():
+                    p_ip = proxy_queue.get()
+                else:
+                    p_ip = None
+        proxy_ip = {'http': '{}:{}'.format(*p_ip)} if p_ip is not None else p_ip
         try:
-            aa = download_tips_worker(code)
+            req = requests.get(url, headers=header, proxies=proxy_ip, timeout=3)
         except Exception as err:
-            aa = None
-            print(err)
-            print(code)
-            exit()
-        save_tips_worker(aa, TIP_FILE)
-        ret_list.append(aa)
-        sleep(random.randint(0, 6) * 0.1)
-        if counter == 30:
-            counter = 0
-            sleep(1)
+            with lock:
+                p_ip = []
+            continue
+        if req.status_code != 200:
+            if proxy is None:
+                log.error('All proxies and local IP are blocked by remote.')
+                exit(0)
+            else:
+                with lock:
+                    p_ip = []
+                continue
         else:
-            counter += 1
-    c = '\n'.join(list(map(lambda x: ','.join((x['code'], ' '.join(x['concept']))), ret_list)))
+            html = req.content.decode('gbk')
+            break
+    return html
+
+
+def parse_html(html):
+    info_dict = {}
+    pat = re.compile(r'主营业务：.*?<a.*?>(.*?)</a>.*', re.S)
+    find = pat.findall(html)
+    if len(find) == 1:
+        info_dict['business'] = find[0]
+    elif len(find) == 0:
+        info_dict['bussiness'] = None
+    else:
+        assert 0
+
+    pat = re.compile(r'<a class=\'newtaid\'.*?ifind">(.*?)<', re.S)
+    find = pat.findall(html)
+    pat = re.compile(r'<a class=\'newtaid\'.*?emerging">(.*?)<', re.S)
+    find.extend(pat.findall(html))
+    find = list(filter(lambda x: '详情' not in x or '>>' not in x, find))
+    if len(find) > 0:
+        info_dict['concept'] = find
+    else:
+        info_dict['concept'] = None
+
+    if html.find('涨停揭秘') != -1:
+        pat = re.compile(
+            r'<td class="hltip tc f12">(.*?)</td>.*?<strong class="hltip fl">(.*?)</strong>', re.S)
+        find = pat.findall(html)
+        date = None
+        try:
+            date = list(filter(lambda x: '涨停揭秘：' in x, find))[0][0]
+        except IndexError as err:
+            pat = re.compile(
+                r'<td rowspan="\d+" class="today tc">(.*?)</td>.*?<strong class="hltip fl">(.*?)</strong>',
+                re.S)
+            find = pat.findall(html)
+            date = list(filter(lambda x: '涨停揭秘：' in x, find))[0][0]
+        assert 0 if date is None else 1
+        date = time_str(fine=False) if '今天' in date else date
+        if date:
+            info_dict.setdefault('zhangting', []).append(date)
+        else:
+            info_dict.setdefault('zhangting', []).append(None)
+        pat = re.compile(r'<a class="fr hla gray f12 client.*?<span>\s*(.*?)\s*</span>', re.S)
+        find = pat.findall(html)
+        if len(find) > 0:
+            info_dict.setdefault('zhangting', []).extend(find)
+        else:
+            info_dict.setdefault('zhangting', []).append(None)
+        pat = re.compile(r'涨停原因.*?<div class="check_else">\s*(.*?)\s*</div>', re.S)
+        find = pat.findall(html)
+        if len(find) > 0:
+            for i in range(len(find)):
+                find[i] = find[i].replace('<span class="hl">', '')
+                find[i] = find[i].replace('</span>', '')
+            info_dict.setdefault('zhangting', []).extend(find)
+        else:
+            info_dict.setdefault('zhangting', []).append(None)
+    else:
+        info_dict['zhangting'] = None
+
+    return info_dict
+
+
+def down_tips_worker(code, proxy_queue, p_ip, lock):
+    html = get_single_html(code, proxy_queue, p_ip, lock)
+    info = parse_html(html)
+    info['code'] = code
+    save_tips(info)
+    return info
+
+
+def down_tips():
+    codes = ts.get_stock_basics().index.values.tolist()
+    with open(PROXY_LIST, 'r') as f:
+        proxies = f.read().split('\n')
+    proxies = list(map(lambda x: x.split(',')[:2], proxies))
+    codes = codes[:50]
+    proxies = proxies[:10]
+    with MultiTasks(4, tip_depth=len(proxies)) as mt:
+        mt.load_tips_queue(proxies)
+        res = mt.run_list_tasks(func=down_tips_worker, var_args=codes, en_bar=True, tips=True)
+
+    c = '\n'.join(list(map(lambda x: ','.join((x['code'], ' '.join(x['concept']))), res)))
     with open(CONCEPT_FILE, 'w') as f:
         f.write(c)
     log.info('Make concept list done.')
-    # sub_size = int((len(codes) + MAX_TASK_NUM) / MAX_TASK_NUM)
-    # sub_item = [results[i:i + sub_size] for i in range(0, len(results), sub_size)]
-    # mt.run_list_tasks(func=save_tips_worker, var_args=sub_item, fix_args=TIP_FILE,
-    #              en_bar=True, desc='Save-Tips')
     copy_diff_tips()
 
 
 if __name__ == '__main__':
-    down_tips(['002399'])
+    url = 'http://basic.10jqka.com.cn/300240'
+    req = requests.get(url=url, headers=get_random_header())
+    req.encoding = 'gbk'
+    parse_html(req.text)
+    # down_tips()

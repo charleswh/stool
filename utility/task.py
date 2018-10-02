@@ -9,20 +9,27 @@ from utility.timekit import TimerCount, print_run_time
 
 
 class MultiTasks(object):
-    def __init__(self, tn=None):
+    def __init__(self, task_num=None, tip_depth=None):
         with TimerCount('init'):
-            self.task_num = MAX_TASK_NUM if tn == None else tn
+            self.task_num = MAX_TASK_NUM if task_num == None else task_num
             self.manager = mp.Manager()
             self.lock = self.manager.Lock()
             self.counter = self.manager.Value(ctypes.c_uint32, 0)
-            self.queue = self.manager.Queue(self.task_num)
+            self.finish_flag = self.manager.Queue(self.task_num)
             self.init_counter_queue()
             self.pool = mp.Pool(processes=self.task_num + 1)
+            self.tips_queue = self.manager.Queue(tip_depth if tip_depth is not None else 0)
+            self.tips_ip = self.manager.list()
 
     def init_counter_queue(self):
         self.counter.value = 0
-        while self.queue.qsize() != self.task_num:
-            self.queue.put('f')
+        while self.finish_flag.qsize() != self.task_num:
+            self.finish_flag.put('f')
+
+    def load_tips_queue(self, proxy_ips: list):
+        for ip in proxy_ips:
+            self.tips_queue.put(ip)
+        self.tips_ip = []
 
     def close_tasks(self):
         self.pool.close()
@@ -63,15 +70,18 @@ class MultiTasks(object):
         return ret_set
 
     @print_run_time
-    def run_list_tasks(self, func, var_args, fix_args=None, en_bar=False, desc=None):
+    def run_list_tasks(self, func, var_args, fix_args=None, en_bar=False, desc=None, tips=False):
         self.init_counter_queue()
-        single_workload = int((len(var_args) + self.task_num) / self.task_num)
-        packed_var_args = [list(var_args[i:i + single_workload]) for i in
-                           range(0, len(var_args), single_workload)]
-        args = [[func, v, fix_args, self.lock, self.counter, self.queue] for v in packed_var_args]
-        bar_max = sum(len(x) for x in packed_var_args) if en_bar else None
+        workload = int((len(var_args) + self.task_num) / self.task_num)
+        var_sub = [list(var_args[i:i + workload]) for i in range(0, len(var_args), workload)]
+        if not tips:
+            args = [[func, v, fix_args, self.lock, self.counter, self.finish_flag] for v in var_sub]
+        else:
+            args = [[func, list(map(lambda x: [x, self.tips_queue, self.tips_ip, self.lock], v)),
+                     fix_args, self.lock, self.counter, self.finish_flag] for v in var_sub]
+        bar_max = sum(len(x) for x in var_sub) if en_bar else None
         if en_bar:
-            bar_args = (self.counter, self.queue, desc, bar_max)
+            bar_args = (self.counter, self.finish_flag, desc, bar_max)
             self.pool.apply_async(func=self.task_bar, args=bar_args)
         ret_res = self.pool.map(func=self.pack_list_func, iterable=args)
         if isinstance(ret_res[0], dict):

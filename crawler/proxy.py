@@ -12,7 +12,7 @@ from selenium.webdriver.chrome.options import Options
 from utility.log import log
 from utility.task import MultiTasks
 from utility.timekit import sleep
-from setting.settings import USER_AGENTS, PROXY_LIST, PROXY_BAK, MAX_TASK_NUM, CHROME_EXE
+from setting.settings import USER_AGENTS, PROXY_LIST, MAX_TASK_NUM, CHROME_EXE
 
 IP_TEST_WEB = 'http://2018.ip138.com/ic.asp'
 g_host_ip = None
