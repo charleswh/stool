@@ -152,8 +152,8 @@ def ip66():
 def xiaohuan():
     date = time.strftime('%Y/%m/%d', time.localtime())
     hour = time.strftime('%H', time.localtime())
-    base_url = 'https://ip.ihuan.me/today/{}/{}.html'
-    url = base_url.format(date, hour)
+    base_url = 'https://ip.ihuan.me/today/{}/{:02d}.html'
+    url = base_url.format(date, int(hour))
     req = requests.get(url, headers=get_random_header())
     req.encoding = 'utf-8'
     pat = re.compile('(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}):(\d{1,5}).*?', re.S)
@@ -194,7 +194,7 @@ def lingdu():
     return raw_ips
 
 
-def get_proxy_ip():
+def down_proxy_ip():
     global g_host_ip
     req = requests.get(IP_TEST_WEB)
     req.encoding = 'gbk'
@@ -209,7 +209,7 @@ def get_proxy_ip():
     df = pd.DataFrame(raw_ips, columns=['ip', 'port'])
     raw_ips = df.drop_duplicates(['ip', 'port'], 'first').values.tolist()
 
-    with MultiTasks(128) as mt:
+    with MultiTasks() as mt:
         valid_ips = check_ip_batch(raw_ips, mt)
 
     valid_ips.sort(key=lambda x: int(x[2]))
@@ -218,5 +218,16 @@ def get_proxy_ip():
         f.write('\n'.join(list(map(lambda x: ','.join(x), valid_ips))))
 
 
+def proxy_ip():
+    if not os.path.exists(PROXY_LIST):
+        return None
+    else:
+        with open(PROXY_LIST, 'r') as f:
+            ret = f.read().split('\n')
+            ret = list(map(lambda x:x.split(','), ret))
+            ret = list(map(lambda x:'{}:{}'.format(x[0], x[1]), ret))
+        return ret
+
+
 if __name__ == '__main__':
-    get_proxy_ip()
+    down_proxy_ip()

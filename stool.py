@@ -4,6 +4,7 @@ import argparse
 from datakit.data_local import update_local_database
 from crawler.blak import blakfp_entry
 from crawler.tips import down_tips, update_tips
+from crawler.proxy import down_proxy_ip
 from utility.misc import backup_t0002, recover_t0002, make_list_of_t0002
 
 
@@ -45,6 +46,9 @@ parser.add_argument('--update_tips',
 parser.add_argument('--blakfp',
                     action='store_true',
                     help='download blakfp papers')
+parser.add_argument('--update_proxy',
+                    action='store_true',
+                    help='update proxy IPs')
 parser.add_argument('--test',
                     action='store_true',
                     help='test function entry')
@@ -70,6 +74,8 @@ if __name__ == '__main__':
             update_tips(args.update_tips)
         if args.blakfp is True:
             blakfp_entry()
+        if args.update_proxy is True:
+            down_proxy_ip()
         if args.test:
             # mail_test()
             dbg = 0

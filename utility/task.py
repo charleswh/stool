@@ -3,13 +3,15 @@ import ctypes
 import numpy as np
 import multiprocessing as mp
 from functools import reduce
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from utility.log import log
-from setting.settings import MAX_TASK_NUM
 from utility.timekit import TimerCount, print_run_time
+from setting.settings import MAX_TASK_NUM, CHROME_EXE
 
 
 class MultiTasks(object):
-    def __init__(self, task_num=None, tip_depth=None):
+    def __init__(self, task_num=None):
         with TimerCount('init'):
             self.task_num = MAX_TASK_NUM if task_num == None else task_num
             self.manager = mp.Manager()
@@ -18,18 +20,11 @@ class MultiTasks(object):
             self.finish_flag = self.manager.Queue(self.task_num)
             self.init_counter_queue()
             self.pool = mp.Pool(processes=self.task_num + 1)
-            self.tips_queue = self.manager.Queue(tip_depth if tip_depth is not None else 0)
-            self.tips_ip = self.manager.list()
 
     def init_counter_queue(self):
         self.counter.value = 0
         while self.finish_flag.qsize() != self.task_num:
             self.finish_flag.put('f')
-
-    def load_tips_queue(self, proxy_ips: list):
-        for ip in proxy_ips:
-            self.tips_queue.put(ip)
-        self.tips_ip = []
 
     def close_tasks(self):
         self.pool.close()
@@ -49,18 +44,30 @@ class MultiTasks(object):
     @staticmethod
     def pack_list_func(paras):
         func, var, fix, lock, counter, finish_queue = paras
+        is_varg_list = False
         if var is None or len(var) <= 0:
             log.error('Illegal <var> para in <packed_func>')
         if fix is not None and not isinstance(fix, dict):
             assert 0
-        if not (isinstance(var[0], list) or isinstance(var[0], np.ndarray) or isinstance(var[0], tuple)):
-            assert 0
+        if isinstance(var[0], list) or isinstance(var[0], np.ndarray) or isinstance(var[0], tuple):
+            is_varg_list = True
+
+        # if 'tips' in fix.keys() and fix['tips']:
+        #     opt = Options()
+        #     opt.add_argument('--headless')
+        #     fix = {'browser':webdriver.Chrome(CHROME_EXE, options=opt)}
         ret_set = []
         for item in var:
             if fix is None:
-                ret = func(*item)
+                if is_varg_list:
+                    ret = func(*item)
+                else:
+                    ret = func(item)
             else:
-                ret = func(*item, **fix)
+                if is_varg_list:
+                    ret = func(*item, **fix)
+                else:
+                    ret = func(item, **fix)
             if lock is not None and counter is not None:
                 with lock:
                     counter.value += 1

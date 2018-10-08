@@ -17,6 +17,7 @@ CHROME_EXE = os.path.join(BIN_ROOT, 'chromedriver.exe')
 SETTING_ROOT = os.path.join(ROOT, 'setting')
 T0002_LIST = os.path.join(SETTING_ROOT, 't0002.list')
 PROXY_LIST = os.path.join(SETTING_ROOT, 'proxy_ips.txt')
+VALID_PROXIES = os.path.join(SETTING_ROOT, 'valid_proxies.txt')
 
 MONITOR_ROOT = os.path.join(ROOT, 'monitor')
 TDX_IMPORT_LIST = os.path.join(MONITOR_ROOT, 'tdx.txt')
