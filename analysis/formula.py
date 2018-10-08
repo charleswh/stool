@@ -4,6 +4,7 @@ import numpy as np
 from tqdm import tqdm
 import tushare as ts
 from datakit import *
+from setting.settings import INFO_FILE
 
 
 def percision(x, p):

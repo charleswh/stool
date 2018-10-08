@@ -81,11 +81,7 @@ class MultiTasks(object):
         self.init_counter_queue()
         workload = int((len(var_args) + self.task_num) / self.task_num)
         var_sub = [list(var_args[i:i + workload]) for i in range(0, len(var_args), workload)]
-        if not tips:
-            args = [[func, v, fix_args, self.lock, self.counter, self.finish_flag] for v in var_sub]
-        else:
-            args = [[func, list(map(lambda x: [x, self.tips_queue, self.tips_ip, self.lock], v)),
-                     fix_args, self.lock, self.counter, self.finish_flag] for v in var_sub]
+        args = [[func, v, fix_args, self.lock, self.counter, self.finish_flag] for v in var_sub]
         bar_max = sum(len(x) for x in var_sub) if en_bar else None
         if en_bar:
             bar_args = (self.counter, self.finish_flag, desc, bar_max)
