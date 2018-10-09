@@ -1249,3 +1249,11 @@
 2018-10-07 21:00:23,459 INFO     : Got 60 raw IPs from <data5u>
 2018-10-07 21:00:25,641 INFO     : Run time of init: 2.148 seconds.
 2018-10-07 21:01:55,914 INFO     : [run_list_tasks] run time is 90.0043 seconds.
+2018-10-08 21:45:45,918 INFO     : Run time of init: 2.076 seconds.
+2018-10-08 21:47:10,809 INFO     : [run_list_tasks] run time is 84.7864 seconds.
+2018-10-08 21:48:04,774 INFO     : [run_list_tasks] run time is 53.9641 seconds.
+2018-10-08 21:48:07,825 INFO     : [down_local_data] run time is 154.8854 seconds.
+2018-10-08 22:19:14,297 INFO     : Backup TDX customer data...
+2018-10-08 22:19:46,252 INFO     : Login email server with user charles_wh@outlook.com
+2018-10-08 22:19:50,189 INFO     : Sending mail...
+2018-10-08 22:19:50,401 INFO     : Success!

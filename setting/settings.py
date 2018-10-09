@@ -31,11 +31,15 @@ MAX_TASK_NUM = 32
 KTYPE = ['D', '60', '30', '15', '5']
 PERIORD_TAG = ['day', 'min60', 'min30', 'min15', 'min5']
 
+
 if not os.path.exists(OUT_DIR):
     os.mkdir(OUT_DIR)
 
 if not os.path.exists(TIP_FOLDER):
     os.mkdir(TIP_FOLDER)
+
+if not os.path.exists(CSV_DIR):
+    os.mkdir(CSV_DIR)
 
 
 USER_AGENTS = [

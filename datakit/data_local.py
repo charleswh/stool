@@ -43,25 +43,6 @@ def download_trade_data():
         pass
 
 
-@print_run_time
-def down_info_data(update=True):
-    basic_infos = None
-    if update is True:
-        keep_cols = ['name', 'outstanding', 'timeToMarket']
-        basic_infos = ts.get_stock_basics()
-        useless_cols = list(set(basic_infos.columns).difference(set(keep_cols)))
-        basic_infos = basic_infos.drop(columns=useless_cols)
-        basic_infos = basic_infos[basic_infos['name'].str.find('*') == -1]
-        basic_infos = basic_infos[basic_infos['timeToMarket'] != 0]
-    else:
-        if os.path.exists(INFO_FILE):
-            basic_infos = pd.read_csv(INFO_FILE)
-        else:
-            log.error('No info file <{}>!'.format(INFO_FILE))
-    basic_infos = basic_infos.reset_index()
-    return basic_infos
-
-
 def download_basic_worker(code):
     ret = {}
     datas = None
@@ -82,43 +63,22 @@ def save_basic_worker(stock):
 
 
 @print_run_time
-def update_local_database(mode):
-    if not os.path.exists(CSV_DIR):
-        os.mkdir(CSV_DIR)
-    info_data = down_info_data()
-    codes = list(info_data['code'])
+def down_local_data():
+    info = ts.get_today_all().sort_values(by='changepercent', ascending=False)
+    info.to_csv(INFO_FILE, index=False, encoding='utf-8-sig')
+    codes = list(info['code'])
     download_trade_data()
-    mt = MultiTasks()
-    if mode == 'basic' or mode == 'all':
+    with MultiTasks() as mt:
         basic = mt.run_list_tasks(func=download_basic_worker, var_args=codes, en_bar=True,
                                   desc='Down-Basic')
         mt.run_list_tasks(func=save_basic_worker, var_args=basic, en_bar=True, desc='Save-Basic')
-    if mode == 'info' or mode == 'all':
-        zt = mt.run_list_tasks(func=formula.zt, var_args=info_data.shape[0], en_bar=True,
-                               desc='Cal-ZT')
-        zb = mt.run_list_tasks(func=formula.zb, var_args=info_data.shape[0], en_bar=True,
-                               desc='Cal-ZB')
-        pcp = mt.run_list_tasks(func=formula.pcp, var_args=info_data.shape[0], en_bar=True,
-                                desc='Cal-PCP')
-        t = info_data.loc[:, ('code', 'outstanding')].values
-        tor = mt.run_list_tasks(func=formula.tor, var_args=t, en_bar=True, desc='Cal-TOR')
-        ltsz = mt.run_list_tasks(func=formula.ltsz, var_args=t, en_bar=True, desc='Cal-LTSZ')
-
-        updated_info = pd.concat([info_data,
-                                  pd.Series(zt, name='zt'),
-                                  pd.Series(zb, name='zb'),
-                                  pd.Series(tor, name='tor'),
-                                  pd.Series(pcp, name='pcp'),
-                                  pd.Series(ltsz, name='ltsz')], axis=1)
-        updated_info.to_csv(INFO_FILE, encoding='utf-8-sig')
-    mt.close_tasks()
 
 
 if __name__ == '__main__':
-    pass
+    down_local_data()
     # save_tips_worker(download_tips_worker('300071'))
     # with TimerCount('Test of Download'):
-    #     update_local_database('tips')
+    #     down_local_data('tips')
     # from selenium import webdriver
     # with TimerCount('selenium test'):
     #     url = THS_F10_URL.format('000760')
