@@ -8,11 +8,6 @@ from utility.task import MultiTasks
 from utility.timekit import print_run_time
 from setting.settings import CSV_DIR, INFO_FILE, TRADE_DATE_FILE, KTYPE, PERIORD_TAG
 
-FILE_ROOT = os.path.dirname(os.path.realpath(__file__))
-INFO_TOTAL_COL = ['name', 'industry', 'area', 'pe', 'outstanding', 'totals',
-                  'totalAssets', 'liquidAssets', 'fixedAssets', 'reserved',
-                  'reservedPerShare', 'esp', 'bvps', 'pb', 'timeToMarket',
-                  'undp', 'perundp', 'rev', 'profit', 'gpr', 'npr', 'holders']
 
 
 def get_local_info(code, item):
