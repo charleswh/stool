@@ -1252,8 +1252,20 @@
 2018-10-08 21:45:45,918 INFO     : Run time of init: 2.076 seconds.
 2018-10-08 21:47:10,809 INFO     : [run_list_tasks] run time is 84.7864 seconds.
 2018-10-08 21:48:04,774 INFO     : [run_list_tasks] run time is 53.9641 seconds.
-2018-10-08 21:48:07,825 INFO     : [down_local_data] run time is 154.8854 seconds.
+2018-10-08 21:48:07,825 INFO     : [down_k_data_local] run time is 154.8854 seconds.
 2018-10-08 22:19:14,297 INFO     : Backup TDX customer data...
 2018-10-08 22:19:46,252 INFO     : Login email server with user charles_wh@outlook.com
 2018-10-08 22:19:50,189 INFO     : Sending mail...
 2018-10-08 22:19:50,401 INFO     : Success!
+2018-10-10 23:05:19,911 INFO     : Run time of init: 2.143 seconds.
+2018-10-10 23:06:41,001 INFO     : [run_list_tasks] run time is 81.0888 seconds.
+2018-10-10 23:07:27,230 INFO     : [run_list_tasks] run time is 46.2282 seconds.
+2018-10-10 23:07:29,773 INFO     : [down_k_data_local] run time is 142.3588 seconds.
+2018-10-10 23:26:52,335 INFO     : Backup TDX customer data...
+2018-10-10 23:27:09,682 INFO     : Login email server with user charles_wh@outlook.com
+2018-10-10 23:27:18,586 INFO     : Sending mail...
+2018-10-10 23:27:18,866 INFO     : Success!
+2018-10-11 22:45:15,654 INFO     : Run time of init: 3.468 seconds.
+2018-10-11 22:46:58,399 INFO     : [run_list_tasks] run time is 102.4769 seconds.
+2018-10-11 22:47:55,074 INFO     : [run_list_tasks] run time is 56.6736 seconds.
+2018-10-11 22:47:58,771 INFO     : [down_k_data_local] run time is 194.4720 seconds.

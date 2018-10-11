@@ -12,7 +12,7 @@ CSV_PREFIX = dict(zip(KTYPE, PERIORD_TAG))
 def read_trade_date():
     df = None
     if not os.path.exists(TRADE_DATE_FILE):
-        download_trade_data()
+        down_trade()
     else:
         df = pd.read_csv(TRADE_DATE_FILE, header=None)
     return df.values

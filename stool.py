@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 import sys
 import argparse
-from datakit.data_local import down_local_data
+from datakit.local_data import down_k_data_local
 from crawler.blak import blakfp_entry
 from crawler.tips import down_tips, update_tips
 from crawler.proxy import down_proxy_ip
@@ -59,7 +59,7 @@ if __name__ == '__main__':
         parser.print_help()
     else:
         if args.local_data is True:
-            down_local_data()
+            down_k_data_local()
         if args.tips is True:
             down_tips()
         if args.t0002_template is not None:

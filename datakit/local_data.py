@@ -2,11 +2,11 @@
 import os
 import pandas as pd
 import tushare as ts
-from analysis import formula
 from utility.log import log
 from utility.task import MultiTasks
 from utility.timekit import print_run_time
 from setting.settings import CSV_DIR, INFO_FILE, TRADE_DATE_FILE, KTYPE, PERIORD_TAG
+
 
 
 
@@ -19,7 +19,7 @@ def get_local_info(code, item):
     return infos.loc[code, item]
 
 
-def get_all_codes():
+def get_codes():
     if not os.path.exists(INFO_FILE):
         log.info('No local info file: {}, get all codes online.'.format(INFO_FILE))
         ret = ts.get_stock_basics().index
@@ -28,7 +28,12 @@ def get_all_codes():
     return ret
 
 
-def download_trade_data():
+def get_k_data_local(code, ktype='D'):
+    file = os.path.join(CSV_DIR, '{}_{}.csv'.format(PERIORD_TAG[KTYPE.index(ktype)], code))
+    return pd.read_csv(file)
+
+
+def down_trade():
     if not os.path.exists(TRADE_DATE_FILE):
         df = ts.trade_cal()
         df = df[df['isOpen'] == 1]
@@ -38,7 +43,7 @@ def download_trade_data():
         pass
 
 
-def download_basic_worker(code):
+def down_k_worker(code):
     ret = {}
     datas = None
     try:
@@ -50,24 +55,24 @@ def download_basic_worker(code):
     return ret
 
 
-def save_basic_worker(stock):
+def save_k_worker(stock):
     for code in stock:
         for i in range(5):
-            file_name = '{}\\{}_{}.csv'.format(CSV_DIR, PERIORD_TAG[i], code)
-            stock[code][i].sort_index(ascending=False).to_csv(file_name, index=False)
+            file_name = os.path.join(CSV_DIR, '{}_{}.csv'.format(PERIORD_TAG[i], code))
+            stock[code][i].to_csv(file_name, index=False)
 
 
 @print_run_time
-def down_local_data():
+def down_k_data_local():
     info = ts.get_today_all().sort_values(by='changepercent', ascending=False)
     info.to_csv(INFO_FILE, index=False, encoding='utf-8-sig')
     codes = list(info['code'])
-    download_trade_data()
+    down_trade()
     with MultiTasks() as mt:
-        basic = mt.run_list_tasks(func=download_basic_worker, var_args=codes, en_bar=True,
+        basic = mt.run_list_tasks(func=down_k_worker, var_args=codes, en_bar=True,
                                   desc='Down-Basic')
-        mt.run_list_tasks(func=save_basic_worker, var_args=basic, en_bar=True, desc='Save-Basic')
+        mt.run_list_tasks(func=save_k_worker, var_args=basic, en_bar=True, desc='Save-Basic')
 
 
 if __name__ == '__main__':
-    down_local_data()
+    down_k_data_local()
