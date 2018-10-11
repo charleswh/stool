@@ -71,14 +71,3 @@ def down_local_data():
 
 if __name__ == '__main__':
     down_local_data()
-    # save_tips_worker(download_tips_worker('300071'))
-    # with TimerCount('Test of Download'):
-    #     down_local_data('tips')
-    # from selenium import webdriver
-    # with TimerCount('selenium test'):
-    #     url = THS_F10_URL.format('000760')
-    #     driver = webdriver.Chrome()
-    #     driver.get(url)
-    #     data = driver.page_source.encode('utf-8', 'ignore')
-    #
-    # print(data)
