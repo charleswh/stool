@@ -8,8 +8,6 @@ from utility.timekit import print_run_time
 from setting.settings import CSV_DIR, INFO_FILE, TRADE_DATE_FILE, KTYPE, PERIORD_TAG
 
 
-
-
 def get_local_info(code, item):
     if not os.path.exists(INFO_FILE):
         log.error('No local info file: {}!'.format(INFO_FILE))
@@ -42,6 +40,14 @@ def down_trade():
     else:
         pass
 
+
+def get_trade_date():
+    df = None
+    if not os.path.exists(TRADE_DATE_FILE):
+        down_trade()
+    else:
+        df = pd.read_csv(TRADE_DATE_FILE, header=None)
+    return df.values
 
 def down_k_worker(code):
     ret = {}

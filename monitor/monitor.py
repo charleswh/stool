@@ -7,7 +7,6 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from utility.log import log
 from utility.timekit import sleep
 from setting.settings import TDX_ROOT, TDX_IMPORT_LIST, MANUAL_LIST
-from datakit.data_interface import read_trade_date
 from analysis.formula import percision
 
 def import_tdx_list():
@@ -66,7 +65,7 @@ def simple_ts24_monitor():
 
 
 def check_trade_time() -> bool:
-    trade_date = read_trade_date()
+    trade_date = get_trade_date()
     cur_date = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d')
     if cur_date not in trade_date:
         return False

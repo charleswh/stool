@@ -1269,3 +1269,7 @@
 2018-10-11 22:46:58,399 INFO     : [run_list_tasks] run time is 102.4769 seconds.
 2018-10-11 22:47:55,074 INFO     : [run_list_tasks] run time is 56.6736 seconds.
 2018-10-11 22:47:58,771 INFO     : [down_k_data_local] run time is 194.4720 seconds.
+2018-10-12 16:23:15,417 INFO     : Run time of init: 1.736 seconds.
+2018-10-12 16:28:06,436 INFO     : [run_list_tasks] run time is 290.7444 seconds.
+2018-10-12 16:28:41,638 INFO     : [run_list_tasks] run time is 35.2009 seconds.
+2018-10-12 16:28:44,171 INFO     : [down_k_data_local] run time is 341.7432 seconds.
