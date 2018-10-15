@@ -7,6 +7,8 @@ from utility.task import MultiTasks
 from utility.timekit import print_run_time
 from setting.settings import CSV_DIR, INFO_FILE, TRADE_DATE_FILE, KTYPE, PERIORD_TAG
 
+OHLC_DICT = {'open': 'first', 'high': 'max', 'low': 'min', 'close': 'last', 'volume': 'sum',
+             'code': 'last'}
 
 def get_local_info(code, item):
     if not os.path.exists(INFO_FILE):
@@ -28,7 +30,7 @@ def get_codes():
 
 def get_k_data_local(code, ktype='D'):
     file = os.path.join(CSV_DIR, '{}_{}.csv'.format(PERIORD_TAG[KTYPE.index(ktype)], code))
-    return pd.read_csv(file)
+    return pd.read_csv(file, parse_dates=['date'])
 
 
 def down_trade():
@@ -49,6 +51,7 @@ def get_trade_date():
         df = pd.read_csv(TRADE_DATE_FILE, header=None)
     return df.values
 
+
 def down_k_worker(code):
     ret = {}
     datas = None
@@ -68,6 +71,27 @@ def save_k_worker(stock):
             stock[code][i].to_csv(file_name, index=False)
 
 
+def ohlcsum(df):
+    return {
+        'open': df['open'][0],
+        'high': df['high'].max(),
+        'low': df['low'].min(),
+        'close': df['close'][-1],
+        'volume': df['volume'].sum()
+    }
+
+
+def gen_120_k_data(code):
+    # m60_data = get_k_data_local(code, ktype='60').set_index(['date'])
+    m60_data = ts.get_k_data(code, ktype='60')
+    aa = m60_data.groupby(m60_data.asof).agg({'low': lambda s: s.min(),
+                                              'high': lambda s: s.max(),
+                                              'open': lambda s: s[0],
+                                              'close': lambda s: s[-1],
+                                              'volume': lambda s: s.sum()})
+    aa = m60_data.resample('60T', how=OHLC_DICT, closed='left', label='left')
+
+
 @print_run_time
 def down_k_data_local():
     info = ts.get_today_all().sort_values(by='changepercent', ascending=False)
@@ -81,4 +105,5 @@ def down_k_data_local():
 
 
 if __name__ == '__main__':
-    down_k_data_local()
+    # down_k_data_local()
+    gen_120_k_data('600532')
