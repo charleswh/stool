@@ -7,7 +7,7 @@ from utility.task import MultiTasks
 from utility.timekit import print_run_time
 from setting.settings import CSV_DIR, INFO_FILE, TRADE_DATE_FILE, KTYPE, PERIORD_TAG
 
-OHLC_DICT = {'open': 'first', 'high': 'max', 'low': 'min', 'close': 'last', 'volume': 'sum',
+OHLC_DICT = {'open': 'first', 'close': 'last', 'high': 'max', 'low': 'min', 'volume': 'sum',
              'code': 'last'}
 
 def get_local_info(code, item):
@@ -82,28 +82,29 @@ def ohlcsum(df):
 
 
 def gen_120_k_data(code):
-    # m60_data = get_k_data_local(code, ktype='60').set_index(['date'])
-    m60_data = ts.get_k_data(code, ktype='60')
-    aa = m60_data.groupby(m60_data.asof).agg({'low': lambda s: s.min(),
-                                              'high': lambda s: s.max(),
-                                              'open': lambda s: s[0],
-                                              'close': lambda s: s[-1],
-                                              'volume': lambda s: s.sum()})
-    aa = m60_data.resample('60T', how=OHLC_DICT, closed='left', label='left')
+    m60_data = get_k_data_local(code, ktype='60').set_index(['date'])
+    m120 = m60_data.resample('120T').agg(OHLC_DICT).dropna()
+    m120.index = m60_data.index[1::2]
+    file_name = os.path.join(CSV_DIR, '{}_{}.csv'.format('min120', code))
+    m120.reset_index().to_csv(file_name, index=False)
+    print(code)
 
 
 @print_run_time
 def down_k_data_local():
     info = ts.get_today_all().sort_values(by='changepercent', ascending=False)
+    info.drop_duplicates(inplace=True)
+    info = info[~info['name'].str.contains('ST')]
+    info = info[~info['name'].str.contains('退市')]
     info.to_csv(INFO_FILE, index=False, encoding='utf-8-sig')
     codes = list(info['code'])
     down_trade()
     with MultiTasks() as mt:
-        basic = mt.run_list_tasks(func=down_k_worker, var_args=codes, en_bar=True,
-                                  desc='Down-Basic')
-        mt.run_list_tasks(func=save_k_worker, var_args=basic, en_bar=True, desc='Save-Basic')
+        # basic = mt.run_list_tasks(func=down_k_worker, var_args=codes, en_bar=True, desc='DownBasic')
+        # mt.run_list_tasks(func=save_k_worker, var_args=basic, en_bar=True, desc='SaveBasic')
+        mt.run_list_tasks(func=gen_120_k_data, var_args=codes, en_bar=True, desc='Gen M120')
 
 
 if __name__ == '__main__':
-    # down_k_data_local()
+    down_k_data_local()
     gen_120_k_data('600532')

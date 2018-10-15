@@ -12,14 +12,13 @@ from setting.settings import MAX_TASK_NUM, CHROME_EXE
 
 class MultiTasks(object):
     def __init__(self, task_num=None):
-        with TimerCount('init'):
-            self.task_num = MAX_TASK_NUM if task_num == None else task_num
-            self.manager = mp.Manager()
-            self.lock = self.manager.Lock()
-            self.counter = self.manager.Value(ctypes.c_uint32, 0)
-            self.finish_flag = self.manager.Queue(self.task_num)
-            self.init_counter_queue()
-            self.pool = mp.Pool(processes=self.task_num + 1)
+        self.task_num = MAX_TASK_NUM if task_num == None else task_num
+        self.manager = mp.Manager()
+        self.lock = self.manager.Lock()
+        self.counter = self.manager.Value(ctypes.c_uint32, 0)
+        self.finish_flag = self.manager.Queue(self.task_num)
+        self.init_counter_queue()
+        self.pool = mp.Pool(processes=self.task_num + 1)
 
     def init_counter_queue(self):
         self.counter.value = 0
