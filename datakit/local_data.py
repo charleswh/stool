@@ -71,23 +71,16 @@ def save_k_worker(stock):
             stock[code][i].to_csv(file_name, index=False)
 
 
-def ohlcsum(df):
-    return {
-        'open': df['open'][0],
-        'high': df['high'].max(),
-        'low': df['low'].min(),
-        'close': df['close'][-1],
-        'volume': df['volume'].sum()
-    }
-
-
 def gen_120_k_data(code):
-    m60_data = get_k_data_local(code, ktype='60').set_index(['date'])
-    m120 = m60_data.resample('120T').agg(OHLC_DICT).dropna()
-    m120.index = m60_data.index[1::2]
-    file_name = os.path.join(CSV_DIR, '{}_{}.csv'.format('min120', code))
-    m120.reset_index().to_csv(file_name, index=False)
-    print(code)
+    try:
+        m60_data = get_k_data_local(code, ktype='60').set_index(['date'])
+        m120 = m60_data.resample('2H').agg(OHLC_DICT).dropna()
+        m120.index = m60_data.index[1::2]
+        file_name = os.path.join(CSV_DIR, '{}_{}.csv'.format('min120', code))
+        m120.reset_index().to_csv(file_name, index=False)
+    except Exception as err:
+        print('{}, {}'.format(code, err))
+        assert 0
 
 
 @print_run_time
@@ -106,5 +99,5 @@ def down_k_data_local():
 
 
 if __name__ == '__main__':
-    down_k_data_local()
+    # down_k_data_local()
     gen_120_k_data('600532')
