@@ -1,6 +1,7 @@
 import os
 import platform
 
+
 ROOT = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 OUT_DIR = os.path.join(ROOT, 'out_dir')
 TIP_FOLDER = os.path.join(OUT_DIR, 'tips')
@@ -18,6 +19,7 @@ SETTING_ROOT = os.path.join(ROOT, 'setting')
 T0002_LIST = os.path.join(SETTING_ROOT, 't0002.list')
 PROXY_LIST = os.path.join(SETTING_ROOT, 'proxy_ips.txt')
 VALID_PROXIES = os.path.join(SETTING_ROOT, 'valid_proxies.txt')
+CUSTOM_TRADING = os.path.join(SETTING_ROOT, 'trading.py')
 
 MONITOR_ROOT = os.path.join(ROOT, 'monitor')
 TDX_IMPORT_LIST = os.path.join(MONITOR_ROOT, 'tdx.txt')
@@ -41,6 +43,19 @@ if not os.path.exists(TIP_FOLDER):
 if not os.path.exists(CSV_DIR):
     os.mkdir(CSV_DIR)
 
+# import site
+# import shutil
+# SITE_PACKAGES_PATH = None
+# for _ in site.getsitepackages():
+#     if 'site-packages' in _:
+#         SITE_PACKAGES_PATH = _
+#     else:
+#         continue
+#
+# dst_file = os.path.join(SITE_PACKAGES_PATH, 'tushare', 'stock', 'trading.py')
+# if os.path.exists(dst_file):
+#     os.unlink(dst_file)
+#     shutil.copy(CUSTOM_TRADING, dst_file)
 
 USER_AGENTS = [
     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; AcooBrowser; .NET CLR 1.1.4322; .NET CLR 2.0.50727)",

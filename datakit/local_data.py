@@ -53,15 +53,10 @@ def get_trade_date():
 
 
 def down_k_worker(code):
-    ret = {}
-    datas = None
-    try:
-        datas = list(map(ts.get_k_data, [code] * 5, [''] * 5, [''] * 5, KTYPE))
-    except Exception as err:
-        log.err('Download {} fail.'.format(code))
-        log.error(err)
-    ret[code] = datas
-    return ret
+    datas = []
+    for kt in KTYPE:
+        datas.append(ts.get_k_data(code, ktype=kt, retry_count=99))
+    return {code: datas}
 
 
 def save_k_worker(stock):
@@ -87,7 +82,6 @@ def gen_120_k_data(code):
     m120.index = m60_data.index[1::2]
     file_name = os.path.join(CSV_DIR, '{}_{}.csv'.format('min120', code))
     m120.reset_index().to_csv(file_name, index=False)
-    print(code)
 
 
 @print_run_time
@@ -100,11 +94,12 @@ def down_k_data_local():
     codes = list(info['code'])
     down_trade()
     with MultiTasks() as mt:
-        # basic = mt.run_list_tasks(func=down_k_worker, var_args=codes, en_bar=True, desc='DownBasic')
-        # mt.run_list_tasks(func=save_k_worker, var_args=basic, en_bar=True, desc='SaveBasic')
-        mt.run_list_tasks(func=gen_120_k_data, var_args=codes, en_bar=True, desc='Gen M120')
+        basic = mt.run_list_tasks(func=down_k_worker, var_args=codes, en_bar=True, desc='DownBasic')
+        mt.run_list_tasks(func=save_k_worker, var_args=basic, en_bar=True, desc='SaveBasic')
+        # mt.run_list_tasks(func=gen_120_k_data, var_args=codes, en_bar=True, desc='Gen M120')
 
 
 if __name__ == '__main__':
-    down_k_data_local()
+    down_k_worker('600532')
+    #down_k_data_local()
     gen_120_k_data('600532')
