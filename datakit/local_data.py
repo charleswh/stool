@@ -30,7 +30,10 @@ def get_codes():
 
 def get_k_data_local(code, ktype='D'):
     file = os.path.join(CSV_DIR, '{}_{}.csv'.format(PERIORD_TAG[KTYPE.index(ktype)], code))
-    return pd.read_csv(file, parse_dates=['date'])
+    if os.path.exists(file):
+        return pd.read_csv(file, parse_dates=['date'])
+    else:
+        return None
 
 
 def down_trade():
@@ -77,11 +80,22 @@ def ohlcsum(df):
 
 
 def gen_120_k_data(code):
-    m60_data = get_k_data_local(code, ktype='60').set_index(['date'])
-    m120 = m60_data.resample('120T').agg(OHLC_DICT).dropna()
-    m120.index = m60_data.index[1::2]
-    file_name = os.path.join(CSV_DIR, '{}_{}.csv'.format('min120', code))
-    m120.reset_index().to_csv(file_name, index=False)
+    try:
+        m60 = get_k_data_local(code, ktype='60').set_index(['date'])
+        if m60 is not None:
+            if m60.shape[0] % 2 == 1:
+                m60.drop([0], inplace=True)
+            m120 = m60.resample('120T').agg(OHLC_DICT).dropna()
+            new_index = m60.index[1::2]
+            if new_index.shape[0] == m120.shape[0]:
+                file_name = os.path.join(CSV_DIR, '{}_{}.csv'.format('min120', code))
+                m120.reset_index().to_csv(file_name, index=False)
+            else:
+                pass
+    except Exception as err:
+        print(code)
+        print(err)
+        assert 0
 
 
 @print_run_time
@@ -96,10 +110,10 @@ def down_k_data_local():
     with MultiTasks() as mt:
         basic = mt.run_list_tasks(func=down_k_worker, var_args=codes, en_bar=True, desc='DownBasic')
         mt.run_list_tasks(func=save_k_worker, var_args=basic, en_bar=True, desc='SaveBasic')
-        # mt.run_list_tasks(func=gen_120_k_data, var_args=codes, en_bar=True, desc='Gen M120')
+        mt.run_list_tasks(func=gen_120_k_data, var_args=codes, en_bar=True, desc='Gen M120')
 
 
 if __name__ == '__main__':
-    down_k_worker('600532')
+    #down_k_worker('600532')
     #down_k_data_local()
-    gen_120_k_data('600532')
+    gen_120_k_data('600733')
