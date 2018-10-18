@@ -75,7 +75,6 @@ class MultiTasks(object):
             finish_queue.get()
         return ret_set
 
-    @print_run_time
     def run_list_tasks(self, func, var_args, fix_args=None, en_bar=False, desc=None, tips=False):
         self.init_counter_queue()
         workload = int((len(var_args) + self.task_num) / self.task_num)
