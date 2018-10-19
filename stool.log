@@ -1313,3 +1313,4 @@
 2018-10-18 22:42:08,710 INFO     : [run_list_tasks] run time is 48.9530 seconds.
 2018-10-18 22:42:31,408 INFO     : [run_list_tasks] run time is 22.6970 seconds.
 2018-10-18 22:42:34,238 INFO     : [down_k_data_local] run time is 183.6599 seconds.
+2018-10-19 19:46:01,069 INFO     : Backup TDX customer data...

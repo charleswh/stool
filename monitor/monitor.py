@@ -6,6 +6,7 @@ from glob import glob
 from apscheduler.schedulers.background import BackgroundScheduler
 from utility.log import log
 from utility.timekit import sleep
+from datakit.local_data import get_trade_date
 from setting.settings import TDX_ROOT, TDX_IMPORT_LIST, MANUAL_LIST
 from analysis.formula import percision
 
