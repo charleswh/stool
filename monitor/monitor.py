@@ -6,9 +6,8 @@ from glob import glob
 from apscheduler.schedulers.background import BackgroundScheduler
 from utility.log import log
 from utility.timekit import sleep
-from datakit.local_data import get_trade_date
+from datakit.datakit import get_trade_date
 from setting.settings import TDX_ROOT, TDX_IMPORT_LIST, MANUAL_LIST
-from analysis.formula import percision
 
 def import_tdx_list():
     blk_dir = os.path.join(TDX_ROOT, 'T0002', 'blocknew')
@@ -37,19 +36,19 @@ def get_manual_list() -> list:
     return content.split('\n')
 
 
-def simple_cal_one(code, ktype='D'):
-    print('process code {}'.format(code))
-    data = ts.get_k_data(code=code, ktype=ktype)
-    c = data['close'].sort_index(ascending=False)
-    ma24 = c.rolling(window=24).mean().dropna(axis=0).apply(percision, **{'p': 2}).values
-    ma24_cur = ma24[0]
-    c_cur = c.values[0]
-    up_th = 1.5 * 0.01
-    down_th = 0.8 * 0.01
-    if ma24_cur * (1 - down_th) < c_cur < ma24_cur * (1 + up_th):
-        return 1
-    else:
-        return 0
+# def simple_cal_one(code, ktype='D'):
+#     print('process code {}'.format(code))
+#     data = ts.get_k_data(code=code, ktype=ktype)
+#     c = data['close'].sort_index(ascending=False)
+#     ma24 = c.rolling(window=24).mean().dropna(axis=0).apply(percision, **{'p': 2}).values
+#     ma24_cur = ma24[0]
+#     c_cur = c.values[0]
+#     up_th = 1.5 * 0.01
+#     down_th = 0.8 * 0.01
+#     if ma24_cur * (1 - down_th) < c_cur < ma24_cur * (1 + up_th):
+#         return 1
+#     else:
+#         return 0
 
 
 def simple_ts24_monitor():

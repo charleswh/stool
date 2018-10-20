@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 import sys
 import argparse
-from datakit.local_data import down_k_data_local
+from datakit.datakit import down_k_data_local
 from crawler.blak import blakfp_entry
 from crawler.tips import down_tips, update_tips
 from crawler.proxy import down_proxy_ip

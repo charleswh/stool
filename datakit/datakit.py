@@ -1,11 +1,13 @@
 # -*- coding:utf-8 -*-
 import os
 import pandas as pd
+import numpy as np
 import tushare as ts
+from functools import reduce
 from utility.log import log
 from utility.task import MultiTasks
 from utility.timekit import print_run_time
-from setting.settings import CSV_DIR, INFO_FILE, TRADE_DATE_FILE, KTYPE, PERIORD_TAG
+from setting.settings import CSV_DIR, INFO_FILE, TRADE_DATE_FILE, KTYPE, PERIORD_TAG, ZT_FILE
 
 OHLC_DICT = {'open': 'first', 'close': 'last', 'high': 'max', 'low': 'min', 'volume': 'sum',
              'code': 'last'}
@@ -101,22 +103,46 @@ def gen_120_k_data(code):
         assert 0
 
 
+MAX_ZT_DAYS = 30
+def zhangting(code):
+    try:
+        day = get_k_data_local(code)
+        c = day.loc[: , 'close']
+        zt = c.rolling(window=2).apply(func=lambda x: x[1] >= round(x[0] * 1.1, 2), raw=True)[::-1]
+    except Exception as err:
+        print(code)
+        print(err)
+        assert 0
+    if len(zt) >= MAX_ZT_DAYS:
+        ret = zt.values[:MAX_ZT_DAYS]
+    else:
+        ret = np.r_[zt.values, np.zeros(MAX_ZT_DAYS - len(zt))]
+    return {code : ret}
+
+
 @print_run_time
 def down_k_data_local():
-    info = ts.get_today_all().sort_values(by='changepercent', ascending=False)
-    info.drop_duplicates(inplace=True)
-    info = info[~info['name'].str.contains('ST')]
-    info = info[~info['name'].str.contains('退市')]
-    info.to_csv(INFO_FILE, index=False, encoding='utf-8-sig')
-    codes = list(info['code'])
+    #info = ts.get_today_all().sort_values(by='changepercent', ascending=False)
+    #info.drop_duplicates(inplace=True)
+    #info = info[~info['name'].str.contains('ST')]
+    #info = info[~info['name'].str.contains('退市')]
+    #info.to_csv(INFO_FILE, index=False, encoding='utf-8-sig')
+    #codes = list(info['code'])
+    codes = get_codes()
     down_trade()
-    with MultiTasks() as mt:
-        basic = mt.run_list_tasks(func=down_k_worker, var_args=codes, en_bar=True, desc='DownBasic')
-        mt.run_list_tasks(func=save_k_worker, var_args=basic, en_bar=True, desc='SaveBasic')
-        mt.run_list_tasks(func=gen_120_k_data, var_args=codes, en_bar=True, desc='Gen M120')
+    with MultiTasks(4) as mt:
+        ##basic = mt.run_list_tasks(func=down_k_worker, var_args=codes, en_bar=True, desc='DownBasic')
+        ##mt.run_list_tasks(func=save_k_worker, var_args=basic, en_bar=True, desc='SaveBasic')
+        ##mt.ru##n_list_tasks(func=gen_120_k_data, var_args=codes, en_bar=True, desc='Gen M120')
+        res = mt.run_list_tasks(func=zhangting, var_args=codes, en_bar=True, desc='GenZT')
+        res = reduce(lambda x, y: {**x, **y}, res)
+        df = pd.DataFrame(res).fillna(999)
+        df.to_csv(ZT_FILE, index=False)
 
 
 if __name__ == '__main__':
     #down_k_worker('600532')
-    #down_k_data_local()
-    gen_120_k_data('000892')
+    generate_zt()
+    #zhangting('601162')
+
+

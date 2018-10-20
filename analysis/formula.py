@@ -3,7 +3,7 @@ import numpy as np
 import numba
 from tqdm import tqdm
 import tushare as ts
-from datakit.local_data import get_k_data_local
+from datakit.datakit import get_k_data_local
 from setting.settings import INFO_FILE
 
 np.seterr(invalid='ignore')
