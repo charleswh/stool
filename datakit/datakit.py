@@ -122,18 +122,18 @@ def zhangting(code):
 
 @print_run_time
 def down_k_data_local():
-    #info = ts.get_today_all().sort_values(by='changepercent', ascending=False)
-    #info.drop_duplicates(inplace=True)
-    #info = info[~info['name'].str.contains('ST')]
-    #info = info[~info['name'].str.contains('退市')]
-    #info.to_csv(INFO_FILE, index=False, encoding='utf-8-sig')
-    #codes = list(info['code'])
-    codes = get_codes()
+    info = ts.get_today_all().sort_values(by='changepercent', ascending=False)
+    info.drop_duplicates(inplace=True)
+    info = info[~info['name'].str.contains('ST')]
+    info = info[~info['name'].str.contains('退市')]
+    info.to_csv(INFO_FILE, index=False, encoding='utf-8-sig')
+    codes = list(info['code'])
+    #codes = get_codes()
     down_trade()
     with MultiTasks(4) as mt:
-        ##basic = mt.run_list_tasks(func=down_k_worker, var_args=codes, en_bar=True, desc='DownBasic')
-        ##mt.run_list_tasks(func=save_k_worker, var_args=basic, en_bar=True, desc='SaveBasic')
-        ##mt.ru##n_list_tasks(func=gen_120_k_data, var_args=codes, en_bar=True, desc='Gen M120')
+        basic = mt.run_list_tasks(func=down_k_worker, var_args=codes, en_bar=True, desc='DownBasic')
+        mt.run_list_tasks(func=save_k_worker, var_args=basic, en_bar=True, desc='SaveBasic')
+        mt.run_list_tasks(func=gen_120_k_data, var_args=codes, en_bar=True, desc='Gen M120')
         res = mt.run_list_tasks(func=zhangting, var_args=codes, en_bar=True, desc='GenZT')
         res = reduce(lambda x, y: {**x, **y}, res)
         df = pd.DataFrame(res).fillna(999)

@@ -3,7 +3,7 @@ import numpy as np
 import tushare as ts
 from tqdm import tqdm, trange
 from setting.settings import ZT_FILE
-from datakit.datakit import get_k_data_local
+from datakit.datakit import get_k_data_local, get_trade_date
 
 
 def zt_process():
@@ -12,19 +12,33 @@ def zt_process():
     ret_cur_cont_zt_codes = None
     ret_zt_num = []
     ret_cont_zt_num = []
+    trade_days = get_trade_date()
+    date_delta = 0
     for i in trange(10, ascii=True, desc='CheckZT'):
         cur = zt_data.iloc[0 + i]
         cur_zt = cur[cur == 1]
-        today = get_k_data_local(cur_zt.index[0], ktype='D').iloc[-1].loc['date'] - \
-                pd.Timedelta(days=i)
+        while True:
+            today = get_k_data_local(cur_zt.index[0], ktype='D').iloc[-1].loc['date'] - \
+                     pd.Timedelta(days=i + date_delta)
+            if today.strftime('%Y-%m-%d') in trade_days:
+                break
+            else:
+                date_delta += 1
+                continue
         cur_zt_codes = []
         for code in tqdm(cur_zt.index, ascii=True, desc='Day{}'.format(i), leave=False):
             t = zt_data.loc[:, code]
             a = t.where(t > 100).dropna()
+            df = get_k_data_local(code, ktype='D')
+            date_c = df.iloc[-1].loc['date'] - pd.Timedelta(days=i+date_delta)
             if len(a) != 0 and 0 not in t.iloc[i:a.index[0]].values:
-                continue
-            if today != get_k_data_local(code, ktype='D').iloc[-1].loc['date'] - \
-                pd.Timedelta(days=i):
+                low = df[df['date'] == date_c].loc[:, 'low'].values[0]
+                close = df[df['date'] == date_c].loc[:, 'close'].values[0]
+                if low != close:
+                    pass
+                else:
+                    continue
+            if today != date_c:
                 continue
             if i == 0 and ts.get_realtime_quotes(code).loc[:, 'ask'].iloc[0] != '0.000':
                 continue
