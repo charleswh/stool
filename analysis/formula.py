@@ -3,19 +3,14 @@ import numpy as np
 import numba
 from tqdm import tqdm
 import tushare as ts
-from datakit.datakit import get_k_data_local
+from datakit.datakit import get_k_interface
 from setting.settings import INFO_FILE
 
 np.seterr(invalid='ignore')
 
 
-def ta24(code, ktype='D', period_sml=5, period_big=24, dist_th=3, data_source='local'):
-    if data_source == 'online':
-        data = ts.get_k_data(code=code, ktype=ktype)
-    elif data_source == 'local':
-        data = get_k_data_local(code=code, ktype=ktype)
-    else:
-        assert 0
+def ta24(code, ktype='D', period_sml=5, period_big=24, dist_th=3, ds='local'):
+    data = ts.get_k_interface(code=code, ktype=ktype, ds=ds)
     c = data.loc[:, 'close']
     l = data.loc[:, 'low']
     ma_sml = c.rolling(window=period_sml).mean().values[::-1]

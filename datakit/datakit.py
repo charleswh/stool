@@ -12,6 +12,7 @@ from setting.settings import CSV_DIR, INFO_FILE, TRADE_DATE_FILE, KTYPE, PERIORD
 OHLC_DICT = {'open': 'first', 'close': 'last', 'high': 'max', 'low': 'min', 'volume': 'sum',
              'code': 'last'}
 
+
 def get_local_info(code, item):
     if not os.path.exists(INFO_FILE):
         log.error('No local info file: {}!'.format(INFO_FILE))
@@ -30,22 +31,30 @@ def get_codes():
     return ret
 
 
-def get_k_data_local(code, ktype='D'):
-    file = os.path.join(CSV_DIR, '{}_{}.csv'.format(PERIORD_TAG[KTYPE.index(ktype)], code))
-    if os.path.exists(file):
-        return pd.read_csv(file, parse_dates=['date'])
+def get_k_interface(code, ktype='D', ds='local'):
+    valid_dates = get_trade_date()
+    date = get_datetime_now()
+    date_str = date.strftime('%Y-%m-%d')
+    day_begin = pd.datetime(year=date.year, month=date.month, day=date.month, hour=9, minute=30)
+    day_end = pd.datetime(year=date.year, month=date.month, day=date.month, hour=15, minute=30)
+    if ds == 'online' and date_str in valid_dates and day_begin <= date <= day_end:
+        return ts.get_k_data(code=code, ktype=ktype)
     else:
-        return None
+        file = os.path.join(CSV_DIR, '{}_{}.csv'.format(PERIORD_TAG[KTYPE.index(ktype)], code))
+        return pd.read_csv(file, parse_dates=['date']) if os.path.exists(file) else None
 
 
 def down_trade():
-    if not os.path.exists(TRADE_DATE_FILE):
-        df = ts.trade_cal()
-        df = df[df['isOpen'] == 1]
-        df.to_csv(TRADE_DATE_FILE, columns=['calendarDate'], header=False, index=False,
-                  encoding='utf-8-sig')
-    else:
-        pass
+    if os.path.exists(TRADE_DATE_FILE):
+        return None
+    df = ts.trade_cal()
+    df = df[df['isOpen'] == 1]
+    df.to_csv(TRADE_DATE_FILE, columns=['calendarDate'], header=False, index=False, encoding='utf-8-sig')
+
+
+def get_datetime_now(str_ret=False):
+    now = pd.datetime.now()
+    return now.strftime('%Y-%m-%d %H:%M:%S') if str_ret is True else now
 
 
 def get_trade_date():
@@ -83,7 +92,7 @@ def ohlcsum(df):
 
 def gen_120_k_data(code):
     try:
-        m60 = get_k_data_local(code, ktype='60')
+        m60 = get_k_interface(code, ktype='60')
         if m60 is not None:
             m60.set_index(['date'], inplace=True)
             if m60.shape[0] % 2 == 1:
@@ -103,21 +112,21 @@ def gen_120_k_data(code):
         assert 0
 
 
-MAX_ZT_DAYS = 30
 def zhangting(code):
+    max_zt_days = 30
     try:
-        day = get_k_data_local(code)
-        c = day.loc[: , 'close']
+        day = get_k_interface(code)
+        c = day.loc[:, 'close']
         zt = c.rolling(window=2).apply(func=lambda x: x[1] >= round(x[0] * 1.1, 2), raw=True)[::-1]
     except Exception as err:
         print(code)
         print(err)
         assert 0
-    if len(zt) >= MAX_ZT_DAYS:
-        ret = zt.values[:MAX_ZT_DAYS]
+    if len(zt) >= max_zt_days:
+        ret = zt.values[:max_zt_days]
     else:
-        ret = np.r_[zt.values, np.zeros(MAX_ZT_DAYS - len(zt))]
-    return {code : ret}
+        ret = np.r_[zt.values, np.zeros(max_zt_days - len(zt))]
+    return {code: ret}
 
 
 @print_run_time
@@ -128,7 +137,7 @@ def down_k_data_local():
     info = info[~info['name'].str.contains('退市')]
     info.to_csv(INFO_FILE, index=False, encoding='utf-8-sig')
     codes = list(info['code'])
-    #codes = get_codes()
+    # codes = get_codes()
     down_trade()
     with MultiTasks(4) as mt:
         basic = mt.run_list_tasks(func=down_k_worker, var_args=codes, en_bar=True, desc='DownBasic')
@@ -141,8 +150,7 @@ def down_k_data_local():
 
 
 if __name__ == '__main__':
-    #down_k_worker('600532')
-    generate_zt()
-    #zhangting('601162')
-
-
+    pass
+    # down_k_worker('600532')
+    # generate_zt()
+    # zhangting('601162')

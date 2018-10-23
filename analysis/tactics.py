@@ -17,9 +17,9 @@ def zt_process():
     for i in trange(10, ascii=True, desc='CheckZT'):
         cur = zt_data.iloc[0 + i]
         cur_zt = cur[cur == 1]
+        df_l = get_k_data_local(cur_zt.index[0], ktype='D')
         while True:
-            today = get_k_data_local(cur_zt.index[0], ktype='D').iloc[-1].loc['date'] - \
-                     pd.Timedelta(days=i + date_delta)
+            today = df_l.iloc[-1].loc['date'] - pd.Timedelta(days=i + date_delta)
             if today.strftime('%Y-%m-%d') in trade_days:
                 break
             else:
@@ -51,6 +51,7 @@ def zt_process():
         ret_zt_num.append(len(cur_zt_codes))
         ret_cont_zt_num.append(len(cont_zt))
     return (ret_cur_zt_codes, ret_cur_cont_zt_codes, ret_zt_num, ret_cont_zt_num)
+
 
 def post_process():
     a, b, c, d = zt_process()
