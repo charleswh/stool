@@ -75,7 +75,7 @@ class MultiTasks(object):
             finish_queue.get()
         return ret_set
 
-    def run_list_tasks(self, func, var_args, fix_args=None, en_bar=False, desc=None, tips=False):
+    def run_list_tasks(self, func, var_args, fix_args=None, en_bar=False, desc=None):
         self.init_counter_queue()
         workload = int((len(var_args) + self.task_num) / self.task_num)
         var_sub = [list(var_args[i:i + workload]) for i in range(0, len(var_args), workload)]

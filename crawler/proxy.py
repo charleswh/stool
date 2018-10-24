@@ -194,6 +194,17 @@ def lingdu():
     return raw_ips
 
 
+def get_proxy_ip():
+    if not os.path.exists(PROXY_LIST):
+        return None
+    else:
+        with open(PROXY_LIST, 'r') as f:
+            ret = f.read().split('\n')
+            ret = list(map(lambda x:x.split(','), ret))
+            ret = list(map(lambda x:'{}:{}'.format(x[0], x[1]), ret))
+        return ret
+
+
 def down_proxy_ip():
     global g_host_ip
     req = requests.get(IP_TEST_WEB)
@@ -216,17 +227,6 @@ def down_proxy_ip():
     print('{} valid IPs, save them.'.format(len(valid_ips)))
     with open(PROXY_LIST, 'w') as f:
         f.write('\n'.join(list(map(lambda x: ','.join(x), valid_ips))))
-
-
-def proxy_ip():
-    if not os.path.exists(PROXY_LIST):
-        return None
-    else:
-        with open(PROXY_LIST, 'r') as f:
-            ret = f.read().split('\n')
-            ret = list(map(lambda x:x.split(','), ret))
-            ret = list(map(lambda x:'{}:{}'.format(x[0], x[1]), ret))
-        return ret
 
 
 if __name__ == '__main__':

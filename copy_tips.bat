@@ -1,0 +1,1 @@
+python stool.py --copy_tips

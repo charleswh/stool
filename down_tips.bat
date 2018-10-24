@@ -1,2 +1,2 @@
-python stool.py -d tips
+python stool.py --down_tips
 pause

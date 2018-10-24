@@ -367,7 +367,7 @@
 2018-09-07 23:46:27,229 INFO     : [down_info_data] run time is 3.5902 seconds.
 2018-09-07 23:46:29,001 INFO     : Run time of init: 1.770 seconds.
 2018-09-08 00:46:10,405 INFO     : [run_tasks] run time is 1.2078 seconds.
-2018-09-08 00:46:13,884 INFO     : [copy_diff_tips] run time is 3.4787 seconds.
+2018-09-08 00:46:13,884 INFO     : [copy_tips_files] run time is 3.4787 seconds.
 2018-09-08 00:46:15,125 INFO     : [update_local_database] run time is 3591.4862 seconds.
 2018-09-08 13:31:33,428 ERROR    : No local data file: O:\workspace\stool\datakit\data_csv\M60_601330.csv!
 2018-09-08 22:20:13,636 ERROR    : No local data file: o:\WorkSpace\stool\datakit\data_csv\day_30023.csv!
@@ -393,7 +393,7 @@
 2018-09-11 20:40:25,196 INFO     : [down_info_data] run time is 1.6614 seconds.
 2018-09-11 20:40:26,965 INFO     : Run time of init: 1.767 seconds.
 2018-09-11 21:38:48,057 INFO     : [run_tasks] run time is 1.5371 seconds.
-2018-09-11 21:38:51,206 INFO     : [copy_diff_tips] run time is 3.1482 seconds.
+2018-09-11 21:38:51,206 INFO     : [copy_tips_files] run time is 3.1482 seconds.
 2018-09-11 21:38:53,377 INFO     : [update_local_database] run time is 3509.8421 seconds.
 2018-09-11 23:16:05,762 INFO     : [down_info_data] run time is 7.1416 seconds.
 2018-09-11 23:16:30,741 INFO     : [down_info_data] run time is 21.2855 seconds.
@@ -419,7 +419,7 @@
 2018-09-12 20:54:42,204 INFO     : [down_info_data] run time is 0.4061 seconds.
 2018-09-12 20:54:43,952 INFO     : Run time of init: 1.747 seconds.
 2018-09-12 21:41:14,822 INFO     : [run_tasks] run time is 1.9589 seconds.
-2018-09-12 21:41:22,983 INFO     : [copy_diff_tips] run time is 8.1613 seconds.
+2018-09-12 21:41:22,983 INFO     : [copy_tips_files] run time is 8.1613 seconds.
 2018-09-12 21:41:24,817 INFO     : [update_local_database] run time is 2803.0206 seconds.
 2018-09-12 22:37:45,141 INFO     : Backup TDX customer data...
 2018-09-13 00:15:09,089 INFO     : Backup TDX customer data...
@@ -429,7 +429,7 @@
 2018-09-13 15:26:08,555 INFO     : [down_info_data] run time is 0.3391 seconds.
 2018-09-13 15:26:10,193 INFO     : Run time of init: 1.637 seconds.
 2018-09-13 16:11:31,160 INFO     : [run_tasks] run time is 1.2403 seconds.
-2018-09-13 16:11:33,786 INFO     : [copy_diff_tips] run time is 2.6242 seconds.
+2018-09-13 16:11:33,786 INFO     : [copy_tips_files] run time is 2.6242 seconds.
 2018-09-13 16:11:34,982 INFO     : [update_local_database] run time is 2726.7664 seconds.
 2018-09-13 16:32:46,818 INFO     : [down_info_data] run time is 2.4218 seconds.
 2018-09-13 16:32:48,741 INFO     : Run time of init: 1.920 seconds.
@@ -470,11 +470,11 @@
 2018-09-14 16:40:22,184 INFO     : [down_info_data] run time is 2.0351 seconds.
 2018-09-14 16:40:23,972 INFO     : Run time of init: 1.787 seconds.
 2018-09-14 16:40:29,944 INFO     : [run_tasks] run time is 0.7746 seconds.
-2018-09-14 16:40:33,562 INFO     : [copy_diff_tips] run time is 3.6179 seconds.
+2018-09-14 16:40:33,562 INFO     : [copy_tips_files] run time is 3.6179 seconds.
 2018-09-14 16:44:15,003 INFO     : [down_info_data] run time is 0.2359 seconds.
 2018-09-14 16:44:16,995 INFO     : Run time of init: 1.990 seconds.
 2018-09-14 16:44:26,761 INFO     : [run_tasks] run time is 2.6875 seconds.
-2018-09-14 16:44:34,216 INFO     : [copy_diff_tips] run time is 7.4547 seconds.
+2018-09-14 16:44:34,216 INFO     : [copy_tips_files] run time is 7.4547 seconds.
 2018-09-14 16:45:57,106 INFO     : [down_info_data] run time is 0.2948 seconds.
 2018-09-14 16:45:59,582 INFO     : Run time of init: 2.474 seconds.
 2018-09-14 16:47:22,161 ERROR    : HTTP Error 403: Forbidden, http://basic.10jqka.com.cn/002911
@@ -546,7 +546,7 @@
 2018-09-17 21:21:10,591 INFO     : Run time of init: 2.395 seconds.
 2018-09-17 21:21:22,383 INFO     : Run time of concept make time: 0.000 seconds.
 2018-09-17 21:21:22,433 INFO     : [run_tasks] run time is 0.0470 seconds.
-2018-09-17 21:21:22,485 INFO     : [copy_diff_tips] run time is 0.0520 seconds.
+2018-09-17 21:21:22,485 INFO     : [copy_tips_files] run time is 0.0520 seconds.
 2018-09-17 21:26:26,245 INFO     : [down_info_data] run time is 0.2818 seconds.
 2018-09-17 21:26:28,300 INFO     : Run time of init: 2.053 seconds.
 2018-09-17 21:28:07,895 INFO     : Make concept list done.
@@ -554,7 +554,7 @@
 2018-09-17 21:36:57,076 INFO     : Run time of init: 2.467 seconds.
 2018-09-17 21:37:41,370 INFO     : Make concept list done.
 2018-09-17 21:37:41,529 INFO     : [run_tasks] run time is 0.1589 seconds.
-2018-09-17 21:37:41,763 INFO     : [copy_diff_tips] run time is 0.2347 seconds.
+2018-09-17 21:37:41,763 INFO     : [copy_tips_files] run time is 0.2347 seconds.
 2018-09-17 21:44:48,822 INFO     : [down_info_data] run time is 1.1364 seconds.
 2018-09-17 21:46:19,769 INFO     : Run time of init: 90.945 seconds.
 2018-09-17 21:47:29,364 INFO     : Make concept list done.
@@ -565,12 +565,12 @@
 2018-09-17 22:07:10,121 INFO     : Run time of init: 2.010 seconds.
 2018-09-17 22:07:34,142 INFO     : Make concept list done.
 2018-09-17 22:07:34,423 INFO     : [run_tasks] run time is 0.2808 seconds.
-2018-09-17 22:07:34,572 INFO     : [copy_diff_tips] run time is 0.1464 seconds.
+2018-09-17 22:07:34,572 INFO     : [copy_tips_files] run time is 0.1464 seconds.
 2018-09-17 22:09:37,818 INFO     : [down_info_data] run time is 4.0381 seconds.
 2018-09-17 22:09:40,656 INFO     : Run time of init: 2.838 seconds.
 2018-09-17 22:09:57,932 INFO     : Make concept list done.
 2018-09-17 22:09:58,880 INFO     : [run_tasks] run time is 0.9313 seconds.
-2018-09-17 22:09:59,230 INFO     : [copy_diff_tips] run time is 0.3478 seconds.
+2018-09-17 22:09:59,230 INFO     : [copy_tips_files] run time is 0.3478 seconds.
 2018-09-17 22:10:02,020 INFO     : [update_local_database] run time is 28.2401 seconds.
 2018-09-17 22:15:35,253 INFO     : [down_info_data] run time is 0.7226 seconds.
 2018-09-17 22:15:37,512 INFO     : Run time of init: 2.258 seconds.
@@ -642,13 +642,13 @@
 2018-09-17 23:13:13,526 INFO     : Success!
 2018-09-17 23:36:36,248 INFO     : Make concept list done.
 2018-09-17 23:36:38,143 INFO     : [run_tasks] run time is 1.8949 seconds.
-2018-09-17 23:36:44,175 INFO     : [copy_diff_tips] run time is 6.0318 seconds.
+2018-09-17 23:36:44,175 INFO     : [copy_tips_files] run time is 6.0318 seconds.
 2018-09-17 23:36:47,304 INFO     : [update_local_database] run time is 3008.7734 seconds.
 2018-09-17 23:50:32,408 INFO     : [down_info_data] run time is 0.2659 seconds.
 2018-09-17 23:50:34,409 INFO     : Run time of init: 2.000 seconds.
 2018-09-17 23:50:48,603 INFO     : Make concept list done.
 2018-09-17 23:50:48,658 INFO     : [run_tasks] run time is 0.0550 seconds.
-2018-09-17 23:50:50,825 INFO     : [copy_diff_tips] run time is 2.1658 seconds.
+2018-09-17 23:50:50,825 INFO     : [copy_tips_files] run time is 2.1658 seconds.
 2018-09-17 23:50:52,625 INFO     : [update_local_database] run time is 20.4826 seconds.
 2018-09-17 23:53:55,541 INFO     : [down_info_data] run time is 0.3158 seconds.
 2018-09-17 23:53:57,415 INFO     : Run time of init: 1.871 seconds.
@@ -1056,7 +1056,7 @@
 2018-09-25 22:00:19,933 INFO     : Run time of init: 72.637 seconds.
 2018-09-25 22:29:42,573 INFO     : [down_info_data] run time is 2.3317 seconds.
 2018-09-25 22:34:57,922 INFO     : Make concept list done.
-2018-09-25 22:35:00,949 INFO     : [copy_diff_tips] run time is 3.0266 seconds.
+2018-09-25 22:35:00,949 INFO     : [copy_tips_files] run time is 3.0266 seconds.
 2018-09-25 22:35:08,923 INFO     : [down_info_data] run time is 1.6281 seconds.
 2018-09-25 22:35:57,776 ERROR    : error, code is 403
 2018-09-25 22:42:38,031 INFO     : Backup TDX customer data...
@@ -1319,3 +1319,21 @@
 2018-10-20 21:29:28,667 INFO     : [down_k_data_local] run time is 24.8694 seconds.
 2018-10-20 22:07:57,222 INFO     : [down_k_data_local] run time is 19.1982 seconds.
 2018-10-23 00:11:54,313 INFO     : [down_k_data_local] run time is 593.7984 seconds.
+2018-10-23 00:49:24,495 INFO     : Backup TDX customer data...
+2018-10-23 00:50:05,834 INFO     : Login email server with user charles_wh@outlook.com
+2018-10-23 00:50:11,949 INFO     : Sending mail...
+2018-10-23 00:50:12,157 INFO     : Success!
+2018-10-23 21:21:24,915 INFO     : [down_k_data_local] run time is 675.2480 seconds.
+2018-10-24 00:07:46,275 INFO     : Backup TDX customer data...
+2018-10-24 00:08:19,744 INFO     : Login email server with user charles_wh@outlook.com
+2018-10-24 00:08:24,404 INFO     : Sending mail...
+2018-10-24 00:08:24,614 INFO     : Success!
+2018-10-24 21:29:35,246 INFO     : Got 652 raw IPs from <xiaohuan>
+2018-10-24 21:29:39,790 INFO     : Got 0 raw IPs from <lingdu>
+2018-10-24 21:29:44,019 INFO     : Got 1680 raw IPs from <ip66>
+2018-10-24 21:30:03,943 INFO     : Got 300 raw IPs from <kuai>
+2018-10-24 21:30:49,395 INFO     : Got 400 raw IPs from <ip3366>
+2018-10-24 21:30:50,536 INFO     : Got 1179 raw IPs from <xici>
+2018-10-24 21:30:50,855 INFO     : Got 60 raw IPs from <data5u>
+2018-10-24 23:03:37,212 INFO     : [copy_tips_files] run time is 7.8011 seconds.
+2018-10-24 23:13:06,112 INFO     : Make concept list done.

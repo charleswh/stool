@@ -3,7 +3,7 @@ import sys
 import argparse
 from datakit.datakit import down_k_data_local
 from crawler.blak import blakfp_entry
-from crawler.tips import down_tips, update_tips
+from crawler.tips import down_tips, copy_tips_files, modify_tips, check_valid_proxy_ip
 from crawler.proxy import down_proxy_ip
 from utility.misc import backup_t0002, recover_t0002, make_list_of_t0002
 
@@ -26,9 +26,6 @@ parser.add_argument('-x',
 parser.add_argument('--local_data',
                     action='store_true',
                     help='download share data by using TuShare and make local database(csv)\n')
-parser.add_argument('--tips',
-                    action='store_true',
-                    help='download tips infomation\n')
 parser.add_argument('--make_t0002_list',
                     type=str,
                     dest='t0002_template',
@@ -39,15 +36,24 @@ parser.add_argument('--backup_t0002',
 parser.add_argument('--recover_t0002',
                     dest='recover_dst_path',
                     help='recover for t0002')
-parser.add_argument('--update_tips',
-                    nargs=4,
-                    help='test function entry')
 parser.add_argument('--blakfp',
                     action='store_true',
                     help='download blakfp papers')
-parser.add_argument('--update_proxy',
+parser.add_argument('--down_tips',
                     action='store_true',
-                    help='update proxy IPs')
+                    help='download tips infomation\n')
+parser.add_argument('--copy_tips',
+                    action='store_true',
+                    help='copy tips files to tdx dir\n')
+parser.add_argument('--modify_tips',
+                    nargs=4,
+                    help='modify tips files\'s font, color and size')
+parser.add_argument('--down_proxy',
+                    action='store_true',
+                    help='down proxy IPs')
+parser.add_argument('--check_proxy',
+                    action='store_true',
+                    help='check proxy IPs')
 parser.add_argument('--test',
                     action='store_true',
                     help='test function entry')
@@ -60,20 +66,24 @@ if __name__ == '__main__':
     else:
         if args.local_data is True:
             down_k_data_local()
-        if args.tips is True:
-            down_tips()
         if args.t0002_template is not None:
             make_list_of_t0002(args.t0002_template)
         if args.backup_src_path is not None:
             backup_t0002(args.backup_src_path)
         if args.recover_dst_path is not None:
             recover_t0002(args.recover_dst_path)
-        if args.update_tips is not None:
-            update_tips(args.update_tips)
         if args.blakfp is True:
             blakfp_entry()
-        if args.update_proxy is True:
+        if args.down_tips is True:
+            down_tips()
+        if args.copy_tips is True:
+            copy_tips_files()
+        if args.modify_tips is not None:
+            modify_tips(args.modify_tips)
+        if args.down_proxy is True:
             down_proxy_ip()
+        if args.check_proxy is True:
+            check_valid_proxy_ip()
         if args.test:
             # mail_test()
             dbg = 0

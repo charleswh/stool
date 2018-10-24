@@ -1,1 +1,1 @@
-python stool.py --update_tips #070608 #3CB371 Î¢ÈíÑÅºÚ nolocal
+python stool.py --modify_tips #070608 #3CB371 Î¢ï¿½ï¿½ï¿½Åºï¿½ nolocal

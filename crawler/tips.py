@@ -1,17 +1,13 @@
 import re
 import os
-import random
 import requests
 from tqdm import tqdm
 import tushare as ts
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 from utility.log import log
-from utility.timekit import time_str, sleep, print_run_time
+from utility.timekit import time_str, print_run_time
 from utility.task import MultiTasks
-from crawler.proxy import get_random_header, proxy_ip
-from setting.settings import TDX_ROOT, TIP_FOLDER, USER_AGENTS, CONCEPT_FILE, \
-    PROXY_LIST, VALID_PROXIES, CHROME_EXE
+from crawler.proxy import get_random_header, get_proxy_ip
+from setting.settings import TDX_ROOT, TIP_FOLDER, CONCEPT_FILE, VALID_PROXIES
 
 TIP_FILE = os.path.join(TIP_FOLDER, '{}.html')
 
@@ -34,19 +30,19 @@ def save_tips(info):
         f.write(content)
 
 
-@print_run_time
-def copy_diff_tips():
+def copy_tips_files():
     import filecmp
     import shutil
     dst_tip_dir = os.path.join(TDX_ROOT, 'T0002', 'tips')
     dir_diff = filecmp.dircmp(TIP_FOLDER, dst_tip_dir)
+    print('copy tips files from {} to {}...'.format(TIP_FOLDER, dst_tip_dir))
     diffs = dir_diff.diff_files
     list(map(shutil.copy,
              [os.path.join(TIP_FOLDER, x) for x in diffs],
              [os.path.join(dst_tip_dir, x) for x in diffs]))
 
 
-def update_tips(args):
+def modify_tips(args):
     back_color, font_color, font_type, place = args
     from glob import glob
     _dir = TIP_FOLDER if place == 'local' else os.path.join(TDX_ROOT, 'T0002', 'tips')
@@ -67,24 +63,14 @@ def update_tips(args):
 
 def get_single_html(code, proxy_ip=None, timeout=None):
     url = 'http://basic.10jqka.com.cn/{}'.format(code)
-    if False:
-        opt = Options()
-        if proxy_ip is not None:
-            opt.add_argument('--proxy-server=http://{}'.format(proxy_ip))
-        opt.add_argument('--headless')
-        browser = webdriver.Chrome(CHROME_EXE, options=opt)
-        browser.get(url)
-        return browser.page_source
-    else:
-        #proxy_ip = '47.105.165.130:80'
-        p_ip = {'http': 'http://{}'.format(proxy_ip),
-                'https': 'https://{}'.format(proxy_ip)} if proxy_ip is not None else None
-        try:
-            req = requests.get(url=url, headers=get_random_header(),proxies=p_ip, timeout=timeout)
-            if req.status_code == 200:
-                return req.content.decode('gbk')
-        except Exception as err:
-            return None
+    p_ip = {'http': 'http://{}'.format(proxy_ip),
+            'https': 'https://{}'.format(proxy_ip)} if proxy_ip is not None else None
+    try:
+        req = requests.get(url=url, headers=get_random_header(), proxies=p_ip, timeout=timeout)
+        if req.status_code == 200:
+            return req.content.decode('gbk')
+    except Exception as err:
+        return None
 
 
 def parse_html(html):
@@ -155,73 +141,62 @@ def down_tips_worker(code, proxy_ip=None, timeout=None):
     info = parse_html(html)
     info['code'] = code
     save_tips(info)
-    return info
+    return ','.join([code, ' '.join(info['concept']) if info['concept'] is not None else '--'])
 
 
 def down_tips():
     codes = ts.get_stock_basics().index.values.tolist()
-    # with open(PROXY_LIST, 'r') as f:
-    #     proxies = f.read().split('\n')
-    # proxies = list(map(lambda x: x.split(',')[:2], proxies))
-    with MultiTasks(16) as mt:
-        res = mt.run_list_tasks(func=down_tips_worker, var_args=codes,
-                                en_bar=True)
-    # res = []
-    # for code in tqdm(codes):
-    #     p_ip = []
-    #     while True:
-    #         if len(p_ip) == 0:
-    #             if len(proxies) > 0:
-    #                 p_ip = proxies.pop()
-    #             else:
-    #                 p_ip = None
-    #         proxy_ip = {'http': '{}:{}'.format(*p_ip)} if p_ip is not None else p_ip
-    #         header = get_random_header()
-    #         url = 'http://basic.10jqka.com.cn/{}'.format(code)
-    #         try:
-    #             req = requests.get(url=url, headers=header, proxies=proxy_ip)
-    #         except Exception as err:
-    #             p_ip = []
-    #             continue
-    #         if req.status_code != 200:
-    #             if proxy_ip is None:
-    #                 log.error('All proxies and local IP are blocked by remote.')
-    #                 exit(0)
-    #             else:
-    #                 p_ip = []
-    #                 continue
-    #         else:
-    #             html = req.content.decode('gbk')
-    #             break
-    #     info = parse_html(html)
-    #     info['code'] = code
-    #     save_tips(info)
-    #     res.append(info)
-    c = '\n'.join(list(map(lambda x: ','.join((x['code'], ' '.join(x['concept']))), res)))
-    with open(CONCEPT_FILE, 'w') as f:
-        f.write(c)
-    log.info('Make concept list done.')
-    copy_diff_tips()
+    with open(VALID_PROXIES, 'r') as f:
+        proxies = f.read().split('\n')
+    res = []
+    unfinish_flag = -1
+    p = proxies.pop(0)
+    for code in tqdm(codes, ascii=True):
+        while True:
+            ret = down_tips_worker(code, proxy_ip=p, timeout=1)
+            if ret is not None:
+                break
+            elif len(proxies) > 0:
+                p = proxies.pop(0)
+                continue
+            elif p is None:
+                unfinish_flag = codes.index(code)
+                break
+            else:
+                p = None
+                continue
+        if unfinish_flag != -1:
+            break
+        res.append(ret)
+    if len(res) > 0:
+        var = '\n'.join(res)
+        with open(CONCEPT_FILE, 'w') as f:
+            f.write(var)
+    if unfinish_flag != -1:
+        log.info('Not all tips downed, updated {}'.format(unfinish_flag))
+
+
+def pip_checker(proxy_ip, code, timeout=None):
+    html = get_single_html(code, proxy_ip, timeout)
+    if html is None or html == '':
+        return None
+    else:
+        return proxy_ip
 
 
 def check_valid_proxy_ip():
-    proxies = proxy_ip()
-    valid_proxies = []
+    proxies = get_proxy_ip()
     code = ts.get_stock_basics().index.values.tolist()[0]
-    for proxy in tqdm(proxies):
-        ret = down_tips_worker(code, proxy_ip=proxy, timeout=0.5)
-        if ret is not None:
-            valid_proxies.append(proxy)
-        else:
-            continue
+    with MultiTasks(32) as mt:
+        res = mt.run_list_tasks(pip_checker,
+                                var_args=proxies,
+                                fix_args={'code': code, 'timeout': 0.5},
+                                en_bar=True, desc='CheckIP')
+    valid_proxies = list(filter(None, res))
     with open(VALID_PROXIES, 'w') as f:
         f.write('\n'.join(valid_proxies))
 
 
 if __name__ == '__main__':
-    # url = 'http://basic.10jqka.com.cn/300240'
-    # req = requests.get(url=url, headers=get_random_header())
-    # req.encoding = 'gbk'
-    # parse_html(req.text)
-    # down_tips()
-    check_valid_proxy_ip()
+    down_tips()
+    # check_valid_proxy_ip()
