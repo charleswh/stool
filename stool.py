@@ -10,7 +10,10 @@ from utility.misc import backup_t0002, recover_t0002, make_list_of_t0002
 
 parser = argparse.ArgumentParser(description='Integrated share tool for NEIL',
                                  formatter_class=argparse.RawTextHelpFormatter)
-
+parser.add_argument('-d',
+                    action='store_true',
+                    dest='down_all',
+                    help='down all data: k data, info data, tips data')
 parser.add_argument('-s',
                     action='store_true',
                     dest='statistics_after_close',
@@ -64,6 +67,11 @@ if __name__ == '__main__':
     if len(sys.argv) < 2:
         parser.print_help()
     else:
+        if args.down_all is True:
+            down_k_data_local()
+            down_proxy_ip()
+            check_valid_proxy_ip()
+            down_tips()
         if args.local_data is True:
             down_k_data_local()
         if args.t0002_template is not None:

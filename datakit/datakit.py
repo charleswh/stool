@@ -139,7 +139,7 @@ def down_k_data_local():
     codes = list(info['code'])
     # codes = get_codes()
     down_trade()
-    with MultiTasks(4) as mt:
+    with MultiTasks() as mt:
         basic = mt.run_list_tasks(func=down_k_worker, var_args=codes, en_bar=True, desc='DownBasic')
         mt.run_list_tasks(func=save_k_worker, var_args=basic, en_bar=True, desc='SaveBasic')
         mt.run_list_tasks(func=gen_120_k_data, var_args=codes, en_bar=True, desc='Gen M120')

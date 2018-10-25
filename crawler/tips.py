@@ -134,11 +134,15 @@ def parse_html(html):
     return info_dict
 
 
-def down_tips_worker(code, proxy_ip=None, timeout=None):
-    html = get_single_html(code, proxy_ip, timeout)
-    if html is None or html == '':
-        return None
-    info = parse_html(html)
+def down_tips_worker(code, proxy_ip=None, timeout=None, retry=3):
+    info = {}
+    for _ in range(retry):
+        html = get_single_html(code, proxy_ip, timeout)
+        if html is None or html == '':
+            return None
+        info = parse_html(html)
+        if info['business'] is None and info['concept'] is None and info['zhangting'] is None:
+            continue
     info['code'] = code
     save_tips(info)
     return ','.join([code, ' '.join(info['concept']) if info['concept'] is not None else '--'])
@@ -198,5 +202,6 @@ def check_valid_proxy_ip():
 
 
 if __name__ == '__main__':
+    down_tips_worker('002795')
     down_tips()
     # check_valid_proxy_ip()
