@@ -1337,3 +1337,24 @@
 2018-10-24 21:30:50,855 INFO     : Got 60 raw IPs from <data5u>
 2018-10-24 23:03:37,212 INFO     : [copy_tips_files] run time is 7.8011 seconds.
 2018-10-24 23:13:06,112 INFO     : Make concept list done.
+2018-10-25 00:09:26,361 INFO     : Backup TDX customer data...
+2018-10-25 00:09:59,170 INFO     : Login email server with user charles_wh@outlook.com
+2018-10-25 00:10:03,747 INFO     : Sending mail...
+2018-10-25 00:10:03,960 INFO     : Success!
+2018-10-25 20:34:30,683 INFO     : [down_k_data_local] run time is 379.0637 seconds.
+2018-10-25 20:42:10,825 INFO     : Got 539 raw IPs from <xiaohuan>
+2018-10-25 20:42:15,394 INFO     : Got 0 raw IPs from <lingdu>
+2018-10-25 20:42:19,594 INFO     : Got 1710 raw IPs from <ip66>
+2018-10-25 20:42:40,520 INFO     : Got 300 raw IPs from <kuai>
+2018-10-25 20:43:26,260 INFO     : Got 400 raw IPs from <ip3366>
+2018-10-25 20:43:27,430 INFO     : Got 1180 raw IPs from <xici>
+2018-10-25 20:43:27,621 INFO     : Got 60 raw IPs from <data5u>
+2018-10-25 23:28:55,583 INFO     : Not all tips downed, updated 171
+2018-10-25 23:59:45,069 INFO     : Got 553 raw IPs from <xiaohuan>
+2018-10-25 23:59:49,455 INFO     : Got 0 raw IPs from <lingdu>
+2018-10-25 23:59:53,735 INFO     : Got 1992 raw IPs from <ip66>
+2018-10-26 00:00:13,926 INFO     : Got 300 raw IPs from <kuai>
+2018-10-26 00:01:00,194 INFO     : Got 400 raw IPs from <ip3366>
+2018-10-26 00:01:01,345 INFO     : Got 1182 raw IPs from <xici>
+2018-10-26 00:01:01,751 INFO     : Got 60 raw IPs from <data5u>
+2018-10-26 00:09:01,741 INFO     : Not all tips downed, updated 171

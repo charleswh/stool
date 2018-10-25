@@ -134,7 +134,7 @@ def parse_html(html):
     return info_dict
 
 
-def down_tips_worker(code, proxy_ip=None, timeout=None, retry=3):
+def down_tips_worker(code, proxy_ip=None, timeout=None, retry=1):
     info = {}
     for _ in range(retry):
         html = get_single_html(code, proxy_ip, timeout)
@@ -143,6 +143,8 @@ def down_tips_worker(code, proxy_ip=None, timeout=None, retry=3):
         info = parse_html(html)
         if info['business'] is None and info['concept'] is None and info['zhangting'] is None:
             continue
+        else:
+            break
     info['code'] = code
     save_tips(info)
     return ','.join([code, ' '.join(info['concept']) if info['concept'] is not None else '--'])
