@@ -39,12 +39,20 @@ def backup_t0002(src_path, en_compress=True):
     if not os.path.exists(T0002_LIST):
         log.error(r'Can not find {}'.format(T0002_LIST))
         exit(0)
+
+    src_list = glob(os.path.join(src_path, '*'))
     with open(T0002_LIST, 'r') as f:
-        list = filter(None, f.read().split('\n'))
-    for i in list:
-        copy_func = shutil.copy if '.' in i else shutil.copytree
-        dst_tmp = dst_path if '.' in i else os.path.join(dst_path, i)
-        copy_func(os.path.join(src_path, i), dst_tmp)
+        t0002_list = filter(None, f.read().split('\n'))
+    for i in t0002_list:
+        if '*' in i:
+            key = i.split('.')[-1]
+            key_list = list(filter(lambda x: key in x, src_list))
+            for k in key_list:
+                shutil.copy(os.path.join(src_path, k), dst_path)
+        else:
+            copy_func = shutil.copy if '.' in i else shutil.copytree
+            dst_tmp = dst_path if '.' in i else os.path.join(dst_path, i)
+            copy_func(os.path.join(src_path, i), dst_tmp)
 
     if en_compress:
         cmd = '{} a -t7z {} {}\*'.format(EXE_7Z, dst_folder_name, os.path.join(dst_path, ))
@@ -59,6 +67,8 @@ def backup_t0002(src_path, en_compress=True):
 def recover_t0002(dst_path, en_compress=True):
     src_folder_name = 't0002_backup'
     src_path = os.path.join(src_folder_name, '*.*')
+    shutil.rmtree(os.path.join(dst_path, 'pad'))
+
     if en_compress:
         cmd = '{} x -y {}.7z -o{}'.format(EXE_7Z, src_folder_name, dst_path)
         run_cmd(cmd)
@@ -73,7 +83,6 @@ def recover_t0002(dst_path, en_compress=True):
     tip_dir = os.path.join(dst_path, 'tips')
     pad_files = glob(os.path.join(pad_dir, '*.sp'))
     for file in pad_files:
-        f = 0
         u = 0
         l = []
         with open(file, 'r') as f:
@@ -89,3 +98,7 @@ def recover_t0002(dst_path, en_compress=True):
         if u == 1:
             with open(file, 'w') as f:
                 f.write(''.join(l))
+
+
+if __name__ == '__main__':
+    pass

@@ -155,9 +155,9 @@ def down_tips():
     with open(VALID_PROXIES, 'r') as f:
         proxies = f.read().split('\n')
     res = []
-    unfinish_flag = -1
+    proxy_expire_flag = -1
     p = proxies.pop(0)
-    for code in tqdm(codes, ascii=True):
+    for code in tqdm(codes, ascii=True, desc='DownTips'):
         while True:
             ret = down_tips_worker(code, proxy_ip=p, timeout=1)
             if ret is not None:
@@ -166,20 +166,20 @@ def down_tips():
                 p = proxies.pop(0)
                 continue
             elif p is None:
-                unfinish_flag = codes.index(code)
-                break
+                proxy_expire_flag = codes.index(code)
+                continue
             else:
                 p = None
                 continue
-        if unfinish_flag != -1:
+        if proxy_expire_flag != -1 and ret is None:
             break
         res.append(ret)
     if len(res) > 0:
         var = '\n'.join(res)
         with open(CONCEPT_FILE, 'w') as f:
             f.write(var)
-    if unfinish_flag != -1:
-        log.info('Not all tips downed, updated {}'.format(unfinish_flag))
+    if proxy_expire_flag != -1:
+        log.info('Not all tips downed, updated {}'.format(proxy_expire_flag))
 
 
 def pip_checker(proxy_ip, code, timeout=None):

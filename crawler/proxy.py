@@ -55,7 +55,7 @@ def check_ip_valid(ip, port, timeout=1):
 def check_ip_batch(ip_list: list, mt=None, timeout=1):
     if mt is not None:
         ret_ips = mt.run_list_tasks(func=check_ip_valid, var_args=ip_list,
-                                    fix_args={'timeout': 1}, en_bar=1, desc='check IP')
+                                    fix_args={'timeout': 1}, en_bar=1, desc='ChkValidIP')
         res = np.c_[np.array(ip_list), np.array(ret_ips)].tolist()
     else:
         res = []
