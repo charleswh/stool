@@ -151,7 +151,7 @@ def down_tips_worker(code, proxy_ip=None, timeout=None, retry=1):
 
 
 def down_tips():
-    codes = ts.get_stock_basics().index.values.tolist()
+    codes = ts.get_stock_basics().index.values.tolist()[2900:]
     with open(VALID_PROXIES, 'r') as f:
         proxies = f.read().split('\n')
     res = []
