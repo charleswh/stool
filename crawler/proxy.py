@@ -210,7 +210,8 @@ def down_proxy_ip():
     req = requests.get(IP_TEST_WEB)
     req.encoding = 'gbk'
     g_host_ip = re.search('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', req.text).group()
-    raw_ips = [*xiaohuan(), *lingdu(), *ip66(), *kuai(), *ip3366(), *xici(), *data5u()]
+    # raw_ips = [*xiaohuan(), *lingdu(), *ip66(), *kuai(), *ip3366(), *xici(), *data5u()]
+    raw_ips = [*xiaohuan(), *ip66(), *kuai(), *ip3366(), *xici(), *data5u()]
 
     if os.path.exists(PROXY_LIST):
         with open(PROXY_LIST, 'r') as f:
@@ -220,7 +221,7 @@ def down_proxy_ip():
     df = pd.DataFrame(raw_ips, columns=['ip', 'port'])
     raw_ips = df.drop_duplicates(['ip', 'port'], 'first').values.tolist()
 
-    with MultiTasks() as mt:
+    with MultiTasks(32) as mt:
         valid_ips = check_ip_batch(raw_ips, mt)
 
     valid_ips.sort(key=lambda x: int(x[2]))

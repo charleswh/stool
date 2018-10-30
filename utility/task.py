@@ -29,6 +29,13 @@ class MultiTasks(object):
         self.pool.close()
         self.pool.join()
 
+    # def reset_task_num(self, task_num):
+    #     self.close_tasks()
+    #     self.task_num = task_num
+    #     self.finish_flag = self.manager.Queue(self.task_num)
+    #     self.init_counter_queue()
+    #     with TimerCount('GenPool'):
+    #         self.pool = mp.Pool(processes=self.task_num + 1)
     @staticmethod
     def task_bar(c, q, d=None, bar_max=None):
         if bar_max is None:

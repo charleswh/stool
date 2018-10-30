@@ -67,8 +67,9 @@ def get_single_html(code, proxy_ip=None, timeout=None):
             'https': 'https://{}'.format(proxy_ip)} if proxy_ip is not None else None
     try:
         req = requests.get(url=url, headers=get_random_header(), proxies=p_ip, timeout=timeout)
-        if req.status_code == 200:
-            return req.content.decode('gbk')
+        html = req.content.decode('gbk')
+        if req.status_code == 200 and len(html) > 500:
+            return html
     except Exception as err:
         return None
 
@@ -134,7 +135,7 @@ def parse_html(html):
     return info_dict
 
 
-def down_tips_worker(code, proxy_ip=None, timeout=None, retry=1):
+def down_tips_worker(code, proxy_ip=None, timeout=None, retry=3):
     info = {}
     for _ in range(retry):
         html = get_single_html(code, proxy_ip, timeout)
@@ -151,13 +152,16 @@ def down_tips_worker(code, proxy_ip=None, timeout=None, retry=1):
 
 
 def down_tips():
-    codes = ts.get_stock_basics().index.values.tolist()[2900:]
+    codes = ts.get_stock_basics().index.values.tolist()
     with open(VALID_PROXIES, 'r') as f:
-        proxies = f.read().split('\n')
+        proxies_ori = f.read().split('\n')
     res = []
+    proxies = proxies_ori
     proxy_expire_flag = -1
     p = proxies.pop(0)
     for code in tqdm(codes, ascii=True, desc='DownTips'):
+        if codes.index(code) == int(len(codes) * 2 / 3):
+            proxies = proxies_ori
         while True:
             ret = down_tips_worker(code, proxy_ip=p, timeout=1)
             if ret is not None:
@@ -204,6 +208,6 @@ def check_valid_proxy_ip():
 
 
 if __name__ == '__main__':
-    down_tips_worker('002795')
+    # down_tips_worker('000526')
     down_tips()
     # check_valid_proxy_ip()

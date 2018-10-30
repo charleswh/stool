@@ -129,6 +129,10 @@ def zhangting(code):
     return {code: ret}
 
 
+def zhaban(code):
+    pass
+
+
 @print_run_time
 def down_k_data_local():
     info = ts.get_today_all().sort_values(by='changepercent', ascending=False)
@@ -142,11 +146,7 @@ def down_k_data_local():
     with MultiTasks() as mt:
         basic = mt.run_list_tasks(func=down_k_worker, var_args=codes, en_bar=True, desc='DownBasic')
         mt.run_list_tasks(func=save_k_worker, var_args=basic, en_bar=True, desc='SaveBasic')
-        try:
-            mt.run_list_tasks(func=gen_120_k_data, var_args=codes, en_bar=True, desc='GenM120')
-        except Exception as err:
-            print(err)
-            assert 0
+        mt.run_list_tasks(func=gen_120_k_data, var_args=codes, en_bar=True, desc='GenM120')
         res = mt.run_list_tasks(func=zhangting, var_args=codes, en_bar=True, desc='GenZT')
         res = reduce(lambda x, y: {**x, **y}, res)
         df = pd.DataFrame(res).fillna(999)

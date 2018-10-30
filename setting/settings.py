@@ -30,7 +30,7 @@ OFFICE_TDX_ROOT = 'e:\\software\\zd_zsone'
 HOME_TDX_ROOT= 'o:\\Program Files\\zd_zsone'
 TDX_ROOT = OFFICE_TDX_ROOT if platform.node() == 'NeilWang-L10' else HOME_TDX_ROOT
 
-MAX_TASK_NUM = 32
+MAX_TASK_NUM = 16
 KTYPE = ['D', '60', '30', '15', '5']
 PERIORD_TAG = ['day', 'min60', 'min30', 'min15', 'min5']
 
