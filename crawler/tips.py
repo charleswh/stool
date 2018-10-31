@@ -197,10 +197,10 @@ def pip_checker(proxy_ip, code, timeout=None):
 def check_valid_proxy_ip():
     proxies = get_proxy_ip()
     code = ts.get_stock_basics().index.values.tolist()[0]
-    with MultiTasks(32) as mt:
+    with MultiTasks(64) as mt:
         res = mt.run_list_tasks(pip_checker,
                                 var_args=proxies,
-                                fix_args={'code': code, 'timeout': 0.5},
+                                fix_args={'code': code, 'timeout': 1},
                                 en_bar=True, desc='CheckIP')
     valid_proxies = list(filter(None, res))
     with open(VALID_PROXIES, 'w') as f:
