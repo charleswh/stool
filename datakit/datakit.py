@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 import os
+import datetime
 import pandas as pd
 import numpy as np
 import tushare as ts
@@ -7,7 +8,7 @@ from functools import reduce
 from utility.log import log
 from utility.task import MultiTasks
 from utility.timekit import print_run_time
-from setting.settings import CSV_DIR, INFO_FILE, TRADE_DATE_FILE, KTYPE, PERIORD_TAG, ZT_FILE
+from setting.settings import CSV_DIR, INFO_FILE, TRADE_DATE_FILE, KTYPE, PERIORD_TAG, ZT_FILE, ZZB_FILE
 
 OHLC_DICT = {'open': 'first', 'close': 'last', 'high': 'max', 'low': 'min', 'volume': 'sum',
              'code': 'last'}
@@ -66,6 +67,20 @@ def get_trade_date():
     return df.values
 
 
+def is_trade_time() -> bool:
+    trade_date = get_trade_date()
+    cur_date = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d')
+    if cur_date not in trade_date:
+        return False
+    else:
+        cur_time = datetime.datetime.strftime(datetime.datetime.now(), '%H:%M:%S')
+        if ('11:30:00' > cur_time > '9:30:00') or \
+                ('15:00:00' > cur_time > '13:00:00'):
+            return True
+        else:
+            return False
+
+
 def down_k_worker(code):
     datas = []
     for kt in KTYPE:
@@ -78,16 +93,6 @@ def save_k_worker(stock):
         for i in range(5):
             file_name = os.path.join(CSV_DIR, '{}_{}.csv'.format(PERIORD_TAG[i], code))
             stock[code][i].to_csv(file_name, index=False)
-
-
-def ohlcsum(df):
-    return {
-        'open': df['open'][0],
-        'high': df['high'].max(),
-        'low': df['low'].min(),
-        'close': df['close'][-1],
-        'volume': df['volume'].sum()
-    }
 
 
 def gen_120_k_data(code):
@@ -146,7 +151,7 @@ def zhaban(code):
         print(code)
         print(err)
         assert 0
-    if h.values[-1] >= c.values[-1] and c_h[-1] == False:
+    if not is_trade_time() and h.values[-1] >= c.values[-1] and c_h[-1] == False:
         if ts.get_realtime_quotes(code).loc[:, 'ask'].iloc[0] != '0.000':
             zzb[0] = True
     zzb = zzb + 0
@@ -165,7 +170,7 @@ def down_k_data_local():
     info = info[~info['name'].str.contains('退市')]
     info.to_csv(INFO_FILE, index=False, encoding='utf-8-sig')
     codes = list(info['code'])
-    codes = get_codes()
+    # codes = get_codes()
     down_trade()
     with MultiTasks() as mt:
         basic = mt.run_list_tasks(func=down_k_worker, var_args=codes, en_bar=True, desc='DownBasic')
@@ -175,10 +180,15 @@ def down_k_data_local():
         res = reduce(lambda x, y: {**x, **y}, res)
         df = pd.DataFrame(res).fillna(999)
         df.to_csv(ZT_FILE, index=False)
+        res = mt.run_list_tasks(func=zhaban, var_args=codes, en_bar=True, desc='GenZZB')
+        res = reduce(lambda x, y: {**x, **y}, res)
+        res = pd.DataFrame(res).fillna(999)
+        res.to_csv(ZZB_FILE, index=False)
 
 
 if __name__ == '__main__':
-    print(zhaban('603076'))
+    down_k_data_local()
+    # print(zhaban('603076'))
     # down_k_worker('600532')
     # generate_zt()
     # zhangting('601162')

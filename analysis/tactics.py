@@ -3,7 +3,7 @@ import numpy as np
 import os
 import tushare as ts
 from tqdm import tqdm, trange
-from setting.settings import ZT_FILE
+from setting.settings import ZT_FILE, ZZB_FILE
 from datakit.datakit import get_k_interface, get_trade_date
 
 
@@ -47,7 +47,7 @@ def zt_process():
     for i in trange(10, ascii=True, desc='CheckZT'):
         cur = zt_data.iloc[0 + i]
         cur_zt = cur[cur == 1]
-        df_l = get_k_interface(cur_zt.index[0], ktype='D')
+        df_l = get_k_interface(cur_zt.index[0])
         while True:
             today = df_l.iloc[-1].loc['date'] - pd.Timedelta(days=i + date_delta)
             if today.strftime('%Y-%m-%d') in trade_days:
@@ -83,10 +83,24 @@ def zt_process():
     return (ret_cur_zt_codes, ret_cur_cont_zt_codes, ret_zt_num, ret_cont_zt_num)
 
 
+def zzb_process():
+    zzb = pd.read_csv(ZZB_FILE)
+    cur_date = get_k_interface(zzb.columns[0]).iloc[-1].loc['date']
+    zzb = zzb.iloc[0]
+    zzb = zzb[zzb > 0].index.values
+    cur_zzb_codes = []
+    for code in zzb:
+        last_date = get_k_interface(code).iloc[-1].loc['date']
+        if last_date == cur_date:
+            cur_zzb_codes.append(code)
+    return cur_zzb_codes
+
+
 def post_process():
+    zzb_process()
     #ttt, bbb, c, d = zt_process()
-    aa = ['000068', '300083', '002076', '600758', '002708', '600173', '000622', '002377', '600156', '002762', '002848', '603398', '300686', '000800', '002909', '300610', '603081', '600211', '300643', '000150', '603701', '603078', '000526', '600159', '000608', '000668', '600250', '300472', '600240', '000031', '002899', '002059', '002929', '603583', '603637', '603032', '002902', '603089', '000413', '000780', '002201', '600684', '600249', '000691', '603778', '000927', '600792', '000517', '600743', '600393', '600162']
-    gen_blk(aa, 'ttt')
+    # aa = ['000068', '300083', '002076', '600758', '002708', '600173', '000622', '002377', '600156', '002762', '002848', '603398', '300686', '000800', '002909', '300610', '603081', '600211', '300643', '000150', '603701', '603078', '000526', '600159', '000608', '000668', '600250', '300472', '600240', '000031', '002899', '002059', '002929', '603583', '603637', '603032', '002902', '603089', '000413', '000780', '002201', '600684', '600249', '000691', '603778', '000927', '600792', '000517', '600743', '600393', '600162']
+    # gen_blk(aa, 'ttt')
 
 if __name__ == '__main__':
     post_process()

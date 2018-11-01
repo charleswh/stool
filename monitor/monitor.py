@@ -1,6 +1,5 @@
 import os
 import time
-import datetime
 import tushare as ts
 from glob import glob
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -62,20 +61,6 @@ def simple_ts24_monitor():
     res = dict(zip(code_list, res))
     print(res)
     return res
-
-
-def check_trade_time() -> bool:
-    trade_date = get_trade_date()
-    cur_date = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d')
-    if cur_date not in trade_date:
-        return False
-    else:
-        cur_time = datetime.datetime.strftime(datetime.datetime.now(), '%H:%M:%S')
-        if ('11:30:00' > cur_time > '9:30:00') or \
-                ('15:00:00' > cur_time > '13:00:00'):
-            return True
-        else:
-            return False
 
 
 def my_job():

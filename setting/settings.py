@@ -10,6 +10,7 @@ INFO_FILE = os.path.join(OUT_DIR, 'info.csv')
 CONCEPT_FILE = os.path.join(OUT_DIR, 'concept.csv')
 TRADE_DATE_FILE = os.path.join(OUT_DIR, 'trade_date.csv')
 ZT_FILE = os.path.join(OUT_DIR, 'zt.csv')
+ZZB_FILE = os.path.join(OUT_DIR, 'zzb.csv')
 
 BIN_ROOT = os.path.join(ROOT, 'bins')
 EXE_CLICKIT = os.path.join(BIN_ROOT, 'ClickIt.exe')
