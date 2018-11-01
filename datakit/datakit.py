@@ -130,7 +130,31 @@ def zhangting(code):
 
 
 def zhaban(code):
-    pass
+    max_zzb_days = 30
+    try:
+        day = get_k_interface(code)
+        c = day.loc[:, 'close']
+        h = day.loc[:, 'high']
+        c_h = (c.values != h.values)[1:]
+        c = c[:-1]
+        h = h[1:]
+        c = c * 1.1
+        c = round(c, 2)
+        h = round(h, 2)
+        zzb = ((h.values >= c.values) & c_h)[::-1]
+    except Exception as err:
+        print(code)
+        print(err)
+        assert 0
+    if h.values[-1] >= c.values[-1] and c_h[-1] == False:
+        if ts.get_realtime_quotes(code).loc[:, 'ask'].iloc[0] != '0.000':
+            zzb[0] = True
+    zzb = zzb + 0
+    if len(zzb) >= max_zzb_days:
+        ret = zzb[:max_zzb_days]
+    else:
+        ret = np.r_[zzb, np.zeros(max_zzb_days - len(zzb))]
+    return {code: ret}
 
 
 @print_run_time
@@ -154,7 +178,7 @@ def down_k_data_local():
 
 
 if __name__ == '__main__':
-    pass
+    print(zhaban('603076'))
     # down_k_worker('600532')
     # generate_zt()
     # zhangting('601162')
