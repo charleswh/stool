@@ -8,7 +8,7 @@ from functools import reduce
 from utility.log import log
 from utility.task import MultiTasks
 from utility.timekit import print_run_time
-from setting.settings import CSV_DIR, INFO_FILE, TRADE_DATE_FILE, KTYPE, PERIORD_TAG, ZT_FILE, ZZB_FILE
+from setting.settings import CSV_DIR, INFO_FILE, TRADE_DATE_FILE, KTYPE, PERIORD_TAG, ZT_FILE, ZB_FILE
 
 OHLC_DICT = {'open': 'first', 'close': 'last', 'high': 'max', 'low': 'min', 'volume': 'sum',
              'code': 'last'}
@@ -134,6 +134,17 @@ def zhangting(code):
     return {code: ret}
 
 
+def round_s(val, ndigits):
+    for _ in range(ndigits):
+        val *= 10
+    ret_val = int(val)
+    if val >= ret_val + 0.5:
+        ret_val += 1
+    for _ in range(ndigits):
+        ret_val /= 10
+    return ret_val
+
+
 def zhaban(code):
     max_zzb_days = 30
     try:
@@ -144,8 +155,8 @@ def zhaban(code):
         c = c[:-1]
         h = h[1:]
         c = c * 1.1
-        c = round(c, 2)
-        h = round(h, 2)
+        c = c.rolling(window=1).apply(round_s, args=[2], raw=True)
+        h = h.rolling(window=1).apply(round_s, args=[2], raw=True)
         zzb = ((h.values >= c.values) & c_h)[::-1]
     except Exception as err:
         print(code)
@@ -164,31 +175,31 @@ def zhaban(code):
 
 @print_run_time
 def down_k_data_local():
-    info = ts.get_today_all().sort_values(by='changepercent', ascending=False)
-    info.drop_duplicates(inplace=True)
-    info = info[~info['name'].str.contains('ST')]
-    info = info[~info['name'].str.contains('退市')]
-    info.to_csv(INFO_FILE, index=False, encoding='utf-8-sig')
-    codes = list(info['code'])
-    # codes = get_codes()
+    # info = ts.get_today_all().sort_values(by='changepercent', ascending=False)
+    # info.drop_duplicates(inplace=True)
+    # info = info[~info['name'].str.contains('ST')]
+    # info = info[~info['name'].str.contains('退市')]
+    # info.to_csv(INFO_FILE, index=False, encoding='utf-8-sig')
+    # codes = list(info['code'])
+    codes = get_codes()
     down_trade()
     with MultiTasks() as mt:
-        basic = mt.run_list_tasks(func=down_k_worker, var_args=codes, en_bar=True, desc='DownBasic')
-        mt.run_list_tasks(func=save_k_worker, var_args=basic, en_bar=True, desc='SaveBasic')
-        mt.run_list_tasks(func=gen_120_k_data, var_args=codes, en_bar=True, desc='GenM120')
-        res = mt.run_list_tasks(func=zhangting, var_args=codes, en_bar=True, desc='GenZT')
-        res = reduce(lambda x, y: {**x, **y}, res)
-        df = pd.DataFrame(res).fillna(999)
-        df.to_csv(ZT_FILE, index=False)
+        # basic = mt.run_list_tasks(func=down_k_worker, var_args=codes, en_bar=True, desc='DownBasic')
+        # mt.run_list_tasks(func=save_k_worker, var_args=basic, en_bar=True, desc='SaveBasic')
+        # mt.run_list_tasks(func=gen_120_k_data, var_args=codes, en_bar=True, desc='GenM120')
+        # res = mt.run_list_tasks(func=zhangt# ing, var_args=codes, en_bar=True, desc='GenZT')
+        # res = reduce(lambda x, y: {**x, **y}, res)
+        # df = pd.DataFrame(res).fillna(999)
+        # df.to_csv(ZT_FILE, index=False)
         res = mt.run_list_tasks(func=zhaban, var_args=codes, en_bar=True, desc='GenZZB')
         res = reduce(lambda x, y: {**x, **y}, res)
         res = pd.DataFrame(res).fillna(999)
-        res.to_csv(ZZB_FILE, index=False)
+        res.to_csv(ZB_FILE, index=False)
 
 
 if __name__ == '__main__':
-    down_k_data_local()
-    # print(zhaban('603076'))
+    # down_k_data_local()
+    print(zhaban('600797'))
     # down_k_worker('600532')
     # generate_zt()
     # zhangting('601162')

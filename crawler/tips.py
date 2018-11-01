@@ -33,6 +33,7 @@ def save_tips(info):
 def copy_tips_files():
     import filecmp
     import shutil
+    print('Copy tips files to tdx folder...')
     dst_tip_dir = os.path.join(TDX_ROOT, 'T0002', 'tips')
     dir_diff = filecmp.dircmp(TIP_FOLDER, dst_tip_dir)
     print('copy tips files from {} to {}...'.format(TIP_FOLDER, dst_tip_dir))
@@ -203,6 +204,7 @@ def check_valid_proxy_ip():
                                 fix_args={'code': code, 'timeout': 1},
                                 en_bar=True, desc='CheckIP')
     valid_proxies = list(filter(None, res))
+    print('{} valid IPs.'.format(len(valid_proxies)))
     with open(VALID_PROXIES, 'w') as f:
         f.write('\n'.join(valid_proxies))
 

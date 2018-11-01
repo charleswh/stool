@@ -72,6 +72,7 @@ if __name__ == '__main__':
             down_proxy_ip()
             check_valid_proxy_ip()
             down_tips()
+            copy_tips_files()
         if args.local_data is True:
             down_k_data_local()
         if args.t0002_template is not None:

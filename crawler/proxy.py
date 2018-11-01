@@ -225,7 +225,6 @@ def down_proxy_ip():
         valid_ips = check_ip_batch(raw_ips, mt)
 
     valid_ips.sort(key=lambda x: int(x[2]))
-    print('{} valid IPs, save them.'.format(len(valid_ips)))
     with open(PROXY_LIST, 'w') as f:
         f.write('\n'.join(list(map(lambda x: ','.join(x), valid_ips))))
 
