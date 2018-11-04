@@ -58,6 +58,18 @@ def get_datetime_now(str_ret=False):
     return now.strftime('%Y-%m-%d %H:%M:%S') if str_ret is True else now
 
 
+def get_current_valid_trade_date():
+    trade_dates = get_trade_date()
+    cur_date = get_datetime_now()
+    while True:
+        if cur_date.strftime('%Y-%m-%d') in trade_dates:
+            cur_date = cur_date.strftime('%Y-%m-%d')
+            break
+        else:
+            cur_date -= pd.Timedelta(days=1)
+    return cur_date
+
+
 def get_trade_date():
     df = None
     if not os.path.exists(TRADE_DATE_FILE):
@@ -175,22 +187,22 @@ def zhaban(code):
 
 @print_run_time
 def down_k_data_local():
-    # info = ts.get_today_all().sort_values(by='changepercent', ascending=False)
-    # info.drop_duplicates(inplace=True)
-    # info = info[~info['name'].str.contains('ST')]
-    # info = info[~info['name'].str.contains('退市')]
-    # info.to_csv(INFO_FILE, index=False, encoding='utf-8-sig')
-    # codes = list(info['code'])
-    codes = get_codes()
+    info = ts.get_today_all().sort_values(by='changepercent', ascending=False)
+    info.drop_duplicates(inplace=True)
+    info = info[~info['name'].str.contains('ST')]
+    info = info[~info['name'].str.contains('退市')]
+    info.to_csv(INFO_FILE, index=False, encoding='utf-8-sig')
+    codes = list(info['code'])
+    # codes = get_codes()
     down_trade()
     with MultiTasks() as mt:
-        # basic = mt.run_list_tasks(func=down_k_worker, var_args=codes, en_bar=True, desc='DownBasic')
-        # mt.run_list_tasks(func=save_k_worker, var_args=basic, en_bar=True, desc='SaveBasic')
-        # mt.run_list_tasks(func=gen_120_k_data, var_args=codes, en_bar=True, desc='GenM120')
-        # res = mt.run_list_tasks(func=zhangt# ing, var_args=codes, en_bar=True, desc='GenZT')
-        # res = reduce(lambda x, y: {**x, **y}, res)
-        # df = pd.DataFrame(res).fillna(999)
-        # df.to_csv(ZT_FILE, index=False)
+        basic = mt.run_list_tasks(func=down_k_worker, var_args=codes, en_bar=True, desc='DownBasic')
+        mt.run_list_tasks(func=save_k_worker, var_args=basic, en_bar=True, desc='SaveBasic')
+        mt.run_list_tasks(func=gen_120_k_data, var_args=codes, en_bar=True, desc='GenM120')
+        res = mt.run_list_tasks(func=zhangting, var_args=codes, en_bar=True, desc='GenZT')
+        res = reduce(lambda x, y: {**x, **y}, res)
+        df = pd.DataFrame(res).fillna(999)
+        df.to_csv(ZT_FILE, index=False)
         res = mt.run_list_tasks(func=zhaban, var_args=codes, en_bar=True, desc='GenZZB')
         res = reduce(lambda x, y: {**x, **y}, res)
         res = pd.DataFrame(res).fillna(999)

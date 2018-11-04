@@ -4,8 +4,10 @@ import pandas as pd
 from functools import reduce
 import tushare as ts
 from tqdm import tqdm, trange
-from setting.settings import ZT_FILE, ZB_FILE, ZT_REC, ZB_REC, LB_REC
-from datakit.datakit import get_k_interface, get_trade_date, get_datetime_now
+from setting.settings import ZT_FILE, ZB_FILE, ZT_REC, ZB_REC, LB_REC, ZT_REASON_FILE, ZT_RSN_REC, \
+                             TDX_ROOT, OUT_DIR, EXE_7Z
+from datakit.datakit import get_k_interface, get_trade_date, get_datetime_now, \
+                            get_current_valid_trade_date
 
 
 def gen_cfg_bytes(name, file):
@@ -37,7 +39,7 @@ def zt_process():
     ret_cont_zt_num = []
     trade_days = get_trade_date()
     date_delta = 0
-    for i in trange(10, ascii=True, desc='CheckZT'):
+    for i in trange(1, ascii=True, desc='CheckZT'):
         cur = zt_data.iloc[0 + i]
         cur_zt = cur[cur == 1]
         df_l = get_k_interface(cur_zt.index[0])
@@ -71,9 +73,10 @@ def zt_process():
         if i == 0:
             ret_cur_zt_codes = cur_zt_codes
             ret_cur_cont_zt_codes = cont_zt.index.values.tolist()
-        ret_zt_num.append(len(cur_zt_codes))
-        ret_cont_zt_num.append(len(cont_zt))
-    return (ret_cur_zt_codes, ret_cur_cont_zt_codes, ret_zt_num, ret_cont_zt_num)
+        # ret_zt_num.append(len(cur_zt_codes))
+        # ret_cont_zt_num.append(len(cont_zt))
+    # return (ret_cur_zt_codes, ret_cur_cont_zt_codes, ret_zt_num, ret_cont_zt_num)
+    return (ret_cur_zt_codes, ret_cur_cont_zt_codes)
 
 
 def zzb_process():
@@ -91,16 +94,34 @@ def zzb_process():
 
 
 def update_rec(var_list, file):
-    today_date = get_datetime_now().strftime('%Y-%m-%d')
+    cur_date = get_current_valid_trade_date()
     if not os.path.exists(file):
         with open(file, 'w') as f:
-            f.write('{},{}\n'.format(today_date, ' '.join(var_list)))
+            f.write('{},{}\n'.format(cur_date, ' '.join(var_list)))
     else:
         with open(file, 'r') as f:
             cont = list(filter(None, f.read().split('\n')))
-        cont.append('{},{}'.format(today_date, ' '.join(var_list)))
+        cont.append('{},{}'.format(cur_date, ' '.join(var_list)))
         with open(file, 'w') as f:
             f.write('\n'.join(cont))
+
+
+def update_zt_rsn_rec(zt_list):
+    cur_date = get_current_valid_trade_date()
+    with open(ZT_REASON_FILE, 'r') as f:
+        rsn_list = f.read().split('\n')
+    rsn_list = list(filter(lambda x: x.split(',')[0] in zt_list, rsn_list))
+    rsn_list = list(map(lambda x: ':'.join(x.split(',')), rsn_list))
+    if not os.path.exists(ZT_RSN_REC):
+        with open(ZT_RSN_REC, 'w') as f:
+            f.write('{},{}\n'.format(cur_date, ' '.join(rsn_list)))
+    else:
+        with open(ZT_RSN_REC, 'r') as f:
+            cont = list(filter(None, f.read().split('\n')))
+        cont.append('{},{}'.format(cur_date, ' '.join(rsn_list)))
+        with open(ZT_RSN_REC, 'w') as f:
+            f.write('\n'.join(cont))
+
 
 
 def get_zzz():
@@ -124,14 +145,14 @@ def get_once_zt():
 
 
 def post_process():
-    get_once_zt()
-    ttt, bbb, c, d = zt_process()
+    ttt, bbb = zt_process()
     zzb = zzb_process()
     zzz = get_zzz()
     ccc = get_once_zt()
     update_rec(ttt, ZT_REC)
     update_rec(bbb, LB_REC)
     update_rec(zzb, ZB_REC)
+    update_zt_rsn_rec(ttt)
     gen_blk(ttt, 'ttt')
     gen_blk(bbb, 'bbb')
     gen_blk(zzb, 'zzb')
@@ -150,6 +171,33 @@ def post_process():
     with open('blocknew.cfg', 'wb') as f:
         for blk in blk_list:
             f.write(blk)
+
+    from glob import glob
+    import shutil
+    from utility.misc import run_cmd
+    blk_backup_dir = os.path.join(OUT_DIR, 'blk_backup')
+    if not os.path.exists(blk_backup_dir):
+        os.mkdir(blk_backup_dir)
+
+    blk_backup_dir = os.path.join(blk_backup_dir, cur_date)
+    if not os.path.exists(blk_backup_dir):
+        os.mkdir(blk_backup_dir)
+    tdx_blk_dst = os.path.join(TDX_ROOT, 'T0002', 'blocknew')
+    print('Backup old block files...')
+    filter_func = lambda x: x.split('.')[-1] == 'blk' or x.split('.')[-1] == 'cfg'
+    pre_blk_files = glob(os.path.join(tdx_blk_dst, '*'))
+    pre_blk_files = list(filter(filter_func, pre_blk_files))
+    for file in pre_blk_files:
+        shutil.copy(file, blk_backup_dir)
+    cmd = '{} a -t7z {} {}'.format(EXE_7Z, blk_backup_dir, os.path.join(blk_backup_dir, '*'))
+    run_cmd(cmd)
+    shutil.rmtree(blk_backup_dir)
+    print('Update new block files...')
+    new_blk_files = glob('*')
+    new_blk_files = list(filter(filter_func, new_blk_files))
+    for file in new_blk_files:
+        shutil.copy(file, tdx_blk_dst)
+
 
 
 if __name__ == '__main__':

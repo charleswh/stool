@@ -7,21 +7,21 @@ from utility.log import log
 from utility.timekit import time_str, print_run_time
 from utility.task import MultiTasks
 from crawler.proxy import get_random_header, get_proxy_ip
-from setting.settings import TDX_ROOT, TIP_FOLDER, CONCEPT_FILE, VALID_PROXIES
+from setting.settings import TDX_ROOT, TIP_FOLDER, CONCEPT_FILE, ZT_REASON_FILE, VALID_PROXIES
 
 TIP_FILE = os.path.join(TIP_FOLDER, '{}.html')
 
 
 def save_tips(info):
     file = TIP_FILE.format(info['code'])
-    yw = info['business'] if info['business'] is not None else '--'
-    tc = ', '.join(info['concept']) if info['concept'] is not None else '--'
+    yw = info['business'] if info['business'] is not None else '-'
+    tc = ', '.join(info['concept']) if info['concept'] is not None else '-'
     if info['zhangting'] is not None:
         zt = '{}, {}'.format(*info['zhangting'][:2])
-        ztyy = info['zhangting'][2] if info['zhangting'][2] is not None else '--'
+        ztyy = info['zhangting'][2] if info['zhangting'][2] is not None else '-'
     else:
-        zt = '--'
-        ztyy = '--'
+        zt = '-'
+        ztyy = '-'
     content = '<head><meta http-equiv="Content-Type" content="text/html; charset=gbk" /></head>\n' \
               '<body bgcolor="#070608"></body>\n' \
               '<p><span style="color:#3CB371;line-height:1.3;font-size:14px;font-family:微软雅黑;">' \
@@ -149,7 +149,14 @@ def down_tips_worker(code, proxy_ip=None, timeout=None, retry=3):
             break
     info['code'] = code
     save_tips(info)
-    return ','.join([code, ' '.join(info['concept']) if info['concept'] is not None else '--'])
+    cct = ','.join([code, ' '.join(info['concept']) if info['concept'] is not None else '-'])
+    if info['zhangting'] is not None and len(info['zhangting']) > 2 and \
+            info['zhangting'][1] is not None:
+        rsn = info['zhangting'][1].split('：')
+        rsn = ','.join([code, rsn[-1]]) if len(rsn) > 1 else '-'
+    else:
+        rsn = '-'
+    return (cct, rsn)
 
 
 def down_tips():
@@ -180,8 +187,13 @@ def down_tips():
             break
         res.append(ret)
     if len(res) > 0:
-        var = '\n'.join(res)
+        var = list(map(lambda x: x[0], res))
+        var = '\n'.join(var)
         with open(CONCEPT_FILE, 'w') as f:
+            f.write(var)
+        var = list(map(lambda x: x[1], res))
+        var = '\n'.join(var)
+        with open(ZT_REASON_FILE, 'w') as f:
             f.write(var)
     if proxy_expire_flag != -1:
         log.info('Not all tips downed, updated {}'.format(proxy_expire_flag))
@@ -210,6 +222,6 @@ def check_valid_proxy_ip():
 
 
 if __name__ == '__main__':
-    # down_tips_worker('000526')
+    # down_tips_worker('600695')
     down_tips()
     # check_valid_proxy_ip()
