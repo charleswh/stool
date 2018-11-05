@@ -58,10 +58,6 @@ class MultiTasks(object):
         if isinstance(var[0], list) or isinstance(var[0], np.ndarray) or isinstance(var[0], tuple):
             is_varg_list = True
 
-        # if 'tips' in fix.keys() and fix['tips']:
-        #     opt = Options()
-        #     opt.add_argument('--headless')
-        #     fix = {'browser':webdriver.Chrome(CHROME_EXE, options=opt)}
         ret_set = []
         for item in var:
             if fix is None:

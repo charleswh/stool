@@ -171,7 +171,51 @@ def down_tips():
         if codes.index(code) == int(len(codes) * 2 / 3):
             proxies = proxies_ori
         while True:
-            ret = down_tips_worker(code, proxy_ip=p, timeout=1)
+            ret = down_tips_worker(code, proxy_ip=p, timeout=2)
+            if ret is not None:
+                break
+            elif len(proxies) > 0:
+                p = proxies.pop(0)
+                continue
+            elif p is None:
+                proxy_expire_flag = codes.index(code)
+                continue
+            else:
+                p = None
+                continue
+        if proxy_expire_flag != -1 and ret is None:
+            break
+        res.append(ret)
+    if len(res) > 0:
+        print('{} proxies remaining.'.format(len(proxies)))
+        var = list(map(lambda x: x[0], res))
+        var = '\n'.join(var)
+        with open(CONCEPT_FILE, 'w') as f:
+            f.write(var)
+        var = list(map(lambda x: x[1], res))
+        var = '\n'.join(var)
+        with open(ZT_REASON_FILE, 'w') as f:
+            f.write(var)
+    if proxy_expire_flag != -1:
+        log.info('Not all tips downed, updated {}'.format(proxy_expire_flag))
+
+
+def down_tips_():
+    codes = ts.get_stock_basics().index.values.tolist()
+    with open(VALID_PROXIES, 'r') as f:
+        proxies = f.read().split('\n')
+    res = []
+
+    def worker(code, proxies_list, timeout=2):
+
+    proxies = proxies_ori
+    proxy_expire_flag = -1
+    p = proxies.pop(0)
+    for code in tqdm(codes, ascii=True, desc='DownTips'):
+        if codes.index(code) == int(len(codes) * 2 / 3):
+            proxies = proxies_ori
+        while True:
+            ret = down_tips_worker(code, proxy_ip=p, timeout=2)
             if ret is not None:
                 break
             elif len(proxies) > 0:
@@ -213,7 +257,7 @@ def check_valid_proxy_ip():
     with MultiTasks(64) as mt:
         res = mt.run_list_tasks(pip_checker,
                                 var_args=proxies,
-                                fix_args={'code': code, 'timeout': 1},
+                                fix_args={'code': code, 'timeout': 2},
                                 en_bar=True, desc='CheckIP')
     valid_proxies = list(filter(None, res))
     print('{} valid IPs.'.format(len(valid_proxies)))
@@ -223,5 +267,5 @@ def check_valid_proxy_ip():
 
 if __name__ == '__main__':
     # down_tips_worker('600695')
-    down_tips()
+    down_tips_()
     # check_valid_proxy_ip()

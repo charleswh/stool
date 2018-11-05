@@ -55,7 +55,7 @@ def check_ip_valid(ip, port, timeout=1):
 def check_ip_batch(ip_list: list, mt=None, timeout=1):
     if mt is not None:
         ret_ips = mt.run_list_tasks(func=check_ip_valid, var_args=ip_list,
-                                    fix_args={'timeout': 1}, en_bar=1, desc='ChkValidIP')
+                                    fix_args={'timeout': 2}, en_bar=1, desc='CheckRawIPs')
         res = np.c_[np.array(ip_list), np.array(ret_ips)].tolist()
     else:
         res = []
@@ -63,6 +63,7 @@ def check_ip_batch(ip_list: list, mt=None, timeout=1):
             print('Checking IP: {}:{}'.format(*ip))
             res.append([*ip, check_ip_valid(*ip, timeout)])
     res = list(filter(lambda x: x[2] is not None, res))
+    print('{} valid raw IPs.'.format(len(res)))
     return res
 
 
@@ -144,6 +145,15 @@ def ip66():
         req.encoding = 'gb2312'
         pat = re.compile(r'<tr><td>(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td><td>(\d{1,5})</td>', re.S)
         raw_ips.extend(pat.findall(req.text))
+
+    e_base = 'http://www.66ip.cn/nmtq.php?getnum=50&isp=0&anonymoustype=3&start=&ports=&export=' \
+             '&ipaddress=&area=1&proxytype=2&api=66ip'
+    for _ in range(5):
+        req = requests.get(e_base, headers=get_random_header())
+        req.encoding = 'gbk'
+        pat = re.compile(r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}):(\d{1,5})')
+        raw_ips.extend(pat.findall(req.text))
+        sleep(2)
     log.info('Got {} raw IPs from <ip66>'.format(len(raw_ips)))
     return raw_ips
 
@@ -200,8 +210,8 @@ def get_proxy_ip():
     else:
         with open(PROXY_LIST, 'r') as f:
             ret = f.read().split('\n')
-            ret = list(map(lambda x:x.split(','), ret))
-            ret = list(map(lambda x:'{}:{}'.format(x[0], x[1]), ret))
+            ret = list(map(lambda x: x.split(','), ret))
+            ret = list(map(lambda x: '{}:{}'.format(x[0], x[1]), ret))
         return ret
 
 
@@ -210,8 +220,13 @@ def down_proxy_ip():
     req = requests.get(IP_TEST_WEB)
     req.encoding = 'gbk'
     g_host_ip = re.search('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', req.text).group()
-    # raw_ips = [*xiaohuan(), *lingdu(), *ip66(), *kuai(), *ip3366(), *xici(), *data5u()]
-    raw_ips = [*xiaohuan(), *ip66(), *kuai(), *ip3366(), *xici(), *data5u()]
+    raw_ips = []
+    raw_ips.extend(xiaohuan())
+    raw_ips.extend(ip66())
+    raw_ips.extend(kuai())
+    raw_ips.extend(ip3366())
+    raw_ips.extend(xici())
+    raw_ips.extend(data5u())
 
     if os.path.exists(PROXY_LIST):
         with open(PROXY_LIST, 'r') as f:
