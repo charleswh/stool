@@ -4,3 +4,8 @@
 .idea
 *.docx
 crawler/geckodriver.log
+datakit/.pytest_cache/v/cache/nodeids
+datakit/blocknew.cfg
+setting/porxy_baks.txt
+setting/porxy_baks.txt
+stool.log
