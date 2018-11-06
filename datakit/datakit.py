@@ -33,7 +33,7 @@ def get_codes():
 
 
 def get_k_interface(code, ktype='D', ds='local'):
-    valid_dates = get_trade_date()
+    valid_dates = get_trade_date_list()
     date = get_datetime_now()
     date_str = date.strftime('%Y-%m-%d')
     day_begin = pd.datetime(year=date.year, month=date.month, day=date.month, hour=9, minute=30)
@@ -58,36 +58,34 @@ def get_datetime_now(str_ret=False):
     return now.strftime('%Y-%m-%d %H:%M:%S') if str_ret is True else now
 
 
-def get_current_valid_trade_date():
-    trade_dates = get_trade_date()
+def get_valid_trade_date(delta=0):
+    trade_dates = get_trade_date_list()
     cur_date = get_datetime_now()
+    ret_date = None
     while True:
         if cur_date.strftime('%Y-%m-%d') in trade_dates:
-            cur_date = cur_date.strftime('%Y-%m-%d')
+            ret_date_idx = trade_dates.index(cur_date.strftime('%Y-%m-%d')) + delta
+            ret_date = trade_dates[ret_date_idx]
             break
         else:
-            cur_date -= pd.Timedelta(days=1)
-    return cur_date
+            cur_date += pd.Timedelta(days=-1)
+    return ret_date
 
 
-def get_trade_date():
-    df = None
+def get_trade_date_list():
     if not os.path.exists(TRADE_DATE_FILE):
         down_trade()
-    else:
-        df = pd.read_csv(TRADE_DATE_FILE, header=None)
-    return df.values
+    return pd.read_csv(TRADE_DATE_FILE, header=None).iloc[:,0].values.tolist()
 
 
 def is_trade_time() -> bool:
-    trade_date = get_trade_date()
+    trade_date = get_trade_date_list()
     cur_date = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d')
     if cur_date not in trade_date:
         return False
     else:
         cur_time = datetime.datetime.strftime(datetime.datetime.now(), '%H:%M:%S')
-        if ('11:30:00' > cur_time > '9:30:00') or \
-                ('15:00:00' > cur_time > '13:00:00'):
+        if ('11:30:00' > cur_time > '9:30:00') or ('15:00:00' > cur_time > '13:00:00'):
             return True
         else:
             return False

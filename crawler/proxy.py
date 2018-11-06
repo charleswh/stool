@@ -221,12 +221,30 @@ def down_proxy_ip():
     req.encoding = 'gbk'
     g_host_ip = re.search('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', req.text).group()
     raw_ips = []
-    raw_ips.extend(xiaohuan())
-    raw_ips.extend(ip66())
-    raw_ips.extend(kuai())
-    raw_ips.extend(ip3366())
-    raw_ips.extend(xici())
-    raw_ips.extend(data5u())
+    try:
+        raw_ips.extend(xiaohuan())
+    except Exception as err:
+        print(err)
+    try:
+        raw_ips.extend(ip66())
+    except Exception as err:
+        print(err)
+    try:
+        raw_ips.extend(kuai())
+    except Exception as err:
+        print(err)
+    try:
+        raw_ips.extend(ip3366())
+    except Exception as err:
+        print(err)
+    try:
+        raw_ips.extend(xici())
+    except Exception as err:
+        print(err)
+    try:
+        raw_ips.extend(data5u())
+    except Exception as err:
+        print(err)
 
     if os.path.exists(PROXY_LIST):
         with open(PROXY_LIST, 'r') as f:

@@ -207,7 +207,7 @@ def down_tips_():
     res = []
 
     def worker(code, proxies_list, timeout=2):
-
+        pass
     proxies = proxies_ori
     proxy_expire_flag = -1
     p = proxies.pop(0)

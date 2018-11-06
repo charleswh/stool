@@ -5,6 +5,7 @@ from datakit.datakit import down_k_data_local
 from crawler.blak import blakfp_entry
 from crawler.tips import down_tips, copy_tips_files, modify_tips, check_valid_proxy_ip
 from crawler.proxy import down_proxy_ip
+from analysis.tactics import post_process
 from utility.misc import backup_t0002, recover_t0002, make_list_of_t0002
 
 
@@ -57,6 +58,9 @@ parser.add_argument('--down_proxy',
 parser.add_argument('--check_proxy',
                     action='store_true',
                     help='check proxy IPs')
+parser.add_argument('--post_process',
+                    action='store_true',
+                    help='do stock collection')
 parser.add_argument('--test',
                     action='store_true',
                     help='test function entry')
@@ -93,6 +97,8 @@ if __name__ == '__main__':
             down_proxy_ip()
         if args.check_proxy is True:
             check_valid_proxy_ip()
+        if args.post_process is True:
+            post_process()
         if args.test:
             # mail_test()
             dbg = 0

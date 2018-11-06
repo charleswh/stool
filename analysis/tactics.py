@@ -6,8 +6,7 @@ import tushare as ts
 from tqdm import tqdm, trange
 from setting.settings import ZT_FILE, ZB_FILE, ZT_REC, ZB_REC, LB_REC, ZT_REASON_FILE, ZT_RSN_REC, \
                              TDX_ROOT, OUT_DIR, EXE_7Z
-from datakit.datakit import get_k_interface, get_trade_date, get_datetime_now, \
-                            get_current_valid_trade_date
+from datakit.datakit import get_k_interface, get_trade_date_list, get_valid_trade_date
 
 
 def gen_cfg_bytes(name, file):
@@ -27,7 +26,7 @@ def gen_blk(stocks, name):
         stocks = ['']
     else:
         stocks = list(map(lambda x: '1{}'.format(x) if x[0] == '6' else '0{}'.format(x), stocks))
-    with open(name + '.blk', 'w') as f:
+    with open(os.path.join(OUT_DIR, name + '.blk'), 'w') as f:
         f.write('\n'.join(stocks))
 
 
@@ -37,7 +36,7 @@ def zt_process():
     ret_cur_cont_zt_codes = None
     ret_zt_num = []
     ret_cont_zt_num = []
-    trade_days = get_trade_date()
+    trade_days = get_trade_date_list()
     date_delta = 0
     for i in trange(1, ascii=True, desc='CheckZT'):
         cur = zt_data.iloc[0 + i]
@@ -94,20 +93,23 @@ def zzb_process():
 
 
 def update_rec(var_list, file):
-    cur_date = get_current_valid_trade_date()
+    cur_date = get_valid_trade_date()
     if not os.path.exists(file):
         with open(file, 'w') as f:
             f.write('{},{}\n'.format(cur_date, ' '.join(var_list)))
     else:
         with open(file, 'r') as f:
             cont = list(filter(None, f.read().split('\n')))
-        cont.append('{},{}'.format(cur_date, ' '.join(var_list)))
-        with open(file, 'w') as f:
-            f.write('\n'.join(cont))
+        if cur_date in ''.join(cont):
+            return None
+        else:
+            cont.append('{},{}'.format(cur_date, ' '.join(var_list)))
+            with open(file, 'w') as f:
+                f.write('\n'.join(cont))
 
 
 def update_zt_rsn_rec(zt_list):
-    cur_date = get_current_valid_trade_date()
+    cur_date = get_valid_trade_date()
     with open(ZT_REASON_FILE, 'r') as f:
         rsn_list = f.read().split('\n')
     rsn_list = list(filter(lambda x: x.split(',')[0] in zt_list, rsn_list))
@@ -118,9 +120,12 @@ def update_zt_rsn_rec(zt_list):
     else:
         with open(ZT_RSN_REC, 'r') as f:
             cont = list(filter(None, f.read().split('\n')))
-        cont.append('{},{}'.format(cur_date, ' '.join(rsn_list)))
-        with open(ZT_RSN_REC, 'w') as f:
-            f.write('\n'.join(cont))
+        if cur_date in ''.join(cont):
+            return None
+        else:
+            cont.append('{},{}'.format(cur_date, ' '.join(rsn_list)))
+            with open(ZT_RSN_REC, 'w') as f:
+                f.write('\n'.join(cont))
 
 
 
@@ -128,23 +133,27 @@ def get_zzz():
     if not os.path.exists(ZT_REC):
         return None
     else:
+        pre_date = get_valid_trade_date(delta=-1)
         with open(ZT_REC, 'r') as f:
             cont = list(filter(None, f.read().split('\n')))
-        return cont[-1].split(',')[-1].split(' ')
+        cont = list(filter(lambda x: pre_date in x, cont))
+        return cont[0].split(',')[-1].split(' ')
 
 
 def get_once_zt():
     if not os.path.exists(ZT_REC):
         return None
     else:
+        cur_date = get_valid_trade_date()
         with open(ZT_REC, 'r') as f:
             cont = list(filter(None, f.read().split('\n')))
+        cont = list(filter(lambda x: cur_date not in x, cont)) if len(cont) > 1 else cont
         cont = cont if len(cont) <= 10 else cont[-10:]
         cont = list(map(lambda x: x.split(',')[-1].split(' '), cont))
-        return list(reduce(lambda x, y: x + y, cont))
+        return list(set(list(reduce(lambda x, y: x + y, cont))))
 
 
-def post_process():
+def blk_process():
     ttt, bbb = zt_process()
     zzb = zzb_process()
     zzz = get_zzz()
@@ -168,7 +177,7 @@ def post_process():
     blk_list.append(gen_cfg_bytes('十日涨停', 'ccc'))
     blk_list.append(gen_cfg_bytes('炸板', 'zzb'))
     blk_list.append(gen_cfg_bytes('连板', 'bbb'))
-    with open('blocknew.cfg', 'wb') as f:
+    with open(os.path.join(OUT_DIR, 'blocknew.cfg'), 'wb') as f:
         for blk in blk_list:
             f.write(blk)
 
@@ -179,6 +188,7 @@ def post_process():
     if not os.path.exists(blk_backup_dir):
         os.mkdir(blk_backup_dir)
 
+    cur_date = get_valid_trade_date()
     blk_backup_dir = os.path.join(blk_backup_dir, cur_date)
     if not os.path.exists(blk_backup_dir):
         os.mkdir(blk_backup_dir)
@@ -193,12 +203,16 @@ def post_process():
     run_cmd(cmd)
     shutil.rmtree(blk_backup_dir)
     print('Update new block files...')
-    new_blk_files = glob('*')
+    new_blk_files = glob(os.path.join(OUT_DIR, '*'))
     new_blk_files = list(filter(filter_func, new_blk_files))
     for file in new_blk_files:
         shutil.copy(file, tdx_blk_dst)
 
 
+def post_process():
+    blk_process()
+
 
 if __name__ == '__main__':
+    get_zzz()
     post_process()
