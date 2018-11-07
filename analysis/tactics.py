@@ -189,19 +189,22 @@ def blk_process():
         os.mkdir(blk_backup_dir)
 
     cur_date = get_valid_trade_date()
-    blk_backup_dir = os.path.join(blk_backup_dir, cur_date)
-    if not os.path.exists(blk_backup_dir):
-        os.mkdir(blk_backup_dir)
     tdx_blk_dst = os.path.join(TDX_ROOT, 'T0002', 'blocknew')
-    print('Backup old block files...')
     filter_func = lambda x: x.split('.')[-1] == 'blk' or x.split('.')[-1] == 'cfg'
-    pre_blk_files = glob(os.path.join(tdx_blk_dst, '*'))
-    pre_blk_files = list(filter(filter_func, pre_blk_files))
-    for file in pre_blk_files:
-        shutil.copy(file, blk_backup_dir)
-    cmd = '{} a -t7z {} {}'.format(EXE_7Z, blk_backup_dir, os.path.join(blk_backup_dir, '*'))
-    run_cmd(cmd)
-    shutil.rmtree(blk_backup_dir)
+    if os.path.exists('{}.7z'.format(cur_date)):
+        pass
+    else:
+        blk_backup_dir = os.path.join(blk_backup_dir, cur_date)
+        if not os.path.exists(blk_backup_dir):
+            os.mkdir(blk_backup_dir)
+        print('Backup old block files...')
+        pre_blk_files = glob(os.path.join(tdx_blk_dst, '*'))
+        pre_blk_files = list(filter(filter_func, pre_blk_files))
+        for file in pre_blk_files:
+            shutil.copy(file, blk_backup_dir)
+        cmd = '{} a -t7z {} {}'.format(EXE_7Z, blk_backup_dir, os.path.join(blk_backup_dir, '*'))
+        run_cmd(cmd)
+        shutil.rmtree(blk_backup_dir)
     print('Update new block files...')
     new_blk_files = glob(os.path.join(OUT_DIR, '*'))
     new_blk_files = list(filter(filter_func, new_blk_files))

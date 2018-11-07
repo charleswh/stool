@@ -7,10 +7,10 @@ from utility.log import log
 from utility.timekit import time_str, print_run_time
 from utility.task import MultiTasks
 from crawler.proxy import get_random_header, get_proxy_ip
-from setting.settings import TDX_ROOT, TIP_FOLDER, CONCEPT_FILE, ZT_REASON_FILE, VALID_PROXIES
+from setting.settings import TDX_ROOT, TIP_FOLDER, CONCEPT_FILE, ZT_REASON_FILE, VALID_PROXIES, \
+                             PRE_USED_PROXIES, PROXY_TIMEOUT
 
 TIP_FILE = os.path.join(TIP_FOLDER, '{}.html')
-
 
 def save_tips(info):
     file = TIP_FILE.format(info['code'])
@@ -60,6 +60,39 @@ def modify_tips(args):
         if u != c:
             with open(file, 'w') as f:
                 f.write(u)
+
+
+def pip_checker(proxy_ip, code, timeout=None):
+    html = get_single_html(code, proxy_ip, timeout)
+    if html is None or html == '':
+        return None
+    else:
+        return proxy_ip
+
+
+def check_valid_proxy_ip():
+    proxies = get_proxy_ip()
+    code = ts.get_stock_basics().index.values.tolist()[0]
+    with MultiTasks(64) as mt:
+        res = mt.run_list_tasks(pip_checker,
+                                var_args=proxies,
+                                fix_args={'code': code, 'timeout': PROXY_TIMEOUT},
+                                en_bar=True, desc='CheckIP')
+    valid_proxies = list(filter(None, res))
+    log.info('{} valid IPs.'.format(len(valid_proxies)))
+    if not os.path.exists(PRE_USED_PROXIES):
+        with open(PRE_USED_PROXIES, 'w') as f:
+            f.write('\n'.join(valid_proxies))
+    else:
+        with open(PRE_USED_PROXIES, 'r') as f:
+            cont = f.read().split('\n')
+        cont.extend(valid_proxies)
+        cont = list(filter(None, cont))
+        cont = list(set(cont))
+        with open(PRE_USED_PROXIES, 'w') as f:
+            f.write('\n'.join(cont))
+    with open(VALID_PROXIES, 'w') as f:
+        f.write('\n'.join(valid_proxies))
 
 
 def get_single_html(code, proxy_ip=None, timeout=None):
@@ -136,7 +169,7 @@ def parse_html(html):
     return info_dict
 
 
-def down_tips_worker(code, proxy_ip=None, timeout=None, retry=3):
+def get_one_tip(code, proxy_ip=None, timeout=None, retry=3):
     info = {}
     for _ in range(retry):
         html = get_single_html(code, proxy_ip, timeout)
@@ -159,7 +192,7 @@ def down_tips_worker(code, proxy_ip=None, timeout=None, retry=3):
     return (cct, rsn)
 
 
-def down_tips():
+def down_tips_singleprocess():
     codes = ts.get_stock_basics().index.values.tolist()
     with open(VALID_PROXIES, 'r') as f:
         proxies_ori = f.read().split('\n')
@@ -171,15 +204,15 @@ def down_tips():
         if codes.index(code) == int(len(codes) * 2 / 3):
             proxies = proxies_ori
         while True:
-            ret = down_tips_worker(code, proxy_ip=p, timeout=2)
+            ret = get_one_tip(code, proxy_ip=p, timeout=PROXY_TIMEOUT)
             if ret is not None:
                 break
             elif len(proxies) > 0:
                 p = proxies.pop(0)
                 continue
-            elif p is None:
+            elif p is None and ret is None:
                 proxy_expire_flag = codes.index(code)
-                continue
+                break
             else:
                 p = None
                 continue
@@ -200,72 +233,63 @@ def down_tips():
         log.info('Not all tips downed, updated {}'.format(proxy_expire_flag))
 
 
-def down_tips_():
+def down_tips_worker(para):
+    codes, fix, lock, counter, finish_queue = para
+    assert fix is not None
+    assert isinstance(fix, dict)
+    timeout = fix['timeout']
+    proxy_list_ori = fix['proxies']
+    proxy_list = proxy_list_ori
+    proxy = proxy_list.pop(0)
+    res = []
+    for code in codes:
+        if codes.index(code) == int(len(codes) / 2):
+            proxy_list = proxy_list_ori
+            proxy = proxy_list.pop(0)
+        while True:
+            ret = get_one_tip(code, proxy_ip=proxy, timeout=timeout)
+            if ret is not None:
+                break
+            elif len(proxy_list) > 0:
+                proxy = proxy_list.pop(0)
+                continue
+            elif proxy is None and ret is None:
+                proxy_list = proxy_list_ori
+                proxy = proxy_list.pop(0)
+                continue
+            else:
+                proxy = None
+                continue
+        res.append(ret)
+        with lock:
+            counter.value += 1
+    with lock:
+        finish_queue.get()
+    return res
+
+
+def down_tips_multiprocess():
     codes = ts.get_stock_basics().index.values.tolist()
     with open(VALID_PROXIES, 'r') as f:
         proxies = f.read().split('\n')
-    res = []
-
-    def worker(code, proxies_list, timeout=2):
-        pass
-    proxies = proxies_ori
-    proxy_expire_flag = -1
-    p = proxies.pop(0)
-    for code in tqdm(codes, ascii=True, desc='DownTips'):
-        if codes.index(code) == int(len(codes) * 2 / 3):
-            proxies = proxies_ori
-        while True:
-            ret = down_tips_worker(code, proxy_ip=p, timeout=2)
-            if ret is not None:
-                break
-            elif len(proxies) > 0:
-                p = proxies.pop(0)
-                continue
-            elif p is None:
-                proxy_expire_flag = codes.index(code)
-                continue
-            else:
-                p = None
-                continue
-        if proxy_expire_flag != -1 and ret is None:
-            break
-        res.append(ret)
-    if len(res) > 0:
-        var = list(map(lambda x: x[0], res))
-        var = '\n'.join(var)
-        with open(CONCEPT_FILE, 'w') as f:
-            f.write(var)
-        var = list(map(lambda x: x[1], res))
-        var = '\n'.join(var)
-        with open(ZT_REASON_FILE, 'w') as f:
-            f.write(var)
-    if proxy_expire_flag != -1:
-        log.info('Not all tips downed, updated {}'.format(proxy_expire_flag))
+    with MultiTasks(6) as mt:
+        res = mt.run_list_tasks(func=down_tips_worker, var_args=codes,
+                                fix_args={'proxies': proxies, 'timeout': PROXY_TIMEOUT},
+                                en_bar=True, pack=False)
+    var = list(map(lambda x: x[0], res))
+    var = '\n'.join(var)
+    with open(CONCEPT_FILE, 'w') as f:
+        f.write(var)
+    var = list(map(lambda x: x[1], res))
+    var = '\n'.join(var)
+    with open(ZT_REASON_FILE, 'w') as f:
+        f.write(var)
 
 
-def pip_checker(proxy_ip, code, timeout=None):
-    html = get_single_html(code, proxy_ip, timeout)
-    if html is None or html == '':
-        return None
-    else:
-        return proxy_ip
-
-
-def check_valid_proxy_ip():
-    proxies = get_proxy_ip()
-    code = ts.get_stock_basics().index.values.tolist()[0]
-    with MultiTasks(64) as mt:
-        res = mt.run_list_tasks(pip_checker,
-                                var_args=proxies,
-                                fix_args={'code': code, 'timeout': 2},
-                                en_bar=True, desc='CheckIP')
-    valid_proxies = list(filter(None, res))
-    print('{} valid IPs.'.format(len(valid_proxies)))
-    with open(VALID_PROXIES, 'w') as f:
-        f.write('\n'.join(valid_proxies))
+down_tips = down_tips_multiprocess
 
 
 if __name__ == '__main__':
-    # down_tips_worker('600695')
-    down_tips_()
+    # get_one_tip('600695')
+    down_tips()
     # check_valid_proxy_ip()

@@ -29,13 +29,6 @@ class MultiTasks(object):
         self.pool.close()
         self.pool.join()
 
-    # def reset_task_num(self, task_num):
-    #     self.close_tasks()
-    #     self.task_num = task_num
-    #     self.finish_flag = self.manager.Queue(self.task_num)
-    #     self.init_counter_queue()
-    #     with TimerCount('GenPool'):
-    #         self.pool = mp.Pool(processes=self.task_num + 1)
     @staticmethod
     def task_bar(c, q, d=None, bar_max=None):
         if bar_max is None:
@@ -70,24 +63,27 @@ class MultiTasks(object):
                     ret = func(*item, **fix)
                 else:
                     ret = func(item, **fix)
-            if lock is not None and counter is not None:
-                with lock:
-                    counter.value += 1
+            with lock:
+                counter.value += 1
             ret_set.append(ret)
-        if lock is not None and finish_queue is not None:
+        with lock:
             finish_queue.get()
         return ret_set
 
-    def run_list_tasks(self, func, var_args, fix_args=None, en_bar=False, desc=None):
+    def run_list_tasks(self, func, var_args, fix_args=None, pack=True, en_bar=False, desc=None):
         self.init_counter_queue()
         workload = int((len(var_args) + self.task_num) / self.task_num)
         var_sub = [list(var_args[i:i + workload]) for i in range(0, len(var_args), workload)]
-        args = [[func, v, fix_args, self.lock, self.counter, self.finish_flag] for v in var_sub]
         bar_max = sum(len(x) for x in var_sub) if en_bar else None
         if en_bar:
             bar_args = (self.counter, self.finish_flag, desc, bar_max)
             self.pool.apply_async(func=self.task_bar, args=bar_args)
-        ret_res = self.pool.map(func=self.pack_list_func, iterable=args)
+        if pack is True:
+            args = [[func, v, fix_args, self.lock, self.counter, self.finish_flag] for v in var_sub]
+            ret_res = self.pool.map(func=self.pack_list_func, iterable=args)
+        else:
+            args = [[v, fix_args, self.lock, self.counter, self.finish_flag] for v in var_sub]
+            ret_res = self.pool.map(func=func, iterable=args)
         if isinstance(ret_res[0], dict):
             ret_res = reduce(lambda x, y: {**x, **y}, ret_res)
         elif isinstance(ret_res[0], list):

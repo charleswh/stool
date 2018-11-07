@@ -157,21 +157,18 @@ def round_s(val, ndigits):
 
 def zhaban(code):
     max_zzb_days = 30
-    try:
-        day = get_k_interface(code)
-        c = day.loc[:, 'close']
-        h = day.loc[:, 'high']
-        c_h = (c.values != h.values)[1:]
-        c = c[:-1]
-        h = h[1:]
-        c = c * 1.1
-        c = c.rolling(window=1).apply(round_s, args=[2], raw=True)
-        h = h.rolling(window=1).apply(round_s, args=[2], raw=True)
-        zzb = ((h.values >= c.values) & c_h)[::-1]
-    except Exception as err:
-        print(code)
-        print(err)
-        assert 0
+    day = get_k_interface(code)
+    if len(day) == 1:
+        return {code: np.zeros(max_zzb_days)}
+    c = day.loc[:, 'close']
+    h = day.loc[:, 'high']
+    c_h = (c.values != h.values)[1:]
+    c = c[:-1]
+    h = h[1:]
+    c = c * 1.1
+    c = c.rolling(window=1).apply(round_s, args=[2], raw=True)
+    h = h.rolling(window=1).apply(round_s, args=[2], raw=True)
+    zzb = ((h.values >= c.values) & c_h)[::-1]
     if not is_trade_time() and h.values[-1] >= c.values[-1] and c_h[-1] == False:
         if ts.get_realtime_quotes(code).loc[:, 'ask'].iloc[0] != '0.000':
             zzb[0] = True
@@ -194,14 +191,17 @@ def down_k_data_local():
     # codes = get_codes()
     down_trade()
     with MultiTasks() as mt:
-        basic = mt.run_list_tasks(func=down_k_worker, var_args=codes, en_bar=True, desc='DownBasic')
-        mt.run_list_tasks(func=save_k_worker, var_args=basic, en_bar=True, desc='SaveBasic')
-        mt.run_list_tasks(func=gen_120_k_data, var_args=codes, en_bar=True, desc='GenM120')
-        res = mt.run_list_tasks(func=zhangting, var_args=codes, en_bar=True, desc='GenZT')
-        res = reduce(lambda x, y: {**x, **y}, res)
-        df = pd.DataFrame(res).fillna(999)
-        df.to_csv(ZT_FILE, index=False)
-        res = mt.run_list_tasks(func=zhaban, var_args=codes, en_bar=True, desc='GenZZB')
+        #basic = mt.run_list_tasks(func=down_k_worker, var_args=codes, en_bar=True, desc='DownBasic')
+        #mt.run_list_tasks(func=save_k_worker, var_args=basic, en_bar=True, desc='SaveBasic')
+        #mt.run_list_tasks(func=gen_120_k_data, var_args=codes, en_bar=True, desc='GenM120')
+        #res = mt.run_list_tasks(func=zhangting, var_args=codes, en_bar=True, desc='GenZT')
+        #res = reduce(lambda x, y: {**x, **y}, res)
+        #df = pd.DataFrame(res).fillna(999)
+        #df.to_csv(ZT_FILE, index=False)
+        try:
+            res = mt.run_list_tasks(func=zhaban, var_args=codes, en_bar=True, desc='GenZZB')
+        except Exception as err:
+            print(err)
         res = reduce(lambda x, y: {**x, **y}, res)
         res = pd.DataFrame(res).fillna(999)
         res.to_csv(ZB_FILE, index=False)
@@ -209,7 +209,7 @@ def down_k_data_local():
 
 if __name__ == '__main__':
     # down_k_data_local()
-    print(zhaban('600797'))
+    print(zhaban('300674'))
     # down_k_worker('600532')
     # generate_zt()
     # zhangting('601162')

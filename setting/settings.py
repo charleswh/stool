@@ -26,6 +26,7 @@ SETTING_ROOT = os.path.join(ROOT, 'setting')
 T0002_LIST = os.path.join(SETTING_ROOT, 't0002.list')
 PROXY_LIST = os.path.join(SETTING_ROOT, 'proxy_ips.txt')
 VALID_PROXIES = os.path.join(SETTING_ROOT, 'valid_proxies.txt')
+PRE_USED_PROXIES = os.path.join(SETTING_ROOT, 'pre_used_proxiex.txt')
 CUSTOM_TRADING = os.path.join(SETTING_ROOT, 'trading.py')
 
 MONITOR_ROOT = os.path.join(ROOT, 'monitor')
@@ -36,6 +37,7 @@ OFFICE_TDX_ROOT = 'e:\\software\\zd_zsone'
 HOME_TDX_ROOT= 'o:\\Program Files\\zd_zsone'
 TDX_ROOT = OFFICE_TDX_ROOT if platform.node() == 'NeilWang-L10' else HOME_TDX_ROOT
 
+PROXY_TIMEOUT = 2
 MAX_TASK_NUM = 16
 KTYPE = ['D', '60', '30', '15', '5']
 PERIORD_TAG = ['day', 'min60', 'min30', 'min15', 'min5']
