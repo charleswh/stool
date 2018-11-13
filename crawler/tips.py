@@ -1,5 +1,6 @@
 import re
 import os
+import copy
 import requests
 from tqdm import tqdm
 import tushare as ts
@@ -239,12 +240,13 @@ def down_tips_worker(para):
     assert isinstance(fix, dict)
     timeout = fix['timeout']
     proxy_list_ori = fix['proxies']
-    proxy_list = proxy_list_ori
+    proxy_list = copy.deepcopy(proxy_list_ori)
     proxy = proxy_list.pop(0)
     res = []
     for code in codes:
-        if codes.index(code) == int(len(codes) / 2):
-            proxy_list = proxy_list_ori
+        # if codes.index(code) == int(len(codes) / 2):
+        if proxy_list_ori.index(proxy) == int(len(proxy_list_ori) / 10 * 9):
+            proxy_list = copy.deepcopy(proxy_list_ori)
             proxy = proxy_list.pop(0)
         while True:
             ret = get_one_tip(code, proxy_ip=proxy, timeout=timeout)

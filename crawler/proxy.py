@@ -119,15 +119,22 @@ def data5u():
 
 
 # 1%
-def kuai():
+def kuai(proxies=None):
     base_url = 'https://www.kuaidaili.com/free/{}/'
     raw_ips = []
+    proxy = proxies.pop() if proxies is not None else None
     for sub in ('inha', 'intr'):
         s_url = base_url.format(sub) + '{}/'
         for page in range(1, 11):
             url = s_url.format(page)
             while True:
-                req = requests.get(url, headers=get_random_header())
+                p_ip = {'http': 'http://{}'.format(proxy),
+                        'https': 'https://{}'.format(proxy)} if proxy is not None else None
+                try:
+                    req = requests.get(url, proxies=p_ip, headers=get_random_header(), timeout=0.8)
+                except Exception as err:
+                    proxy = proxies.pop() if proxies is not None and len(proxies) > 0 else None
+                    continue
                 req.encoding = 'utf-8'
                 if req.text[:3] != '-10':
                     break
@@ -232,7 +239,7 @@ def down_proxy_ip():
     except Exception as err:
         print(err)
     try:
-        raw_ips.extend(kuai())
+        raw_ips.extend(kuai(get_proxy_ip()))
     except Exception as err:
         print(err)
     try:

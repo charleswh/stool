@@ -5,7 +5,7 @@ from datakit.datakit import down_k_data_local
 from crawler.blak import blakfp_entry
 from crawler.tips import down_tips, copy_tips_files, modify_tips, check_valid_proxy_ip
 from crawler.proxy import down_proxy_ip
-from analysis.tactics import post_process
+from analysis.post import post_process
 from utility.misc import backup_t0002, recover_t0002, make_list_of_t0002
 
 
@@ -77,6 +77,7 @@ if __name__ == '__main__':
             check_valid_proxy_ip()
             down_tips()
             copy_tips_files()
+            post_process()
         if args.local_data is True:
             down_k_data_local()
         if args.t0002_template is not None:

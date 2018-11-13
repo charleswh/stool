@@ -1,11 +1,10 @@
 import os
-import numpy as np
 import pandas as pd
 from functools import reduce
 import tushare as ts
 from tqdm import tqdm, trange
 from setting.settings import ZT_FILE, ZB_FILE, ZT_REC, ZB_REC, LB_REC, ZT_REASON_FILE, ZT_RSN_REC, \
-                             TDX_ROOT, OUT_DIR, EXE_7Z
+    TDX_ROOT, OUT_DIR, EXE_7Z
 from datakit.datakit import get_k_interface, get_trade_date_list, get_valid_trade_date
 
 
@@ -26,7 +25,10 @@ def gen_blk(stocks, name):
         stocks = ['']
     else:
         stocks = list(map(lambda x: '1{}'.format(x) if x[0] == '6' else '0{}'.format(x), stocks))
-    with open(os.path.join(OUT_DIR, name + '.blk'), 'w') as f:
+    file = os.path.join(OUT_DIR, name + '.blk')
+    if os.path.exists(file):
+        os.remove(file)
+    with open(file, 'w') as f:
         f.write('\n'.join(stocks))
 
 
@@ -34,8 +36,8 @@ def zt_process():
     zt_data = pd.read_csv(ZT_FILE)
     ret_cur_zt_codes = None
     ret_cur_cont_zt_codes = None
-    ret_zt_num = []
-    ret_cont_zt_num = []
+    # ret_zt_num = []
+    # ret_cont_zt_num = []
     trade_days = get_trade_date_list()
     date_delta = 0
     for i in trange(1, ascii=True, desc='CheckZT'):
@@ -54,7 +56,7 @@ def zt_process():
             t = zt_data.loc[:, code]
             a = t.where(t > 100).dropna()
             df = get_k_interface(code, ktype='D')
-            date_c = df.iloc[-1].loc['date'] - pd.Timedelta(days=i+date_delta)
+            date_c = df.iloc[-1].loc['date'] - pd.Timedelta(days=i + date_delta)
             if len(a) != 0 and 0 not in t.iloc[i:a.index[0]].values:
                 low = df[df['date'] == date_c].loc[:, 'low'].values[0]
                 close = df[df['date'] == date_c].loc[:, 'close'].values[0]
@@ -75,7 +77,7 @@ def zt_process():
         # ret_zt_num.append(len(cur_zt_codes))
         # ret_cont_zt_num.append(len(cont_zt))
     # return (ret_cur_zt_codes, ret_cur_cont_zt_codes, ret_zt_num, ret_cont_zt_num)
-    return (ret_cur_zt_codes, ret_cur_cont_zt_codes)
+    return ret_cur_zt_codes, ret_cur_cont_zt_codes
 
 
 def zzb_process():
@@ -126,7 +128,6 @@ def update_zt_rsn_rec(zt_list):
             cont.append('{},{}'.format(cur_date, ' '.join(rsn_list)))
             with open(ZT_RSN_REC, 'w') as f:
                 f.write('\n'.join(cont))
-
 
 
 def get_zzz():
@@ -209,7 +210,12 @@ def blk_process():
     new_blk_files = glob(os.path.join(OUT_DIR, '*'))
     new_blk_files = list(filter(filter_func, new_blk_files))
     for file in new_blk_files:
-        shutil.copy(file, tdx_blk_dst)
+        name = os.path.split(file)[-1]
+        dst_file = os.path.join(tdx_blk_dst, name)
+        print(name)
+        if os.path.exists(dst_file):
+            os.remove(dst_file)
+        shutil.copy(file, dst_file)
 
 
 def post_process():
@@ -217,5 +223,4 @@ def post_process():
 
 
 if __name__ == '__main__':
-    get_zzz()
     post_process()
