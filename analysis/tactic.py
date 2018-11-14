@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import numba
+import matplotlib.pyplot as plt
 from tqdm import tqdm
 import tushare as ts
 from datakit.datakit import get_k_interface
@@ -10,11 +11,17 @@ np.seterr(invalid='ignore')
 
 
 def ta24(code, ktype='D', period_sml=5, period_big=24, dist_th=3, ds='local'):
-    data = ts.get_k_interface(code=code, ktype=ktype, ds=ds)
+    data = get_k_interface(code=code, ktype=ktype, ds=ds)
+    o = data.loc[:, 'open']
     c = data.loc[:, 'close']
     l = data.loc[:, 'low']
     ma_sml = c.rolling(window=period_sml).mean().values[::-1]
     ma_big = c.rolling(window=period_big).mean().values[::-1]
+    avg = (o + c) / 2
+    plt.figure()
+    plt.plot(avg)
+    plt.plot(c.rolling(window=period_big).mean())
+    plt.show()
     c = c.values[::-1]
     l = l.values[::-1]
     cp = cross_pos(l, ma_big)
@@ -37,4 +44,4 @@ def cross_pos(a: np.ndarray, b: np.ndarray):
 
 
 if __name__ == '__main__':
-    ta24('600532')
+    ta24('603706', ktype='30')
