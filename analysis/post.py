@@ -172,6 +172,7 @@ def blk_process():
     blk_list.append(gen_cfg_bytes('临时', 'eee'))
     blk_list.append(gen_cfg_bytes('逆回购', 'nhg'))
     blk_list.append(gen_cfg_bytes('指数', 'zss'))
+    blk_list.append(gen_cfg_bytes('观察', 'ggg'))
     blk_list.append(gen_cfg_bytes('人气股', 'rqg'))
     blk_list.append(gen_cfg_bytes('今日涨停', 'ttt'))
     blk_list.append(gen_cfg_bytes('昨日涨停', 'zzz'))
