@@ -137,6 +137,7 @@ def get_zzz():
         pre_date = get_valid_trade_date(delta=-1)
         with open(ZT_REC, 'r') as f:
             cont = list(filter(None, f.read().split('\n')))
+        return cont[-1].split(',')[-1].split(' ')
         cont = list(filter(lambda x: pre_date in x, cont))
         return cont[0].split(',')[-1].split(' ')
 

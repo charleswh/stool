@@ -104,6 +104,5 @@ if __name__ == '__main__':
             # mail_test()
             dbg = 0
 
-# TODO: 分割tips的下载，否则失败率太高
-# TODO: 选股部分，板块生成
+
 # TODO: 定时系统

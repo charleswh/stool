@@ -25,6 +25,14 @@ def get_random_header():
     return headers
 
 
+def html_by_chrome(url):
+    opt = Options()
+    opt.add_argument('--headless')
+    brower = webdriver.Chrome(CHROME_EXE, options=opt)
+    brower.get(url)
+    return brower.page_source
+
+
 def check_ip_valid(ip, port, timeout=1):
     global g_host_ip
     timeout = int(timeout)
@@ -151,6 +159,9 @@ def ip66():
     for sub in range(1, 35):
         url = base_url.format(sub)
         req = requests.get(url, headers=get_random_header())
+        h = html_by_chrome(url)
+        if req.status_code == 521:
+            continue
         req.encoding = 'gb2312'
         pat = re.compile(r'<tr><td>(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td><td>(\d{1,5})</td>', re.S)
         raw_ips.extend(pat.findall(req.text))
@@ -234,10 +245,10 @@ def down_proxy_ip():
         raw_ips.extend(xiaohuan())
     except Exception as err:
         print(err)
-    try:
-        raw_ips.extend(ip66())
-    except Exception as err:
-        print(err)
+    # try:
+    #     raw_ips.extend(ip66())
+    # except Exception as err:
+    #     print(err)
     try:
         raw_ips.extend(kuai(get_proxy_ip()))
     except Exception as err:
@@ -272,4 +283,5 @@ def down_proxy_ip():
 
 
 if __name__ == '__main__':
+    ip66()
     down_proxy_ip()

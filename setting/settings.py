@@ -33,8 +33,8 @@ MONITOR_ROOT = os.path.join(ROOT, 'monitor')
 TDX_IMPORT_LIST = os.path.join(MONITOR_ROOT, 'tdx.txt')
 MANUAL_LIST = os.path.join(MONITOR_ROOT, 'manual.txt')
 
-OFFICE_TDX_ROOT = 'e:\\software\\zd_zsone'
-HOME_TDX_ROOT= 'o:\\Program Files\\zd_zsone'
+OFFICE_TDX_ROOT = 'e:\\software\\new_jyplug'
+HOME_TDX_ROOT= 'o:\\Program Files\\new_jyplug'
 TDX_ROOT = OFFICE_TDX_ROOT if platform.node() == 'NeilWang-L10' else HOME_TDX_ROOT
 
 PROXY_TIMEOUT = 2
