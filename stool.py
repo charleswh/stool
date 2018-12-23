@@ -3,7 +3,7 @@ import sys
 import argparse
 from datakit.datakit import down_k_data_local
 from crawler.blak import blakfp_entry
-from crawler.tips import down_tips, copy_tips_files, modify_tips, check_valid_proxy_ip
+from crawler.tips import down_tips, copy_tips_files, modify_tips, check_valid_tips_ip
 from crawler.proxy import down_proxy_ip
 from analysis.post import post_process
 from utility.misc import backup_t0002, recover_t0002, make_list_of_t0002
@@ -74,7 +74,7 @@ if __name__ == '__main__':
         if args.down_all is True:
             down_k_data_local()
             down_proxy_ip()
-            check_valid_proxy_ip()
+            check_valid_tips_ip()
             down_tips()
             copy_tips_files()
             post_process()
@@ -97,7 +97,7 @@ if __name__ == '__main__':
         if args.down_proxy is True:
             down_proxy_ip()
         if args.check_proxy is True:
-            check_valid_proxy_ip()
+            check_valid_tips_ip()
         if args.post_process is True:
             post_process()
         if args.test:
@@ -106,3 +106,4 @@ if __name__ == '__main__':
 
 
 # TODO: 定时系统
+# TODO: 重新架构整个system，用类来封装所有的功能

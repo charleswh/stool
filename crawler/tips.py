@@ -7,7 +7,7 @@ import tushare as ts
 from utility.log import log
 from utility.timekit import time_str, print_run_time
 from utility.task import MultiTasks
-from crawler.proxy import get_random_header, get_proxy_ip
+from crawler.proxy import get_random_header, get_local_proxy_ip
 from setting.settings import TDX_ROOT, TIP_FOLDER, CONCEPT_FILE, ZT_REASON_FILE, VALID_PROXIES, \
                              PRE_USED_PROXIES, PROXY_TIMEOUT
 
@@ -71,8 +71,8 @@ def pip_checker(proxy_ip, code, timeout=None):
         return proxy_ip
 
 
-def check_valid_proxy_ip():
-    proxies = get_proxy_ip()
+def check_valid_tips_ip():
+    proxies = get_local_proxy_ip()
     code = ts.get_stock_basics().index.values.tolist()[0]
     with MultiTasks(64) as mt:
         res = mt.run_list_tasks(pip_checker,
@@ -294,4 +294,4 @@ down_tips = down_tips_multiprocess
 if __name__ == '__main__':
     # get_one_tip('600695')
     down_tips()
-    # check_valid_proxy_ip()
+    # check_valid_tips_ip()

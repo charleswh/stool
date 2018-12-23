@@ -224,7 +224,7 @@ def lingdu():
     return raw_ips
 
 
-def get_proxy_ip():
+def get_local_proxy_ip():
     if not os.path.exists(PROXY_LIST):
         return None
     else:
@@ -250,7 +250,7 @@ def down_proxy_ip():
     # except Exception as err:
     #     print(err)
     try:
-        raw_ips.extend(kuai(get_proxy_ip()))
+        raw_ips.extend(kuai(get_local_proxy_ip()))
     except Exception as err:
         print(err)
     try:
