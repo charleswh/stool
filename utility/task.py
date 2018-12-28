@@ -7,12 +7,12 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from utility.log import log
 from utility.timekit import TimerCount, print_run_time
-from setting.settings import MAX_TASK_NUM, CHROME_EXE
+from setting.settings import sets
 
 
 class MultiTasks(object):
     def __init__(self, task_num=None):
-        self.task_num = MAX_TASK_NUM if task_num == None else task_num
+        self.task_num = sets.MAX_TASK_NUM if task_num == None else task_num
         self.manager = mp.Manager()
         self.lock = self.manager.Lock()
         self.counter = self.manager.Value(ctypes.c_uint32, 0)

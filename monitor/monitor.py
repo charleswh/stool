@@ -5,11 +5,12 @@ from glob import glob
 from apscheduler.schedulers.background import BackgroundScheduler
 from utility.log import log
 from utility.timekit import sleep
-from datakit.datakit import get_trade_date_list
-from setting.settings import TDX_ROOT, TDX_IMPORT_LIST, MANUAL_LIST
+from datakit.datakit import data_kit
+from setting.settings import sets
+
 
 def import_tdx_list():
-    blk_dir = os.path.join(TDX_ROOT, 'T0002', 'blocknew')
+    blk_dir = os.path.join(sets.TDX_ROOT, 'T0002', 'blocknew')
     blk_files = glob(os.path.join(blk_dir, '*.blk'))
     choose_range = ['Z1ZT.blk', 'Z2ZT.blk', 'Z3ZT.blk', 'Z4ZT.blk', 'Z5ZT.blk',
                     'TEMPTTA6030.blk', 'TEMPTTA120DAY.blk', 'BBB.blk', 'ZZB.blk']
@@ -24,18 +25,19 @@ def import_tdx_list():
         var_list.extend(c)
     var_list = list(filter(None, var_list))
     var_list = list(set(var_list))
-    with open(TDX_IMPORT_LIST, 'w') as f:
+    with open(sets.TDX_IMPORT_LIST, 'w') as f:
         f.write('\n'.join(var_list))
     log.info('Successfully import tdx list')
 
 
 def get_manual_list() -> list:
-    with open(MANUAL_LIST, 'r') as f:
+    with open(sets.MANUAL_LIST, 'r') as f:
         content = f.read()
     return content.split('\n')
 
 
-# def simple_cal_one(code, ktype='D'):
+def simple_cal_one(code, ktype='D'):
+    pass
 #     print('process code {}'.format(code))
 #     data = ts.get_k_data(code=code, ktype=ktype)
 #     c = data['close'].sort_index(ascending=False)
@@ -51,7 +53,7 @@ def get_manual_list() -> list:
 
 
 def simple_ts24_monitor():
-    with open(TDX_IMPORT_LIST, 'r') as f:
+    with open(sets.TDX_IMPORT_LIST, 'r') as f:
         code_list = f.read().split('\n')[:10]
 
     k_types = ['D', '60', '30']
@@ -68,7 +70,6 @@ def my_job():
 
 
 def monitor_main():
-    aa = check_trade_time()
     mode = {'apscheduler.executors.processpool':
                 {'type': 'processpool', 'max_workers': '2'}}
     scheduler = BackgroundScheduler(mode)

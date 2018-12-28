@@ -947,19 +947,19 @@ def bar(code, conn=None, start_date=None, end_date=None, freq='D', asset='E',
             else:
                 ktype = 'XD' if ktype == 'D' else ktype
                 func = getattr(xapi, ct.ASSET['X'])
-            if ktype in ct.KTYPE_LOW_COLS:
+            if ktype in ct.sets.KTYPE_LOW_COLS:
                 data = pd.DataFrame()
                 for i in range(100): 
-                    ds = func(ct.KTYPE[ktype], mkcode, code, i * 800, 800)
+                    ds = func(ct.sets.KTYPE[ktype], mkcode, code, i * 800, 800)
                     df =  api.to_df(ds)
                     data = data.append(df) if i == 0 else df.append(data,  ignore_index=True)
                     if len(ds) < 800:
                         break
                 data['datetime'] = data['datetime'].apply(lambda x: str(x[0:10]))
-            if ktype in ct.KTYPE_ARR:
+            if ktype in ct.sets.KTYPE_ARR:
                 data = pd.DataFrame()
                 for i in range(100): 
-                    ds = func(ct.KTYPE[ktype], mkcode, code, i * 800, 800)
+                    ds = func(ct.sets.KTYPE[ktype], mkcode, code, i * 800, 800)
                     df =  api.to_df(ds)
                     data = data.append(df) if i == 0 else df.append(data,  ignore_index=True)
                     if len(ds) < 800:
@@ -972,7 +972,7 @@ def bar(code, conn=None, start_date=None, end_date=None, freq='D', asset='E',
             data = data.sort_index(ascending=False)
             if asset in['E', 'INDEX']:
                 data = data[ct.BAR_E_COLS]
-                if ktype in ct.KTYPE_ARR:
+                if ktype in ct.sets.KTYPE_ARR:
                     data['vol'] = data['vol'] / 100
             else:
                 data = data[ct.BAR_X_COLS]
@@ -985,7 +985,7 @@ def bar(code, conn=None, start_date=None, end_date=None, freq='D', asset='E',
             if asset == 'E':
                 if adj is not None:
                     df = factor_adj(code)
-                    if ktype in ct.KTYPE_LOW_COLS: 
+                    if ktype in ct.sets.KTYPE_LOW_COLS:
                         data = data.merge(df, left_index=True, right_index=True)
                         data['adj_factor'] = data['adj_factor'].fillna(method='bfill')
                     else:
@@ -1002,7 +1002,7 @@ def bar(code, conn=None, start_date=None, end_date=None, freq='D', asset='E',
                 if factors is not None and len(factors) >0 :
                     if 'tor' in factors:
                         df = factor_shares(code)
-                        if ktype in ct.KTYPE_LOW_COLS: 
+                        if ktype in ct.sets.KTYPE_LOW_COLS:
                             data = data.merge(df, left_index=True, right_index=True)
                             data['floats'] = data['floats'].fillna(method='bfill')
                         else:

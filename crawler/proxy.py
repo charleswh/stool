@@ -12,14 +12,15 @@ from selenium.webdriver.chrome.options import Options
 from utility.log import log
 from utility.task import MultiTasks
 from utility.timekit import sleep
-from setting.settings import USER_AGENTS, PROXY_LIST, MAX_TASK_NUM, CHROME_EXE
+from setting.settings import sets
+
 
 IP_TEST_WEB = 'http://2018.ip138.com/ic.asp'
 g_host_ip = None
 
 
 def get_random_header():
-    headers = {'User-Agent': random.choice(USER_AGENTS),
+    headers = {'User-Agent': random.choice(sets.USER_AGENTS),
                'Accept': "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
                'Accept-Encoding': 'gzip'}
     return headers
@@ -28,7 +29,7 @@ def get_random_header():
 def html_by_chrome(url):
     opt = Options()
     opt.add_argument('--headless')
-    brower = webdriver.Chrome(CHROME_EXE, options=opt)
+    brower = webdriver.Chrome(sets.CHROME_EXE, options=opt)
     brower.get(url)
     return brower.page_source
 
@@ -61,10 +62,9 @@ def check_ip_valid(ip, port, timeout=1):
 
 
 def check_ip_batch(ip_list: list, mt=None, timeout=1):
-    from setting.settings import PROXY_TIMEOUT
     if mt is not None:
         ret_ips = mt.run_list_tasks(func=check_ip_valid, var_args=ip_list,
-                                    fix_args={'timeout': PROXY_TIMEOUT},
+                                    fix_args={'timeout': sets.PROXY_TIMEOUT},
                                     en_bar=1, desc='CheckRawIPs')
         res = np.c_[np.array(ip_list), np.array(ret_ips)].tolist()
     else:
@@ -204,7 +204,7 @@ def lingdu():
     raw_ips = []
     opt = Options()
     opt.add_argument('--headless')
-    brower = webdriver.Chrome(CHROME_EXE, options=opt)
+    brower = webdriver.Chrome(sets.CHROME_EXE, options=opt)
     brower.get(base_url)
     pat = re.compile(r'<td>(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.*?<td>(\d{1,5})</td>', re.S)
     while True:
@@ -225,10 +225,10 @@ def lingdu():
 
 
 def get_local_proxy_ip():
-    if not os.path.exists(PROXY_LIST):
+    if not os.path.exists(sets.PROXY_LIST):
         return None
     else:
-        with open(PROXY_LIST, 'r') as f:
+        with open(sets.PROXY_LIST, 'r') as f:
             ret = f.read().split('\n')
             ret = list(map(lambda x: x.split(','), ret))
             ret = list(map(lambda x: '{}:{}'.format(x[0], x[1]), ret))
@@ -266,8 +266,8 @@ def down_proxy_ip():
     except Exception as err:
         print(err)
 
-    if os.path.exists(PROXY_LIST):
-        with open(PROXY_LIST, 'r') as f:
+    if os.path.exists(sets.PROXY_LIST):
+        with open(sets.PROXY_LIST, 'r') as f:
             ip_pre_list = f.read().split('\n')
             raw_ips.extend(list(map(lambda x: x.split(',')[:2], ip_pre_list)))
 
@@ -278,7 +278,7 @@ def down_proxy_ip():
         valid_ips = check_ip_batch(raw_ips, mt)
 
     valid_ips.sort(key=lambda x: int(x[2]))
-    with open(PROXY_LIST, 'w') as f:
+    with open(sets.PROXY_LIST, 'w') as f:
         f.write('\n'.join(list(map(lambda x: ','.join(x), valid_ips))))
 
 

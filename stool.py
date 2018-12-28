@@ -1,12 +1,10 @@
 # -*- coding:utf-8 -*-
 import sys
 import argparse
-from datakit.datakit import down_k_data_local
-from crawler.blak import blakfp_entry
-from crawler.tips import down_tips, copy_tips_files, modify_tips, check_valid_tips_ip
-from crawler.proxy import down_proxy_ip
-from analysis.post import post_process
-from utility.misc import backup_t0002, recover_t0002, make_list_of_t0002
+from datakit.datakit import data_kit
+from crawler import *
+from analysis import *
+from utility import *
 
 
 parser = argparse.ArgumentParser(description='Integrated share tool for NEIL',
@@ -72,38 +70,37 @@ if __name__ == '__main__':
         parser.print_help()
     else:
         if args.down_all is True:
-            down_k_data_local()
-            down_proxy_ip()
-            check_valid_tips_ip()
-            down_tips()
-            copy_tips_files()
-            post_process()
+            data_kit.down_k()
+            tips.down_tips()
+            # tips.check_valid_tips_ip()
+            # proxy.down_proxy_ip()
+            tips.copy_tips_files()
+            post.post_process()
         if args.local_data is True:
-            down_k_data_local()
+            data_kit.down_k()
         if args.t0002_template is not None:
-            make_list_of_t0002(args.t0002_template)
+            backup.make_list_of_t0002(args.t0002_template)
         if args.backup_src_path is not None:
-            backup_t0002(args.backup_src_path)
+            backup.backup_t0002(args.backup_src_path)
         if args.recover_dst_path is not None:
-            recover_t0002(args.recover_dst_path)
+            backup.recover_t0002(args.recover_dst_path)
         if args.blakfp is True:
-            blakfp_entry()
+            blak.blakfp_entry()
         if args.down_tips is True:
-            down_tips()
+            tips.down_tips()
         if args.copy_tips is True:
-            copy_tips_files()
+            tips.copy_tips_files()
         if args.modify_tips is not None:
-            modify_tips(args.modify_tips)
+            tips.modify_tips(args.modify_tips)
         if args.down_proxy is True:
-            down_proxy_ip()
+            tips.down_proxy_ip()
         if args.check_proxy is True:
-            check_valid_tips_ip()
+            tips.check_valid_tips_ip()
         if args.post_process is True:
-            post_process()
+            post.post_process()
         if args.test:
             # mail_test()
             dbg = 0
 
 
 # TODO: 定时系统
-# TODO: 重新架构整个system，用类来封装所有的功能

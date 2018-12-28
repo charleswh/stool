@@ -4,14 +4,14 @@ import numba
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 import tushare as ts
-from datakit.datakit import get_k_interface
-from setting.settings import INFO_FILE
+from datakit.datakit import data_kit
+from setting.settings import sets
 
 np.seterr(invalid='ignore')
 
 
 def ta24(code, ktype='D', period_sml=5, period_big=24, dist_th=3, ds='local'):
-    data = get_k_interface(code=code, ktype=ktype, ds=ds)
+    data = data_kitget_k(code=code, ktype=ktype, ds=ds)
     o = data.loc[:, 'open']
     c = data.loc[:, 'close']
     l = data.loc[:, 'low']

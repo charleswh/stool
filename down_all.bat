@@ -1,2 +1,2 @@
 python stool.py -d
-pause
+::pause

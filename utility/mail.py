@@ -4,10 +4,10 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart, MIMEBase
 import smtplib
 import os
-from utility import *
-from setting.settings import EXE_CLICKIT
+from utility.misc import run_cmd
+from utility.log import log
+from setting.settings import sets
 import win32com.client as win32c
-
 
 
 ADDR = {'o': 'charles_wh@outlook.com',
@@ -25,7 +25,7 @@ def outlook_send(body, subj):
     mail_handler.To = ADDR['o']
     mail_handler.Subject = subj
     mail_handler.Body = body
-    cmd = 'start /MIN {}'.format(EXE_CLICKIT)
+    cmd = 'start /MIN {}'.format(sets.EXE_CLICKIT)
     os.system(cmd)
     mail_handler.Send()
     cmd = 'taskkill /f /im ClickIt.exe'
