@@ -71,9 +71,9 @@ if __name__ == '__main__':
     else:
         if args.down_all is True:
             data_kit.down_k()
+            proxy.down_proxy_ip()
+            tips.check_valid_tips_ip()
             tips.down_tips()
-            # tips.check_valid_tips_ip()
-            # proxy.down_proxy_ip()
             tips.copy_tips_files()
             post.post_process()
         if args.local_data is True:
