@@ -100,7 +100,7 @@ if __name__ == '__main__':
             post.post_process()
         if args.test:
             # mail_test()
-            dbg = 0
+            dbga = 0
 
 
 # TODO: 定时系统
