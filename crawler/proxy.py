@@ -15,7 +15,7 @@ from utility.timekit import sleep
 from setting.settings import sets
 
 
-IP_TEST_WEB = 'http://2018.ip138.com/ic.asp'
+IP_TEST_WEB = 'http://2019.ip138.com/ic.asp'
 g_host_ip = None
 
 
