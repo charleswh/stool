@@ -152,6 +152,39 @@ def get_once_zt(days=5):
         return list(set(list(reduce(lambda x, y: x + y, cont))))
 
 
+def get_multi_zt_lb(days=6):
+    ret_zt = None
+    ret_lb = None
+    d = 0
+    if not os.path.exists(sets.ZT_REC):
+        return None
+    else:
+        with open(sets.ZT_REC, 'r') as f:
+            ret_zt = list(filter(None, f.read().split('\n')))
+
+        if len(ret_zt) - 1 < days + 1:
+            d = len(ret_zt) - 1
+        else:
+            d = days
+    ret_zt = list(map(lambda x: x.split(',')[-1].split(' '), ret_zt))
+    ret_zt = ret_zt[len(ret_zt) - d - 1:-1][::-1]
+
+    if not os.path.exists(sets.LB_REC):
+        return None
+    else:
+        with open(sets.LB_REC, 'r') as f:
+            ret_lb = list(filter(None, f.read().split('\n')))
+
+        if len(ret_lb) - 1 < days + 1:
+            d = len(ret_lb) - 1
+        else:
+            d = days
+    ret_lb = list(map(lambda x: x.split(',')[-1].split(' '), ret_lb))
+    ret_lb = ret_lb[len(ret_lb) - d - 1:-1][::-1]
+
+    return ret_zt, ret_lb
+
+
 def blk_process():
     ttt, bbb = zt_process()
     zzb = zzb_process()
@@ -166,6 +199,8 @@ def blk_process():
     gen_blk(zzb, 'zzb')
     gen_blk(zzz, 'zzz')
     gen_blk(ccc, 'ccc')
+    t = get_multi_zt_lb()
+
     blk_list = []
     blk_list.append(gen_cfg_bytes('临时', 'eee'))
     blk_list.append(gen_cfg_bytes('逆回购', 'nhg'))
@@ -177,6 +212,13 @@ def blk_process():
     blk_list.append(gen_cfg_bytes('五日涨停', 'ccc'))
     blk_list.append(gen_cfg_bytes('炸板', 'zzb'))
     blk_list.append(gen_cfg_bytes('连板', 'bbb'))
+    for i in range(len(t[0])):
+        gen_blk(t[0][i], 't{}'.format(i + 1))
+        blk_list.append(gen_cfg_bytes('{}日前涨停'.format(i + 1), 't{}'.format(i + 1)))
+    for i in range(len(t[1])):
+        gen_blk(t[1][i], 'b{}'.format(i + 1))
+        blk_list.append(gen_cfg_bytes('{}日前连板'.format(i + 1), 'b{}'.format(i + 1)))
+
     with open(os.path.join(sets.OUT_DIR, 'blocknew.cfg'), 'wb') as f:
         for blk in blk_list:
             f.write(blk)
@@ -202,7 +244,8 @@ def blk_process():
         pre_blk_files = list(filter(filter_func, pre_blk_files))
         for file in pre_blk_files:
             shutil.copy(file, blk_backup_dir)
-        cmd = '{} a -t7z {} {}'.format(sets.EXE_7Z, blk_backup_dir, os.path.join(blk_backup_dir, '*'))
+        cmd = '{} a -t7z {} {}'.format(sets.EXE_7Z, blk_backup_dir,
+                                       os.path.join(blk_backup_dir, '*'))
         run_cmd(cmd)
         shutil.rmtree(blk_backup_dir)
     print('Update new block files...')
