@@ -35,9 +35,7 @@ class DataKit:
             else:
                 pass
         except Exception as err:
-            print(code)
-            print(err)
-            assert 0
+            log.error('{}, {}'.format(code, err))
 
     def d_k_worker(self, code):
         datas = []

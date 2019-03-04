@@ -1,5 +1,3 @@
-import requests
-import random
 import re
 import os
 import time
@@ -7,8 +5,7 @@ import pandas as pd
 import numpy as np
 import base64
 import hashlib
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+import crawler.req_interface as req_i
 from utility.log import log
 from utility.task import MultiTasks
 from utility.timekit import sleep
@@ -19,28 +16,13 @@ IP_TEST_WEB = 'http://2019.ip138.com/ic.asp'
 g_host_ip = None
 
 
-def get_random_header():
-    headers = {'User-Agent': random.choice(sets.USER_AGENTS),
-               'Accept': "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-               'Accept-Encoding': 'gzip'}
-    return headers
-
-
-def html_by_chrome(url):
-    opt = Options()
-    opt.add_argument('--headless')
-    brower = webdriver.Chrome(sets.CHROME_EXE, options=opt)
-    brower.get(url)
-    return brower.page_source
-
-
 def check_ip_valid(ip, port, timeout=1):
     global g_host_ip
     timeout = int(timeout)
     whole_ip = {'http': ':'.join((ip, port))}
     try:
         start = time.clock()
-        req = requests.get(IP_TEST_WEB, get_random_header(), proxies=whole_ip, timeout=timeout)
+        req = req_i.web_req(IP_TEST_WEB, proxy=whole_ip, timeout=timeout)
         end = time.clock()
         cost = int((end - start) * 1000)
         if req.status_code == 200:
@@ -85,7 +67,7 @@ def xici():
         sub_url = url_base.format(sub) + '/{}'
         for page in range(1, 4):
             url = sub_url.format(page)
-            req = requests.get(url, headers=get_random_header())
+            req = req_i.web_req(url)
             req.encoding = 'utf-8'
             pat = re.compile(
                 '<td class="country">.*?alt="Cn" />.*?</td>.*?<td>(.*?)</td>.*?<td>(.*?)</td>', re.S)
@@ -102,7 +84,7 @@ def ip3366():
         url = ip3366_url + '?stype={}'.format(style)
         for page in range(1, 8):
             url = url + '&page={}'.format(page)
-            req = requests.get(url, headers=get_random_header())
+            req = req_i.web_req(url)
             req.encoding = 'gb2312'
             pat = re.compile('<tr>.*?<td>(.*?)</td>.*?<td>(.*?)</td>', re.S)
             raw_ips.extend(pat.findall(req.text))
@@ -118,7 +100,7 @@ def data5u():
     raw_ips = []
     for sub in ('gngn', 'gnpt', 'gwgn', 'gwpt'):
         url = base_url.format(sub)
-        req = requests.get(url, headers=get_random_header())
+        req = req_i.web_req(url)
         req.encoding = 'utf-8'
         pat = re.compile(r'<ul class="l2">.*?<li>(.*?)</li>.*?<li class="port .*?">(.*?)</li>', re.S)
         raw_ips.extend(pat.findall(req.text))
@@ -139,7 +121,7 @@ def kuai(proxies=None):
                 p_ip = {'http': 'http://{}'.format(proxy),
                         'https': 'https://{}'.format(proxy)} if proxy is not None else None
                 try:
-                    req = requests.get(url, proxies=p_ip, headers=get_random_header(), timeout=0.8)
+                    req = req_i.web_req(url, proxy=p_ip, timeout=0.8)
                 except Exception as err:
                     proxy = proxies.pop() if proxies is not None and len(proxies) > 0 else None
                     continue
@@ -158,8 +140,8 @@ def ip66():
     raw_ips = []
     for sub in range(1, 35):
         url = base_url.format(sub)
-        req = requests.get(url, headers=get_random_header())
-        h = html_by_chrome(url)
+        req = req_i.web_req(url)
+        #h = req_i.web_chrome(url)
         if req.status_code == 521:
             continue
         req.encoding = 'gb2312'
@@ -169,7 +151,7 @@ def ip66():
     e_base = 'http://www.66ip.cn/nmtq.php?getnum=50&isp=0&anonymoustype=3&start=&ports=&export=' \
              '&ipaddress=&area=1&proxytype=2&api=66ip'
     for _ in range(5):
-        req = requests.get(e_base, headers=get_random_header())
+        req = req_i.web_req(e_base)
         req.encoding = 'gbk'
         pat = re.compile(r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}):(\d{1,5})')
         raw_ips.extend(pat.findall(req.text))
@@ -184,13 +166,13 @@ def xiaohuan():
     hour = time.strftime('%H', time.localtime())
     base_url = 'https://ip.ihuan.me/today/{}/{:02d}.html'
     url = base_url.format(date, int(hour))
-    req = requests.get(url, headers=get_random_header())
+    req = req_i.web_req(url)
     req.encoding = 'utf-8'
     pat = re.compile('(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}):(\d{1,5}).*?', re.S)
     raw_ips = pat.findall(req.text)
     if len(raw_ips) == 0:
         url = base_url.format(date, int(hour) - 1)
-        req = requests.get(url, headers=get_random_header())
+        req = req_i.web_req(url)
         req.encoding = 'utf-8'
         raw_ips = pat.findall(req.text)
     log.info('Got {} raw IPs from <xiaohuan>'.format(len(raw_ips)))
@@ -199,29 +181,30 @@ def xiaohuan():
 
 # 10+%
 def lingdu():
-    base_url = 'https://www.nyloner.cn/proxy'
-    retry_count = 0
-    raw_ips = []
-    opt = Options()
-    opt.add_argument('--headless')
-    brower = webdriver.Chrome(sets.CHROME_EXE, options=opt)
-    brower.get(base_url)
-    pat = re.compile(r'<td>(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.*?<td>(\d{1,5})</td>', re.S)
-    while True:
-        html = brower.page_source
-        ips = pat.findall(html)
-        if len(ips) == 0:
-            retry_count += 1
-            if retry_count == 3:
-                break
-            continue
-        raw_ips.extend(ips)
-        try:
-            brower.find_element_by_id('next-page').click()
-        except Exception as err:
-            break
-    log.info('Got {} raw IPs from <lingdu>'.format(len(raw_ips)))
-    return raw_ips
+    pass
+    # base_url = 'https://www.nyloner.cn/proxy'
+    # retry_count = 0
+    # raw_ips = []
+    # opt = Options()
+    # opt.add_argument('--headless')
+    # brower = webdriver.Chrome(sets.CHROME_EXE, options=opt)
+    # brower.get(base_url)
+    # pat = re.compile(r'<td>(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.*?<td>(\d{1,5})</td>', re.S)
+    # while True:
+    #     html = brower.page_source
+    #     ips = pat.findall(html)
+    #     if len(ips) == 0:
+    #         retry_count += 1
+    #         if retry_count == 3:
+    #             break
+    #         continue
+    #     raw_ips.extend(ips)
+    #     try:
+    #         brower.find_element_by_id('next-page').click()
+    #     except Exception as err:
+    #         break
+    # log.info('Got {} raw IPs from <lingdu>'.format(len(raw_ips)))
+    # return raw_ips
 
 
 def get_local_proxy_ip():
@@ -237,7 +220,7 @@ def get_local_proxy_ip():
 
 def down_proxy_ip():
     global g_host_ip
-    req = requests.get(IP_TEST_WEB)
+    req = req_i.web_req(IP_TEST_WEB)
     req.encoding = 'gbk'
     g_host_ip = re.search('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', req.text).group()
     raw_ips = []
@@ -283,5 +266,6 @@ def down_proxy_ip():
 
 
 if __name__ == '__main__':
+    xiaohuan()
     ip66()
     down_proxy_ip()

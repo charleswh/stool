@@ -199,13 +199,14 @@ def blk_process():
     gen_blk(zzb, 'zzb')
     gen_blk(zzz, 'zzz')
     gen_blk(ccc, 'ccc')
-    t = get_multi_zt_lb()
+    t = get_multi_zt_lb(7)
 
     blk_list = []
-    blk_list.append(gen_cfg_bytes('临时', 'eee'))
-    blk_list.append(gen_cfg_bytes('逆回购', 'nhg'))
     blk_list.append(gen_cfg_bytes('指数', 'zss'))
+    blk_list.append(gen_cfg_bytes('临时', 'eee'))
     blk_list.append(gen_cfg_bytes('观察', 'ggg'))
+    blk_list.append(gen_cfg_bytes('逆回购', 'nhg'))
+    blk_list.append(gen_cfg_bytes('新股未开', 'xgwk'))
     blk_list.append(gen_cfg_bytes('人气股', 'rqg'))
     blk_list.append(gen_cfg_bytes('今日涨停', 'ttt'))
     blk_list.append(gen_cfg_bytes('昨日涨停', 'zzz'))

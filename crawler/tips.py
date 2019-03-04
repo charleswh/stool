@@ -1,13 +1,13 @@
 import re
 import os
 import copy
-import requests
 from tqdm import tqdm
 import tushare as ts
 from utility.log import log
 from utility.timekit import time_str, print_run_time
 from utility.task import MultiTasks
-from crawler.proxy import get_random_header, get_local_proxy_ip
+from crawler.proxy import get_local_proxy_ip
+import crawler.req_interface as req_i
 from setting.settings import sets
 
 
@@ -39,6 +39,7 @@ def copy_tips_files():
     dir_diff = filecmp.dircmp(sets.TIP_FOLDER, dst_tip_dir)
     print('copy tips files from {} to {}...'.format(sets.TIP_FOLDER, dst_tip_dir))
     diffs = dir_diff.diff_files
+    diffs.extend(list(set(dir_diff.right_list) ^ set(dir_diff.left_list)))
     list(map(shutil.copy,
              [os.path.join(sets.TIP_FOLDER, x) for x in diffs],
              [os.path.join(dst_tip_dir, x) for x in diffs]))
@@ -101,7 +102,7 @@ def get_single_html(code, proxy_ip=None, timeout=None):
     p_ip = {'http': 'http://{}'.format(proxy_ip),
             'https': 'https://{}'.format(proxy_ip)} if proxy_ip is not None else None
     try:
-        req = requests.get(url=url, headers=get_random_header(), proxies=p_ip, timeout=timeout)
+        req = req_i.web_req(url=url, proxy=p_ip, timeout=timeout)
         html = req.content.decode('gbk')
         if req.status_code == 200 and len(html) > 500:
             return html

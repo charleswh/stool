@@ -6,7 +6,6 @@ from crawler import *
 from analysis import *
 from utility import *
 
-
 parser = argparse.ArgumentParser(description='Integrated share tool for NEIL',
                                  formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument('-d',
@@ -63,7 +62,6 @@ parser.add_argument('--test',
                     action='store_true',
                     help='test function entry')
 
-
 if __name__ == '__main__':
     args = parser.parse_args()
     if len(sys.argv) < 2:
@@ -71,10 +69,10 @@ if __name__ == '__main__':
     else:
         if args.down_all is True:
             data_kit.down_k()
-            proxy.down_proxy_ip()
-            tips.check_valid_tips_ip()
-            tips.down_tips()
-            tips.copy_tips_files()
+            # proxy.down_proxy_ip()
+            # tips.check_valid_tips_ip()
+            # tips.down_tips()
+            # tips.copy_tips_files()
             post.post_process()
         if args.local_data is True:
             data_kit.down_k()
@@ -101,6 +99,5 @@ if __name__ == '__main__':
         if args.test:
             # mail_test()
             dbga = 0
-
 
 # TODO: 定时系统
