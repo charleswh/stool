@@ -1,6 +1,7 @@
 
 import requests
 import random
+from urllib import parse
 from setting.settings import sets
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -28,8 +29,8 @@ def web_chrome(url):
 
 
 def url2wiz(url):
-    if 'http://' in url:
-        url = url.replace('http://', '')
-    t = r'http://note.wiz.cn/url2wiz?url=http%3A%2F%2F{}%2F&folder=%2F{}%2F&user={}&content-only=false'
+    url = parse.quote(url)
+    url = url.replace('/', '%2F')
+    t = r'http://note.wiz.cn/url2wiz?url={}&folder=%2F{}%2F&user={}&content-only=false'
     t = t.format(url, 'tmp', 'charleswh')
     web_chrome(t)

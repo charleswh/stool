@@ -2,6 +2,7 @@
 import os
 import sys
 import html
+from tqdm import tqdm
 from pprint import pprint
 sys.path.append(os.getcwd())
 import crawler.req_interface as req_i
@@ -9,6 +10,7 @@ import crawler.req_interface as req_i
 from crawler.wechatarticles import ArticlesAPI
 from crawler.wechatarticles.GetUrls import PCUrls, MobileUrls
 from setting.settings import sets
+from utility.timekit import sleep
 
 
 def flatten(x):
@@ -75,5 +77,23 @@ def all_gzh_urls(key):
     f.close()
 
 
+def save2wiz(offset=0):
+    if not os.path.exists(sets.MRZTBFP_PAPER_URLS):
+        assert(0)
+    with open(sets.MRZTBFP_PAPER_URLS, 'r') as f:
+        urls = f.read().split('\n')
+    for url in tqdm(urls, ascii=True):
+        idx = urls.index(url)
+        if idx < offset:
+            continue
+        try:
+            req_i.url2wiz(url)
+        except Exception as err:
+            print(err)
+            sleep(6)
+        sleep(4)
+
+
 if __name__ == '__main__':
-    all_gzh_urls(r'010620d4869b88b6a39280495cdd6f170e39873d711758ed4df1682a8e98c0082b5884507164c65922ddf8f0dcaca7ee2c6a561de18c969aa7b150390e3292f36ebe2eac8d1356c127674380f7d1c0bc')
+    save2wiz()
+    # all_gzh_urls(r'010620d4869b88b6a39280495cdd6f170e39873d711758ed4df1682a8e98c0082b5884507164c65922ddf8f0dcaca7ee2c6a561de18c969aa7b150390e3292f36ebe2eac8d1356c127674380f7d1c0bc')
