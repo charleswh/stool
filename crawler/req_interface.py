@@ -1,4 +1,3 @@
-
 import requests
 import random
 from urllib import parse
@@ -18,14 +17,17 @@ def web_req(url, proxy=None, timeout=None):
     return requests.get(url, get_random_header(), proxies=proxy, timeout=timeout)
 
 
-def web_chrome(url):
+def web_chrome(url, need_brower=False):
     opt = Options()
     opt.add_argument('--headless')
     brower = webdriver.Chrome(sets.CHROME_EXE, options=opt)
     brower.get(url)
     content = brower.page_source
-    brower.quit()
-    return content
+    if need_brower:
+        return content, brower
+    else:
+        brower.quit()
+        return content
 
 
 def url2wiz(url):
