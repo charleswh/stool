@@ -1,4 +1,5 @@
 import subprocess
+from functools import reduce
 
 
 def run_cmd(cmd, show_result=True):
@@ -11,6 +12,11 @@ def run_cmd(cmd, show_result=True):
             print(output)
     else:
         print(error)
+
+
+def rm_dupl(var:list):
+    func = lambda x, y: x if y in x else x + [y]
+    return list(reduce(func, [[], ] + var))
 
 
 if __name__ == '__main__':

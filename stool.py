@@ -84,14 +84,14 @@ if __name__ == '__main__':
             backup.recover_t0002(args.recover_dst_path)
         if args.blakfp is True:
             blak.blakfp_entry()
+        if args.down_proxy is True:
+            proxy.down_proxy_ip()
         if args.down_tips is True:
             tips.down_tips()
         if args.copy_tips is True:
             tips.copy_tips_files()
         if args.modify_tips is not None:
             tips.modify_tips(args.modify_tips)
-        if args.down_proxy is True:
-            tips.down_proxy_ip()
         if args.check_proxy is True:
             tips.check_valid_tips_ip()
         if args.post_process is True:

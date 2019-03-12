@@ -9,10 +9,36 @@ import crawler.req_interface as req_i
 from utility.log import log
 from utility.task import MultiTasks
 from utility.timekit import sleep
+from utility.misc import rm_dupl
 from setting.settings import sets
 
 IP_TEST_WEB = 'http://2019.ip138.com/ic.asp'
 g_host_ip = None
+
+"""
+Proxy ip source web valid precent:
+xiaohuan: 40+%
+lingdu: 10+%
+ip3366: 8%
+ip66: 5%
+kuai: 1%
+"""
+def raw_ip_parse():
+    if not os.path.exists(sets.RAW_IP_FILE):
+        log.error('Must manual make and prepare {} for proxy ip parsing job.'.format(sets.RAW_IP_FILE))
+        exit(0)
+
+    f = open(sets.RAW_IP_FILE, 'r')
+    content = f.read()
+    f.close()
+    ip_list = []
+    pat0 = re.compile(r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s+(\d{1,5}).*?', re.S)
+    pat1 = re.compile(r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s*:\s*(\d{1,5}).*?', re.S)
+    ip_list.extend(pat0.findall(content))
+    ip_list.extend(pat1.findall(content))
+    ip_list = rm_dupl(ip_list)
+    log.info('Raw ips: {}'.format(len(ip_list)))
+    return ip_list
 
 
 def check_ip_valid(ip, port, timeout=1):
@@ -57,7 +83,6 @@ def check_ip_batch(ip_list: list, mt=None, timeout=1):
     log.info('{} valid raw IPs.'.format(len(res)))
     return res
 
-
 def get_local_proxy_ip():
     if not os.path.exists(sets.PROXY_LIST):
         return None
@@ -74,52 +99,17 @@ def down_proxy_ip():
     req = req_i.web_req(IP_TEST_WEB)
     req.encoding = 'gbk'
     g_host_ip = re.search('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', req.text).group()
-    raw_ips = []
-    try:
-        raw_ips.extend(xiaohuan())
-    except Exception as err:
-        print(err)
-    # try:
-    #     raw_ips.extend(ip66())
-    # except Exception as err:
-    #     print(err)
-    try:
-        raw_ips.extend(kuai(get_local_proxy_ip()))
-    except Exception as err:
-        print(err)
-    try:
-        raw_ips.extend(ip3366())
-    except Exception as err:
-        print(err)
-    try:
-        raw_ips.extend(xici())
-    except Exception as err:
-        print(err)
-    try:
-        raw_ips.extend(data5u())
-    except Exception as err:
-        print(err)
 
-    if os.path.exists(sets.PROXY_LIST):
-        with open(sets.PROXY_LIST, 'r') as f:
-            ip_pre_list = f.read().split('\n')
-            raw_ips.extend(list(map(lambda x: x.split(',')[:2], ip_pre_list)))
-
-    df = pd.DataFrame(raw_ips, columns=['ip', 'port'])
-    raw_ips = df.drop_duplicates(['ip', 'port'], 'first').values.tolist()
+    raw_ips = raw_ip_parse()
 
     with MultiTasks(32) as mt:
         valid_ips = check_ip_batch(raw_ips, mt)
 
     valid_ips.sort(key=lambda x: int(x[2]))
+
     with open(sets.PROXY_LIST, 'w') as f:
         f.write('\n'.join(list(map(lambda x: ','.join(x), valid_ips))))
 
 
 if __name__ == '__main__':
-    xiaohuan()
-    lingdu()
-    b = 0
-
-    ip66()
     down_proxy_ip()
