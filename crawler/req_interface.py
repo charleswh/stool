@@ -13,8 +13,8 @@ def get_random_header():
     return headers
 
 
-def web_req(url, proxy=None, timeout=None):
-    return requests.get(url, get_random_header(), proxies=proxy, timeout=timeout)
+def web_req(url, proxy=None, timeout=None, cookie=None):
+    return requests.get(url, headers=get_random_header(), proxies=proxy, timeout=timeout)
 
 
 def web_chrome(url, need_brower=False):

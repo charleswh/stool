@@ -1,14 +1,10 @@
 import re
 import os
 import time
-import pandas as pd
 import numpy as np
-import base64
-import hashlib
 import crawler.req_interface as req_i
 from utility.log import log
 from utility.task import MultiTasks
-from utility.timekit import sleep
 from utility.misc import rm_dupl
 from setting.settings import sets
 
@@ -68,6 +64,7 @@ def check_ip_valid(ip, port, timeout=1):
         return None
 
 
+
 def check_ip_batch(ip_list: list, mt=None, timeout=1):
     if mt is not None:
         ret_ips = mt.run_list_tasks(func=check_ip_valid, var_args=ip_list,
@@ -83,18 +80,19 @@ def check_ip_batch(ip_list: list, mt=None, timeout=1):
     log.info('{} valid raw IPs.'.format(len(res)))
     return res
 
-def get_local_proxy_ip():
-    if not os.path.exists(sets.PROXY_LIST):
+
+def connectable_ips():
+    if not os.path.exists(sets.CONNECTABLE_IP):
         return None
     else:
-        with open(sets.PROXY_LIST, 'r') as f:
+        with open(sets.CONNECTABLE_IP, 'r') as f:
             ret = f.read().split('\n')
-            ret = list(map(lambda x: x.split(','), ret))
+            ret = list(map(lambda x: x.split(':'), ret))
             ret = list(map(lambda x: '{}:{}'.format(x[0], x[1]), ret))
         return ret
 
 
-def down_proxy_ip():
+def connectable_ip():
     global g_host_ip
     req = req_i.web_req(IP_TEST_WEB)
     req.encoding = 'gbk'
@@ -107,9 +105,9 @@ def down_proxy_ip():
 
     valid_ips.sort(key=lambda x: int(x[2]))
 
-    with open(sets.PROXY_LIST, 'w') as f:
-        f.write('\n'.join(list(map(lambda x: ','.join(x), valid_ips))))
+    with open(sets.CONNECTABLE_IP, 'w') as f:
+        f.write('\n'.join(list(map(lambda x: ':'.join(x), valid_ips))))
 
 
 if __name__ == '__main__':
-    down_proxy_ip()
+    connectable_ip()
