@@ -13,8 +13,8 @@ g_host_ip = None
 
 """
 Proxy ip source web valid precent:
-xiaohuan: 40+%
-lingdu: 10+%
+xiaohuan: 158/348/607 26%
+lingdu: 116/425/1430 8+%
 ip3366: 8%
 ip66: 5%
 kuai: 1%
@@ -64,8 +64,7 @@ def check_ip_valid(ip, port, timeout=1):
         return None
 
 
-
-def check_ip_batch(ip_list: list, mt=None, timeout=1):
+def check_ip_batch(ip_list: list, mt=None, timeout=1, drop=True):
     if mt is not None:
         ret_ips = mt.run_list_tasks(func=check_ip_valid, var_args=ip_list,
                                     fix_args={'timeout': sets.PROXY_TIMEOUT},
@@ -76,9 +75,12 @@ def check_ip_batch(ip_list: list, mt=None, timeout=1):
         for ip in ip_list:
             print('Checking IP: {}:{}'.format(*ip))
             res.append([*ip, check_ip_valid(*ip, timeout)])
-    res = list(filter(lambda x: x[2] is not None, res))
-    log.info('{} valid raw IPs.'.format(len(res)))
-    return res
+    res0 = list(filter(lambda x: x[2] is not None, res))
+    log.info('{} valid raw IPs.'.format(len(res0)))
+    if drop:
+        return res0
+    else:
+        return res
 
 
 def connectable_ips():
@@ -109,5 +111,25 @@ def connectable_ip():
         f.write('\n'.join(list(map(lambda x: ':'.join(x), valid_ips))))
 
 
+def refresh_ip_lib():
+    with open(sets.PROXY_IP_LIB, 'r') as f:
+        ips = f.read().split('\n')
+
+    ips = list(map(lambda x: x.split(':'), ips))
+
+    with MultiTasks(16) as mt:
+        ips = check_ip_batch(ips, mt, False)
+
+    ips.sort(key=lambda x: int(x[2] if x[2] is not None else x[1]))
+
+    if os.path.exists(sets.PROXY_IP_LIB_BACKUP):
+        os.remove(sets.PROXY_IP_LIB_BACKUP)
+
+    os.rename(sets.PROXY_IP_LIB, sets.PROXY_IP_LIB_BACKUP)
+    with open(sets.PROXY_IP_LIB, 'w') as f:
+        f.write('\n'.join(list(map(lambda x: ':'.join(x[:2]), ips))))
+
+
 if __name__ == '__main__':
+    #refresh_ip_lib()
     connectable_ip()

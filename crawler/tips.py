@@ -26,7 +26,7 @@ def pip_checker(proxy_ip, code, timeout=None):
 def check_valid_tips_ip():
     ips = connectable_ips()
     code = ts.get_stock_basics().index.values.tolist()[0]
-    with MultiTasks(64) as mt:
+    with MultiTasks(32) as mt:
         res = mt.run_list_tasks(pip_checker,
                                 var_args=ips,
                                 fix_args={'code': code, 'timeout': sets.PROXY_TIMEOUT},
@@ -60,6 +60,7 @@ def save_tips(info):
     else:
         zt = '-'
         ztyy = '-'
+        return
     content = '<head><meta http-equiv="Content-Type" content="text/html; charset=gbk" /></head>\n' \
               '<body bgcolor="#070608"></body>\n' \
               '<p><span style="color:#3CB371;line-height:1.3;font-size:14px;font-family:微软雅黑;">' \

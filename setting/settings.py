@@ -32,6 +32,7 @@ class Setting:
     RAW_IP_FILE = os.path.join(SETTING_ROOT, 'raw_ips.txt')
     CONNECTABLE_IP = os.path.join(SETTING_ROOT, 'connectable_ip.txt')
     PROXY_IP_LIB = os.path.join(SETTING_ROOT, 'ip.txt')
+    PROXY_IP_LIB_BACKUP = os.path.join(SETTING_ROOT, 'ip_backup.txt')
     CUSTOM_TRADING = os.path.join(SETTING_ROOT, 'trading.py')
     TDX_IMPORT_LIST = os.path.join(MONITOR_ROOT, 'tdx.txt')
     MANUAL_LIST = os.path.join(MONITOR_ROOT, 'manual.txt')

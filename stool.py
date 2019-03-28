@@ -52,6 +52,9 @@ parser.add_argument('--modify_tips',
 parser.add_argument('--connectable_ip',
                     action='store_true',
                     help='get connectalbe ips from local manual collect raw ips')
+parser.add_argument('--refresh_ip_lib',
+                    action='store_true',
+                    help='sort all local valid ips')
 parser.add_argument('--check_proxy',
                     action='store_true',
                     help='check valid ips for tip use')
@@ -90,6 +93,9 @@ if __name__ == '__main__':
 
         if args.connectable_ip is True:
             proxy.connectable_ip()
+
+        if args.refresh_ip_lib is True:
+            proxy.refresh_ip_lib()
 
         if args.down_tips is True:
             tips.down_tips()
