@@ -203,9 +203,12 @@ def blk_process():
     update_zt_rsn_rec(ttt)
     gen_blk(ttt, 'ttt')
     gen_blk(bbb, 'bbb')
-    if os._exists(os.path.join(sets.OUT_DIR, 'zzb.blk')):
-        os.rename(os.path.join(sets.OUT_DIR, 'zzb.blk'),
-                  os.path.join(sets.OUT_DIR, 'zzzb.blk'))
+
+    if os.path.exists(os.path.join(sets.OUT_DIR, 'ZZB.blk')):
+        if os.path.exists(os.path.join(sets.OUT_DIR, 'ZZZB.blk')):
+            os.remove(os.path.join(sets.OUT_DIR, 'ZZZB.blk'))
+        os.rename(os.path.join(sets.OUT_DIR, 'ZZB.blk'), os.path.join(sets.OUT_DIR, 'ZZZB.blk'))
+
     gen_blk(zzb, 'zzb')
     # gen_blk(zzz, 'zzz')
     # gen_blk(ccc, 'ccc')

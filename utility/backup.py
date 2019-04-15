@@ -63,7 +63,7 @@ def recover_t0002(dst_path, en_compress=True):
     if en_compress:
         cmd = '{} x -y {}.7z -o{}'.format(sets.EXE_7Z, src_folder_name, dst_path)
         run_cmd(cmd)
-        os.remove('{}.7z'.format(src_folder_name))
+        # os.remove('{}.7z'.format(src_folder_name))
     else:
         cmd = 'xcopy {} {} /S /E /Y /Q'.format(src_path, dst_path)
         run_cmd(cmd)
