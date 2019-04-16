@@ -4,14 +4,51 @@ import copy
 from tqdm import tqdm
 import tushare as ts
 from utility.log import log
-from utility.timekit import time_str, print_run_time
+from utility.timekit import time_str
 from utility.task import MultiTasks
-from crawler.proxy import get_local_proxy_ip
+from utility.misc import rm_dupl
+from crawler.proxy import connectable_ips
 import crawler.req_interface as req_i
 from setting.settings import sets
 
 
 TIP_FILE = os.path.join(sets.TIP_FOLDER, '{}.html')
+
+
+def pip_checker(proxy_ip, code, timeout=None):
+    html = get_single_html(code, proxy_ip, timeout)
+    if html is None or html == '':
+        return None
+    else:
+        return proxy_ip
+
+
+def check_valid_tips_ip():
+    ips = connectable_ips()
+    code = ts.get_stock_basics().index.values.tolist()[0]
+    with MultiTasks(32) as mt:
+        res = mt.run_list_tasks(pip_checker,
+                                var_args=ips,
+                                fix_args={'code': code, 'timeout': sets.PROXY_TIMEOUT},
+                                en_bar=True, desc='CheckIP')
+    valid_ips = list(filter(None, res))
+    log.info('{} valid IPs.'.format(len(valid_ips)))
+
+    if not os.path.exists(sets.PROXY_IP_LIB):
+        with open(sets.PROXY_IP_LIB, 'w') as f:
+            f.write('\n'.join(valid_ips))
+        return
+    else:
+        with open(sets.PROXY_IP_LIB, 'r') as f:
+            pre_ips = f.read().split('\n')
+
+    valid_ips.extend(pre_ips)
+    valid_ips = list(filter(None, valid_ips))
+    valid_ips = rm_dupl(valid_ips)
+
+    with open(sets.PROXY_IP_LIB, 'w') as f:
+        f.write('\n'.join(valid_ips))
+
 
 def save_tips(info):
     file = TIP_FILE.format(info['code'])
@@ -23,6 +60,7 @@ def save_tips(info):
     else:
         zt = '-'
         ztyy = '-'
+        return
     content = '<head><meta http-equiv="Content-Type" content="text/html; charset=gbk" /></head>\n' \
               '<body bgcolor="#070608"></body>\n' \
               '<p><span style="color:#3CB371;line-height:1.3;font-size:14px;font-family:微软雅黑;">' \
@@ -64,39 +102,6 @@ def modify_tips(args):
                 f.write(u)
 
 
-def pip_checker(proxy_ip, code, timeout=None):
-    html = get_single_html(code, proxy_ip, timeout)
-    if html is None or html == '':
-        return None
-    else:
-        return proxy_ip
-
-
-def check_valid_tips_ip():
-    proxies = get_local_proxy_ip()
-    code = ts.get_stock_basics().index.values.tolist()[0]
-    with MultiTasks(64) as mt:
-        res = mt.run_list_tasks(pip_checker,
-                                var_args=proxies,
-                                fix_args={'code': code, 'timeout': sets.PROXY_TIMEOUT},
-                                en_bar=True, desc='CheckIP')
-    valid_proxies = list(filter(None, res))
-    log.info('{} valid IPs.'.format(len(valid_proxies)))
-    if not os.path.exists(sets.PRE_USED_PROXIES):
-        with open(sets.PRE_USED_PROXIES, 'w') as f:
-            f.write('\n'.join(valid_proxies))
-    else:
-        with open(sets.PRE_USED_PROXIES, 'r') as f:
-            cont = f.read().split('\n')
-        cont.extend(valid_proxies)
-        cont = list(filter(None, cont))
-        cont = list(set(cont))
-        with open(sets.PRE_USED_PROXIES, 'w') as f:
-            f.write('\n'.join(cont))
-    with open(sets.VALID_PROXIES, 'w') as f:
-        f.write('\n'.join(valid_proxies))
-
-
 def get_single_html(code, proxy_ip=None, timeout=None):
     url = 'http://basic.10jqka.com.cn/{}'.format(code)
     p_ip = {'http': 'http://{}'.format(proxy_ip),
@@ -135,7 +140,6 @@ def parse_html(html):
         pat = re.compile(
             r'<td class="hltip tc f12">(.*?)</td>.*?<strong class="hltip fl">(.*?)</strong>', re.S)
         find = pat.findall(html)
-        date = None
         try:
             date = list(filter(lambda x: '涨停揭秘：' in x, find))[0][0]
         except IndexError as err:
@@ -194,9 +198,14 @@ def get_one_tip(code, proxy_ip=None, timeout=None, retry=3):
     return (cct, rsn)
 
 
-def down_tips_singleprocess():
-    codes = ts.get_stock_basics().index.values.tolist()
-    with open(sets.VALID_PROXIES, 'r') as f:
+def down_tips_singleprocess(incre=True):
+    if incre is True and os.path.exists(sets.ZT_REC):
+        with open(sets.ZT_REC, 'r') as f:
+            cont = list(filter(None, f.read().split('\n')))
+        codes = cont[-1].split(',')[-1].split(' ')
+    else:
+        codes = ts.get_stock_basics().index.values.tolist()
+    with open(sets.PROXY_IP_LIB, 'r') as f:
         proxies_ori = f.read().split('\n')
     res = []
     proxies = proxies_ori
@@ -271,9 +280,14 @@ def down_tips_worker(para):
     return res
 
 
-def down_tips_multiprocess():
-    codes = ts.get_stock_basics().index.values.tolist()
-    with open(sets.VALID_PROXIES, 'r') as f:
+def down_tips_multiprocess(incre=True):
+    if incre is True and os.path.exists(sets.ZT_REC):
+        with open(sets.ZT_REC, 'r') as f:
+            cont = list(filter(None, f.read().split('\n')))
+        codes = cont[-1].split(',')[-1].split(' ')
+    else:
+        codes = ts.get_stock_basics().index.values.tolist()
+    with open(sets.PROXY_IP_LIB, 'r') as f:
         proxies = f.read().split('\n')
     with MultiTasks(6) as mt:
         res = mt.run_list_tasks(func=down_tips_worker, var_args=codes,
@@ -294,5 +308,10 @@ down_tips = down_tips_multiprocess
 
 if __name__ == '__main__':
     # get_one_tip('600695')
-    down_tips()
-    # check_valid_tips_ip()
+    # down_tips()
+    ips = connectable_ips()
+    code = '600035'
+    for ip in ips:
+        a = pip_checker(ip, code, 2)
+        b = 0
+    check_valid_tips_ip()

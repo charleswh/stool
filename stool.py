@@ -49,13 +49,16 @@ parser.add_argument('--copy_tips',
 parser.add_argument('--modify_tips',
                     nargs=4,
                     help='modify tips files\'s font, color and size')
-parser.add_argument('--down_proxy',
+parser.add_argument('--connectable_ip',
                     action='store_true',
-                    help='down proxy IPs')
+                    help='get connectalbe ips from local manual collect raw ips')
+parser.add_argument('--refresh_ip_lib',
+                    action='store_true',
+                    help='sort all local valid ips')
 parser.add_argument('--check_proxy',
                     action='store_true',
-                    help='check proxy IPs')
-parser.add_argument('--post_process',
+                    help='check valid ips for tip use')
+parser.add_argument('--blk_process',
                     action='store_true',
                     help='do stock collection')
 parser.add_argument('--url2wiz',
@@ -72,35 +75,50 @@ if __name__ == '__main__':
     else:
         if args.down_all is True:
             data_kit.down_k()
-            # proxy.down_proxy_ip()
-            # tips.check_valid_tips_ip()
-            # tips.down_tips()
-            # tips.copy_tips_files()
-            post.post_process()
+            post.blk_process()
+            tips.down_tips()
+            tips.copy_tips_files()
+
         if args.local_data is True:
             data_kit.down_k()
+
         if args.t0002_template is not None:
             backup.make_list_of_t0002(args.t0002_template)
+
         if args.backup_src_path is not None:
             backup.backup_t0002(args.backup_src_path)
+
         if args.recover_dst_path is not None:
             backup.recover_t0002(args.recover_dst_path)
+
         if args.blakfp is True:
             blak.blakfp_entry()
+
+        if args.connectable_ip is True:
+            proxy.connectable_ip()
+
+        if args.refresh_ip_lib is True:
+            proxy.refresh_ip_lib()
+
         if args.down_tips is True:
             tips.down_tips()
+
         if args.copy_tips is True:
             tips.copy_tips_files()
+
         if args.modify_tips is not None:
             tips.modify_tips(args.modify_tips)
         if args.down_proxy is True:
             tips.down_proxy_ip()
         if args.check_proxy is True:
             tips.check_valid_tips_ip()
-        if args.post_process is True:
-            post.post_process()
+
+        if args.blk_process is True:
+            post.blk_process()
+
         if args.url2wiz is True:
             wx_crawler.save2wiz()
+
         if args.test:
             # mail_test()
             dbga = 0

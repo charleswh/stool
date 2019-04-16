@@ -5,6 +5,7 @@ import tushare as ts
 from tqdm import tqdm, trange
 from setting.settings import sets
 from datakit.datakit import data_kit
+from utility.misc import rm_dupl
 
 
 def gen_cfg_bytes(name, file):
@@ -23,6 +24,7 @@ def gen_blk(stocks, name):
     if stocks is None:
         stocks = ['']
     else:
+        stocks = rm_dupl(stocks)
         stocks = list(map(lambda x: '1{}'.format(x) if x[0] == '6' else '0{}'.format(x), stocks))
     file = os.path.join(sets.OUT_DIR, name + '.blk')
     if os.path.exists(file):
@@ -33,10 +35,11 @@ def gen_blk(stocks, name):
 
 def zt_process():
     zt_data = pd.read_csv(sets.ZT_FILE)
-    ret_cur_zt_codes = None
-    ret_cur_cont_zt_codes = None
-    # ret_zt_num = []
-    # ret_cont_zt_num = []
+    ret_zt_codes = None
+    ret_cur_lb_codes = None
+
+    ret_n_lb_codes = {'2b': [], '3b': [], '4b+': []}
+
     trade_days = data_kit.get_trade_date_list()
     date_delta = 0
     for i in trange(1, ascii=True, desc='CheckZT'):
@@ -70,13 +73,17 @@ def zt_process():
             cur_zt_codes.append(code)
         cont_zt = zt_data.loc[:, cur_zt_codes]
         cont_zt = cont_zt.iloc[i + 1][cont_zt.iloc[i + 1] == 1]
+        for code in cont_zt.index:
+            if zt_data[code][2] == 0:
+                ret_n_lb_codes['2b'].append(code)
+            elif zt_data[code][3] == 0:
+                ret_n_lb_codes['3b'].append(code)
+            else:
+                ret_n_lb_codes['4b+'].append(code)
         if i == 0:
-            ret_cur_zt_codes = cur_zt_codes
-            ret_cur_cont_zt_codes = cont_zt.index.values.tolist()
-        # ret_zt_num.append(len(cur_zt_codes))
-        # ret_cont_zt_num.append(len(cont_zt))
-    # return (ret_cur_zt_codes, ret_cur_cont_zt_codes, ret_zt_num, ret_cont_zt_num)
-    return ret_cur_zt_codes, ret_cur_cont_zt_codes
+            ret_zt_codes = cur_zt_codes
+            ret_cur_lb_codes = cont_zt.index.values.tolist()
+    return ret_zt_codes, ret_cur_lb_codes, ret_n_lb_codes
 
 
 def zzb_process():
@@ -186,19 +193,39 @@ def get_multi_zt_lb(days=6):
 
 
 def blk_process():
-    ttt, bbb = zt_process()
+    ttt, bbb, nbbb = zt_process()
     zzb = zzb_process()
-    zzz = get_zzz()
-    ccc = get_once_zt()
+    # zzz = get_zzz()
+    # ccc = get_once_zt()
     update_rec(ttt, sets.ZT_REC)
     update_rec(bbb, sets.LB_REC)
     update_rec(zzb, sets.ZB_REC)
     update_zt_rsn_rec(ttt)
     gen_blk(ttt, 'ttt')
     gen_blk(bbb, 'bbb')
+
+    if os.path.exists(os.path.join(sets.OUT_DIR, 'ZZB.blk')):
+        if os.path.exists(os.path.join(sets.OUT_DIR, 'ZZZB.blk')):
+            os.remove(os.path.join(sets.OUT_DIR, 'ZZZB.blk'))
+        os.rename(os.path.join(sets.OUT_DIR, 'ZZB.blk'), os.path.join(sets.OUT_DIR, 'ZZZB.blk'))
+
     gen_blk(zzb, 'zzb')
-    gen_blk(zzz, 'zzz')
-    gen_blk(ccc, 'ccc')
+    # gen_blk(zzz, 'zzz')
+    # gen_blk(ccc, 'ccc')
+    gen_blk(nbbb['2b'], '2b')
+    gen_blk(nbbb['3b'], '3b')
+    gen_blk(nbbb['4b+'], '4b')
+
+    if os.path.exists(os.path.join(sets.OUT_DIR, '4bs.blk')):
+        with open(os.path.join(sets.OUT_DIR, '4bs.blk'), 'r') as f:
+            pre = f.read().split('\n')
+        pre = [x[1:] for x in pre]
+        pre.extend(nbbb['4b+'])
+        pre = list(filter(None, pre))
+    else:
+        pre = nbbb['4b+']
+    gen_blk(pre, '4bs')
+
     t = get_multi_zt_lb(7)
 
     blk_list = []
@@ -209,10 +236,25 @@ def blk_process():
     blk_list.append(gen_cfg_bytes('新股未开', 'xgwk'))
     blk_list.append(gen_cfg_bytes('人气股', 'rqg'))
     blk_list.append(gen_cfg_bytes('今日涨停', 'ttt'))
-    blk_list.append(gen_cfg_bytes('昨日涨停', 'zzz'))
-    blk_list.append(gen_cfg_bytes('五日涨停', 'ccc'))
+    # blk_list.append(gen_cfg_bytes('昨日涨停', 'zzz'))
+    # blk_list.append(gen_cfg_bytes('五日涨停', 'ccc'))
     blk_list.append(gen_cfg_bytes('炸板', 'zzb'))
+    blk_list.append(gen_cfg_bytes('昨日炸板', 'zzzb'))
     blk_list.append(gen_cfg_bytes('连板', 'bbb'))
+    blk_list.append(gen_cfg_bytes('2板', '2b'))
+    blk_list.append(gen_cfg_bytes('3板', '3b'))
+    blk_list.append(gen_cfg_bytes('4板+', '4b'))
+    blk_list.append(gen_cfg_bytes('4板数据库', '4bs'))
+
+    blk_list.append(gen_cfg_bytes('题材1', 'tc1'))
+    blk_list.append(gen_cfg_bytes('题材2', 'tc2'))
+    blk_list.append(gen_cfg_bytes('题材3', 'tc3'))
+    blk_list.append(gen_cfg_bytes('题材4', 'tc4'))
+    blk_list.append(gen_cfg_bytes('题材5', 'tc5'))
+    blk_list.append(gen_cfg_bytes('题材6', 'tc6'))
+    blk_list.append(gen_cfg_bytes('题材7', 'tc7'))
+    blk_list.append(gen_cfg_bytes('题材8', 'tc8'))
+
     for i in range(len(t[0])):
         gen_blk(t[0][i], 't{}'.format(i + 1))
         blk_list.append(gen_cfg_bytes('{}日前涨停'.format(i + 1), 't{}'.format(i + 1)))
@@ -261,9 +303,5 @@ def blk_process():
         shutil.copy(file, dst_file)
 
 
-def post_process():
-    blk_process()
-
-
 if __name__ == '__main__':
-    post_process()
+    blk_process()
