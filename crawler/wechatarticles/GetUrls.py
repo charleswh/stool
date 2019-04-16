@@ -41,7 +41,9 @@ class PCUrls(object):
         Returns
         ----------
         list:
-        由每个文章信息构成的数组，主要获取的参数item['app_msg_ext_info']['content_url'], item['app_msg_ext_info']['title'], item['comm_msg_info']['datetime']
+        由每个文章信息构成的数组，主要获取的参数item['app_msg_ext_info']['content_url'],
+                                                item['app_msg_ext_info']['title'],
+                                                item['comm_msg_info']['datetime']
         import html
         消除转义 html.unescape(html.unescape(url)); eval(repr(url).replace('\\', ''))
         [

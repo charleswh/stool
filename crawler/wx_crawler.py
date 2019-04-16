@@ -10,7 +10,8 @@ import crawler.req_interface as req_i
 from crawler.wechatarticles import ArticlesAPI
 from crawler.wechatarticles.GetUrls import PCUrls, MobileUrls
 from setting.settings import sets
-from utility.timekit import sleep
+from utility.timekit import sleep, int2time
+from utility.log import log
 
 
 def flatten(x):
@@ -22,13 +23,18 @@ def transfer_url(url):
     return eval(repr(url).replace('\\', ''))
 
 
-def get_all_urls(urls):
+def get_all_urls(urls, date=False):
     url_lst = []
     for item in urls:
-        url_lst.append(transfer_url(item['app_msg_ext_info']['content_url']))
+        date_time = int2time(item['comm_msg_info']['datetime'])
+        t = transfer_url(item['app_msg_ext_info']['content_url'])
+        t = ','.join([date_time, t]) if date is True else t
+        url_lst.append(t)
         if 'multi_app_msg_item_list' in item['app_msg_ext_info'].keys():
             for ss in item['app_msg_ext_info']['multi_app_msg_item_list']:
-                url_lst.append(transfer_url(ss['content_url']))
+                t = transfer_url(ss['content_url'])
+                t = ','.join([date_time, t]) if date is True else t
+                url_lst.append(t)
 
     return url_lst
 
@@ -48,7 +54,7 @@ def all_gzh_urls(key):
         pre_urls = None if len(pre_urls) == 0 else pre_urls
         f = open(sets.MRZTBFP_PAPER_URLS, 'w')
     t = PCUrls(biz=sets.BIZ, uin=sets.UIN, cookie=sets.WECHAT_COOKIE)
-    count = 0
+    count = 660
     url_lst = []
     while True:
         try:
@@ -81,7 +87,7 @@ def save2wiz(offset=0):
     if not os.path.exists(sets.MRZTBFP_PAPER_URLS):
         assert(0)
     with open(sets.MRZTBFP_PAPER_URLS, 'r') as f:
-        urls = f.read().split('\n')
+        urls = f.read().split('\n')[::-1]
     for url in tqdm(urls, ascii=True):
         idx = urls.index(url)
         if idx < offset:
@@ -89,11 +95,12 @@ def save2wiz(offset=0):
         try:
             req_i.url2wiz(url)
         except Exception as err:
+            log.info('Save fail: {}'.format(url))
             print(err)
             sleep(6)
-        sleep(4)
+        sleep(2)
 
 
 if __name__ == '__main__':
     save2wiz()
-    # all_gzh_urls(r'010620d4869b88b6a39280495cdd6f170e39873d711758ed4df1682a8e98c0082b5884507164c65922ddf8f0dcaca7ee2c6a561de18c969aa7b150390e3292f36ebe2eac8d1356c127674380f7d1c0bc')
+    # all_gzh_urls(r'010620d4869b88b62bc8890f1271cb9ea5ae2e1a4ddffa1c54abf300c501b1329e8652ec4820c192eeeee284391fb2487c519ce1ef312cb02fb2bad527bbdd9ff8f8b3e7ae85a8c06f2bf08a3211356b')
