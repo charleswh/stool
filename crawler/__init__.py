@@ -1,1 +1,1 @@
-__all__ = ['tips', 'proxy', 'blak']
+__all__ = ['tips', 'proxy', 'blak', 'wx_crawler']

@@ -61,6 +61,9 @@ parser.add_argument('--check_proxy',
 parser.add_argument('--blk_process',
                     action='store_true',
                     help='do stock collection')
+parser.add_argument('--url2wiz',
+                    action='store_true',
+                    help='save url web to wiznote\n')
 parser.add_argument('--test',
                     action='store_true',
                     help='test function entry')
@@ -105,12 +108,16 @@ if __name__ == '__main__':
 
         if args.modify_tips is not None:
             tips.modify_tips(args.modify_tips)
-
+        if args.down_proxy is True:
+            tips.down_proxy_ip()
         if args.check_proxy is True:
             tips.check_valid_tips_ip()
 
         if args.blk_process is True:
             post.blk_process()
+
+        if args.url2wiz is True:
+            wx_crawler.save2wiz()
 
         if args.test:
             # mail_test()
