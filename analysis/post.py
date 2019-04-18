@@ -38,7 +38,7 @@ def zt_process():
     ret_zt_codes = None
     ret_cur_lb_codes = None
 
-    ret_n_lb_codes = {'2b': [], '3b': [], '4b+': []}
+    ret_n_lb_codes = {'1b': [], '2b': [], '3b': [], '4b+': []}
 
     trade_days = data_kit.get_trade_date_list()
     date_delta = 0
@@ -73,6 +73,10 @@ def zt_process():
             cur_zt_codes.append(code)
         cont_zt = zt_data.loc[:, cur_zt_codes]
         cont_zt = cont_zt.iloc[i + 1][cont_zt.iloc[i + 1] == 1]
+
+        for code in cur_zt_codes:
+            if code not in cont_zt:
+                ret_n_lb_codes['1b'].append(code)
         for code in cont_zt.index:
             if zt_data[code][2] == 0:
                 ret_n_lb_codes['2b'].append(code)
@@ -212,6 +216,7 @@ def blk_process():
     gen_blk(zzb, 'zzb')
     # gen_blk(zzz, 'zzz')
     # gen_blk(ccc, 'ccc')
+    gen_blk(nbbb['1b'], '1b')
     gen_blk(nbbb['2b'], '2b')
     gen_blk(nbbb['3b'], '3b')
     gen_blk(nbbb['4b+'], '4b')
@@ -241,6 +246,7 @@ def blk_process():
     blk_list.append(gen_cfg_bytes('炸板', 'zzb'))
     blk_list.append(gen_cfg_bytes('昨日炸板', 'zzzb'))
     blk_list.append(gen_cfg_bytes('连板', 'bbb'))
+    blk_list.append(gen_cfg_bytes('1板', '1b'))
     blk_list.append(gen_cfg_bytes('2板', '2b'))
     blk_list.append(gen_cfg_bytes('3板', '3b'))
     blk_list.append(gen_cfg_bytes('4板+', '4b'))

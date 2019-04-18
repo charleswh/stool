@@ -49,7 +49,7 @@ class Setting:
 
     # constant values
     PROXY_TIMEOUT = 2
-    MAX_TASK_NUM = 16
+    MAX_TASK_NUM = 32
     KTYPE = ['D', '60', '30', '15', '5']
     PERIORD_TAG = ['day', 'min60', 'min30', 'min15', 'min5']
     USER_AGENTS = [

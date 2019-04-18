@@ -39,13 +39,15 @@ class DataKit:
 
     def d_k_worker(self, code):
         datas = []
-        for kt in sets.KTYPE:
-            datas.append(ts.get_k_data(code, ktype=kt, retry_count=99))
+        # for kt in sets.KTYPE:
+        #     datas.append(ts.get_k_data(code, ktype=kt, retry_count=99))
+        datas.append(ts.get_k_data(code, ktype='D', retry_count=99))
         return {code: datas}
 
     def s_k_worker(self, stock):
         for code in stock:
-            for i in range(5):
+            #for i in range(5):
+            for i in range(1):
                 file_name = os.path.join(sets.CSV_DIR, '{}_{}.csv'.format(sets.PERIORD_TAG[i], code))
                 stock[code][i].to_csv(file_name, index=False)
 
@@ -65,27 +67,31 @@ class DataKit:
         return {code: ret}
 
     def zb(self, code):
-        day = self.get_k(code)
-        if len(day) == 1:
-            return {code: np.zeros(self.max_zb_days)}
-        c = day.loc[:, 'close']
-        h = day.loc[:, 'high']
-        c_h = (c.values != h.values)[1:]
-        c = c[:-1]
-        h = h[1:]
-        c = c * 1.1
-        c = c.rolling(window=1).apply(self.round, args=[2], raw=True)
-        h = h.rolling(window=1).apply(self.round, args=[2], raw=True)
-        zzb = ((h.values >= c.values) & c_h)[::-1]
-        if not self.is_trade_time() and h.values[-1] >= c.values[-1] and c_h[-1] == False:
-            if ts.get_realtime_quotes(code).loc[:, 'ask'].iloc[0] != '0.000':
-                zzb[0] = True
-        zzb = zzb + 0
-        if len(zzb) >= self.max_zb_days:
-            ret = zzb[:self.max_zb_days]
-        else:
-            ret = np.r_[zzb, np.zeros(self.max_zb_days - len(zzb))]
-        return {code: ret}
+        try:
+            day = self.get_k(code)
+            if len(day) == 1:
+                return {code: np.zeros(self.max_zb_days)}
+            c = day.loc[:, 'close']
+            h = day.loc[:, 'high']
+            c_h = (c.values != h.values)[1:]
+            c = c[:-1]
+            h = h[1:]
+            c = c * 1.1
+            c = c.rolling(window=1).apply(self.round, args=[2], raw=True)
+            h = h.rolling(window=1).apply(self.round, args=[2], raw=True)
+            zzb = ((h.values >= c.values) & c_h)[::-1]
+            if not self.is_trade_time() and h.values[-1] >= c.values[-1] and c_h[-1] == False:
+                if ts.get_realtime_quotes(code).loc[:, 'ask'].iloc[0] != '0.000':
+                    zzb[0] = True
+            zzb = zzb + 0
+            if len(zzb) >= self.max_zb_days:
+                ret = zzb[:self.max_zb_days]
+            else:
+                ret = np.r_[zzb, np.zeros(self.max_zb_days - len(zzb))]
+            return {code: ret}
+        except Exception as err:
+            print(code)
+            print(err)
 
     def round(self, val, ndigits):
         for _ in range(ndigits):
@@ -172,21 +178,24 @@ class DataKit:
     def down_k(self):
         info = ts.get_today_all().sort_values(by='changepercent', ascending=False)
         info.drop_duplicates(inplace=True)
+        # info = info[info['changepercent'] > 7]
         info = info[~info['name'].str.contains('ST')]
         info = info[~info['name'].str.contains('退市')]
+
         info.to_csv(sets.INFO_FILE, index=False, encoding='utf-8-sig')
         codes = list(info['code'])
+        zt_codes = list(info[info['changepercent'] > 7]['code'])
         # codes = self.get_codes()[:200]
         self.down_trade()
         with MultiTasks() as mt:
             basic = mt.run_list_tasks(func=self.d_k_worker, var_args=codes, en_bar=True, desc='DownBasic')
             mt.run_list_tasks(func=self.s_k_worker, var_args=basic, en_bar=True, desc='SaveBasic')
-            mt.run_list_tasks(func=self.gen_k_120, var_args=codes, en_bar=True, desc='GenM120')
-            res = mt.run_list_tasks(func=self.zt, var_args=codes, en_bar=True, desc='GenZT')
+            # mt.run_list_tasks(func=self.gen_k_120, var_args=codes, en_bar=True, desc='GenM120')
+            res = mt.run_list_tasks(func=self.zt, var_args=zt_codes, en_bar=True, desc='GenZT')
             res = reduce(lambda x, y: {**x, **y}, res)
             df = pd.DataFrame(res).fillna(999)
             df.to_csv(sets.ZT_FILE, index=False)
-            res = mt.run_list_tasks(func=self.zb, var_args=codes, en_bar=True, desc='GenZZB')
+            res = mt.run_list_tasks(func=self.zb, var_args=codes, en_bar=True, desc='GenZB')
             res = reduce(lambda x, y: {**x, **y}, res)
             res = pd.DataFrame(res).fillna(999)
             res.to_csv(sets.ZB_FILE, index=False)
