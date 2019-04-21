@@ -108,8 +108,7 @@ if __name__ == '__main__':
 
         if args.modify_tips is not None:
             tips.modify_tips(args.modify_tips)
-        if args.down_proxy is True:
-            tips.down_proxy_ip()
+
         if args.check_proxy is True:
             tips.check_valid_tips_ip()
 
