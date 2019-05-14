@@ -1,11 +1,13 @@
 # coding: utf-8
 
-from .ArticlesUrls import ArticlesUrls
-from .ArticlesInfo import ArticlesInfo
-from .ArticlesAPI import ArticlesAPI
-from .GetUrls import PCUrls, MobileUrls
+from crawler.wechatarticles.ArticlesUrls import ArticlesUrls
+from crawler.wechatarticles.ArticlesInfo import ArticlesInfo
+from crawler.wechatarticles.ArticlesAPI import ArticlesAPI
+from crawler.wechatarticles.GetUrls import PCUrls, MobileUrls
 
 try:
-    from .ReadOutfile import Reader
-except Exception:
-    print("not use mitmproxy")
+    from crawler.wechatarticles.ReadOutfile import Reader
+except Exception as err:
+    pass
+    # print(err)
+    # print("not use mitmproxy")

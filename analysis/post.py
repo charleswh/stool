@@ -221,8 +221,10 @@ def blk_process():
     gen_blk(nbbb['3b'], '3b')
     gen_blk(nbbb['4b+'], '4b')
 
-    if os.path.exists(os.path.join(sets.OUT_DIR, '4bs.blk')):
-        with open(os.path.join(sets.OUT_DIR, '4bs.blk'), 'r') as f:
+    tdx_blk_dst = os.path.join(sets.TDX_ROOT, 'T0002', 'blocknew')
+
+    if os.path.exists(os.path.join(tdx_blk_dst, '4bs.blk')):
+        with open(os.path.join(tdx_blk_dst, '4bs.blk'), 'r') as f:
             pre = f.read().split('\n')
         pre = [x[1:] for x in pre]
         pre.extend(nbbb['4b+'])
@@ -280,7 +282,7 @@ def blk_process():
         os.mkdir(blk_backup_dir)
 
     cur_date = data_kit.get_valid_trade_date()
-    tdx_blk_dst = os.path.join(sets.TDX_ROOT, 'T0002', 'blocknew')
+
     filter_func = lambda x: x.split('.')[-1] == 'blk' or x.split('.')[-1] == 'cfg'
     if os.path.exists('{}.7z'.format(cur_date)):
         pass

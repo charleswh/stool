@@ -195,10 +195,14 @@ class DataKit:
             res = reduce(lambda x, y: {**x, **y}, res)
             df = pd.DataFrame(res).fillna(999)
             df.to_csv(sets.ZT_FILE, index=False)
-            res = mt.run_list_tasks(func=self.zb, var_args=codes, en_bar=True, desc='GenZB')
+            try:
+                res = mt.run_list_tasks(func=self.zb, var_args=codes, en_bar=True, desc='GenZB')
+            except Exception as err:
+                print(err)
             res = reduce(lambda x, y: {**x, **y}, res)
             res = pd.DataFrame(res).fillna(999)
             res.to_csv(sets.ZB_FILE, index=False)
+
 
 
 data_kit = DataKit()

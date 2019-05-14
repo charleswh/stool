@@ -3,12 +3,10 @@ import os
 import sys
 import html
 from tqdm import tqdm
-from pprint import pprint
 sys.path.append(os.getcwd())
 import crawler.req_interface as req_i
-# from crawler.wechatarticles.ReadOutfile import Reader
-from crawler.wechatarticles import ArticlesAPI
-from crawler.wechatarticles.GetUrls import PCUrls, MobileUrls
+
+from crawler.wechatarticles.GetUrls import PCUrls
 from setting.settings import sets
 from utility.timekit import sleep, int2time
 from utility.log import log
