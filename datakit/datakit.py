@@ -80,9 +80,9 @@ class DataKit:
             c = c.rolling(window=1).apply(self.round, args=[2], raw=True)
             h = h.rolling(window=1).apply(self.round, args=[2], raw=True)
             zzb = ((h.values >= c.values) & c_h)[::-1]
-            if not self.is_trade_time() and h.values[-1] >= c.values[-1] and c_h[-1] == False:
-                if ts.get_realtime_quotes(code).loc[:, 'ask'].iloc[0] != '0.000':
-                    zzb[0] = True
+            # if not self.is_trade_time() and h.values[-1] >= c.values[-1] and c_h[-1] == False:
+            #     if ts.get_realtime_quotes(code).loc[:, 'ask'].iloc[0] != '0.000':
+            #         zzb[0] = True
             zzb = zzb + 0
             if len(zzb) >= self.max_zb_days:
                 ret = zzb[:self.max_zb_days]
@@ -181,7 +181,7 @@ class DataKit:
         # info = info[info['changepercent'] > 7]
         info = info[~info['name'].str.contains('ST')]
         info = info[~info['name'].str.contains('退市')]
-
+        info = info[info['volume'] != 0]
         info.to_csv(sets.INFO_FILE, index=False, encoding='utf-8-sig')
         codes = list(info['code'])
         zt_codes = list(info[info['changepercent'] > 7]['code'])
@@ -210,5 +210,6 @@ data_kit = DataKit()
 
 if __name__ == '__main__':
     # function test code
-    data_kit.zb('600226')
+    # data_kit.zb('600226')
     data_kit.down_k()
+    # data_kit.zt('002119')

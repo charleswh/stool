@@ -68,8 +68,8 @@ def zt_process():
                     continue
             if today != date_c:
                 continue
-            if i == 0 and ts.get_realtime_quotes(code).loc[:, 'ask'].iloc[0] != '0.000':
-                continue
+            # if i == 0 and ts.get_realtime_quotes(code).loc[:, 'ask'].iloc[0] != '0.000':
+            #     continue
             cur_zt_codes.append(code)
         cont_zt = zt_data.loc[:, cur_zt_codes]
         cont_zt = cont_zt.iloc[i + 1][cont_zt.iloc[i + 1] == 1]
@@ -262,6 +262,8 @@ def blk_process():
     blk_list.append(gen_cfg_bytes('题材6', 'tc6'))
     blk_list.append(gen_cfg_bytes('题材7', 'tc7'))
     blk_list.append(gen_cfg_bytes('题材8', 'tc8'))
+    blk_list.append(gen_cfg_bytes('题材9', 'tc9'))
+    blk_list.append(gen_cfg_bytes('题材10', 'tc10'))
 
     for i in range(len(t[0])):
         gen_blk(t[0][i], 't{}'.format(i + 1))

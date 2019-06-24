@@ -6,7 +6,7 @@ from crawler import *
 from analysis import *
 from utility import *
 
-parser = argparse.ArgumentParser(description='Integrated share tool for NEIL',
+parser = argparse.ArgumentParser(description='Integrated stock tool for NEIL',
                                  formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument('-d',
                     action='store_true',
@@ -121,5 +121,3 @@ if __name__ == '__main__':
         if args.test:
             # mail_test()
             dbga = 0
-
-# TODO: 定时系统

@@ -19,5 +19,8 @@ def rm_dupl(var:list):
     return list(reduce(func, [[], ] + var))
 
 
+def exclude_item_in_B(a:list, b:list):
+    return [x for x in a if x not in b]
+
 if __name__ == '__main__':
     pass
